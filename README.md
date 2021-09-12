@@ -8,6 +8,5 @@ Step by step:
     Step 2: Clone Finished (Brand Master) (1) -> Open with Visual Code
     Step 3: npm install
     Step 4: npx react-native run-android
-    Step 5: npx react-native start (2)
+    Step 5: npx react-native start
 (1): Switch brand: On Github Desktop -> Current Brand -> Choose your brand
-(2): I think step 4 is done, no need to do step 5
