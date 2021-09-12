@@ -1,7 +1,10 @@
 
 Book App
+
 Create by React Native CLI
+
 Condition: Install Github Desktop, Install node, Start virtual machine or connect your phone
+
 Step by step:
 
     Step 1: https://github.com/Hai4320/MyBooks -> Code -> Open with Github Desktop -> Clone
@@ -11,4 +14,5 @@ Step by step:
     Step 5: npx react-native start (2)
     
 (1): Switch brand: On Github Desktop -> Current Brand -> Choose your brand
+
 (2): Use when have error
