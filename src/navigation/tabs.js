@@ -1,5 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { COLORS } from '../constants'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Blog from "../screens/Blog";
 import Home from '../screens/Home'
@@ -24,8 +25,9 @@ const Tabs = () =>{
               }
               return <Ionicons name={iconName} size={size} color={color} />;
             },
-            tabBarActiveTintColor: 'tomato',
-            tabBarInactiveTintColor: 'gray',
+            tabBarActiveTintColor: COLORS.tomato,
+            tabBarInactiveTintColor: COLORS.gray,
+            headerShown: false,
         })}
         >
             <Tab.Screen 

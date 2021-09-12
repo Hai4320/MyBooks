@@ -9,6 +9,9 @@ export const COLORS = {
     // colors
     black: "#1E1B26",
     white: "#FFFFFF",
+    gray: "#808080",
+    tomato: "#ff6347",
+    red: "#ff0000"
 
 };
 
