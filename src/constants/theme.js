@@ -11,7 +11,8 @@ export const COLORS = {
     white: "#FFFFFF",
     gray: "#808080",
     tomato: "#ff6347",
-    red: "#ff0000"
+    red: "#ff0000",
+    gainsboro: "#dcdcdc"
 
 };
 
