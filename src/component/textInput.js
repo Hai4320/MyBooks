@@ -11,7 +11,7 @@ export default function TextInput({...props}) {
         selectionColor={theme.colors.primary}
         underlineColor="transparent"
         mode="outlined"
-        theme={{colors: {primary: 'white'}}}
+        theme={{colors: {primary: '#2196F3'}}}
         {...props}
       />
     </View>
