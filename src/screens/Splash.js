@@ -4,7 +4,7 @@ import {COLORS} from '../constants'
 
 const Splash = ({navigation}) => {
     setTimeout(() => {
-        navigation.navigate('TabBar')
+        navigation.navigate('Start')
     },1000)
     return (
         <View style={styles.container}>
