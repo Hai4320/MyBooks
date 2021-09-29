@@ -6,7 +6,6 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import {theme} from './theme';
 
 export default function Background({children, style}) {
   return (
@@ -30,7 +29,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     resizeMode: 'contain',
-    backgroundColor: theme.colors.surface,
+    backgroundColor: 'white',
   },
   container: {
     flex: 1,

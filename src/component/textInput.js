@@ -1,17 +1,14 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
-import {TextInput as Input} from 'react-native-paper';
-import {theme} from './theme';
+import {View, StyleSheet, TextInput as Input, Text} from 'react-native';
 
-export default function TextInput({...props}) {
+export default function TextInput({title, ...props}) {
   return (
     <View style={styles.container}>
+      <Text>{title}</Text>
       <Input
         style={styles.input}
-        selectionColor={theme.colors.primary}
+        selectionColor="#2196F3"
         underlineColor="transparent"
-        mode="outlined"
-        theme={{colors: {primary: '#2196F3'}}}
         {...props}
       />
     </View>
@@ -24,7 +21,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   input: {
-    backgroundColor: theme.colors.surface,
+    backgroundColor: 'rgba(255,255,255,0.5)',
     height: 40,
   },
 });

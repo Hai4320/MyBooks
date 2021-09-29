@@ -2,12 +2,11 @@ import React from 'react';
 import {View, StyleSheet, TouchableOpacity, Alert, Image} from 'react-native';
 import {Text} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Background from '../component/backgroup';
-import {theme} from '../component/theme';
-import Paragraph from '../component/paragraph';
-import Button from '../component/button';
-import TextInput from '../component/textInput';
-import BackButton from '../component/backButton';
+import Background from '../component/Background';
+import Paragraph from '../component/Paragraph';
+import Button from '../component/Button';
+import TextInput from '../component/TextInput';
+import BackButton from '../component/BackButton';
 
 const Login = ({navigation}) => {
   return (
@@ -20,15 +19,21 @@ const Login = ({navigation}) => {
       </View>
       <View style={styles.styleForm}>
         <TextInput
-          label="Email"
+          title="Email"
           returnKeyType="next"
           autoCapitalize="none"
           autoCompleteType="email"
           textContentType="emailAddress"
           keyboardType="email-address"
+          placeholder="Enter Email Address"
           autoFocus={true}
         />
-        <TextInput label="Password" returnKeyType="done" secureTextEntry />
+        <TextInput
+          title="Password"
+          returnKeyType="done"
+          secureTextEntry
+          placeholder="Enter Password"
+        />
         <View style={styles.forgotPassword}>
           <TouchableOpacity
             onPress={() => navigation.navigate('ResetPassword')}>
@@ -88,7 +93,7 @@ const styles = StyleSheet.create({
   },
   link: {
     fontWeight: 'bold',
-    color: theme.colors.secondary,
+    color: '#414757',
   },
   line: {
     borderWidth: 1,
