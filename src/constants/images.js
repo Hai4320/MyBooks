@@ -2,10 +2,14 @@ export const otherWordsForHome = require("../assets/images/other_words_for_home.
 export const theMetropolist = require("../assets/images/the_metropolist.jpg");
 export const theTinyDragon = require("../assets/images/the_tiny_dragon.jpg");
 export const underland = require("../assets/images/underland.jpg");
+export const backgroundLogin = require("../assets/images/background5.jpg");
+export const google = require("../assets/images/google.png");
 
 export default {
     otherWordsForHome,
     theMetropolist,
     theTinyDragon,
-    underland
+    underland,
+    backgroundLogin,
+    google,
 }

@@ -2,14 +2,14 @@ import React from 'react';
 import {View} from 'react-native';
 import Paragraph from '../component/Paragraph';
 import Background from '../component/Background';
-import Header from '../component/Header';
+import Header from '../component/HeaderLogin';
 import Button from '../component/Button';
 
 const Start = ({navigation}) => {
   return (
     <Background style={{justifyContent: 'space-between'}}>
       <View style={{paddingLeft: 0, width: '100%'}}>
-        <Header>EBook</Header>
+        <Header>MyBooks</Header>
       </View>
       <View style={{width: '100%', marginBottom: 30}}>
         <Paragraph>Welcome to EBook</Paragraph>
@@ -30,4 +30,5 @@ const Start = ({navigation}) => {
     </Background>
   );
 };
+
 export default Start;

@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 30,
         fontWeight: 'bold',
-        color: COLORS.tomato,
+        color: COLORS.main,
         
      }
 })

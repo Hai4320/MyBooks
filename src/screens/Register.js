@@ -108,7 +108,7 @@ const Register = ({navigation}) => {
                 style={{backgroundColor: '#2196F3'}}>
                 Sign Up
               </Button>
-              <View style={styles.loginOther}>
+              {/* <View style={styles.loginOther}>
                 <Text style={{color: 'white', fontSize: 18}}>
                   Or create account with
                 </Text>
@@ -128,7 +128,7 @@ const Register = ({navigation}) => {
                     style={styles.logoGoogle}
                   />
                 </TouchableOpacity>
-              </View>
+              </View> */}
               <View style={{alignItems: 'center'}}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   <View style={styles.line} />

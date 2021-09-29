@@ -7,6 +7,7 @@ import Paragraph from '../component/Paragraph';
 import Button from '../component/Button';
 import TextInput from '../component/TextInput';
 import BackButton from '../component/BackButton';
+import { images, COLORS } from '../constants';
 
 const Login = ({navigation}) => {
   return (
@@ -46,8 +47,8 @@ const Login = ({navigation}) => {
           style={{backgroundColor: '#2196F3'}}>
           Log In
         </Button>
-        <View style={styles.loginOther}>
-          <Text style={{color: 'white', fontSize: 18}}>Or login with</Text>
+          {/* <View style={styles.loginOther}>
+          <Text style={{color: COLORS.secondary, fontSize: 18}}>Or login with</Text>
           <TouchableOpacity onPress={() => Alert.alert('Login with facebook')}>
             <AntDesign
               name="facebook-square"
@@ -58,11 +59,11 @@ const Login = ({navigation}) => {
           </TouchableOpacity>
           <TouchableOpacity onPress={() => Alert.alert('Login with google')}>
             <Image
-              source={require('../assets/images/google.png')}
+              source={images.google}
               style={styles.logoGoogle}
             />
           </TouchableOpacity>
-        </View>
+        </View> */}
         <View style={{alignItems: 'center'}}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <View style={styles.line} />

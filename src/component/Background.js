@@ -7,10 +7,12 @@ import {
   Keyboard,
 } from 'react-native';
 
+import {images} from '../constants';
+
 export default function Background({children, style}) {
   return (
     <ImageBackground
-      source={require('../assets/images/background.jpg')}
+      source={images.backgroundLogin}
       style={styles.background}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView
