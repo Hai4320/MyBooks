@@ -2,14 +2,13 @@ import React from 'react';
 import {View, StyleSheet, TouchableOpacity, Image, Alert} from 'react-native';
 import {Text} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Background from '../component/backgroup';
-import {theme} from '../component/theme';
+import Background from '../component/Background';
 import {Formik} from 'formik';
-import Paragraph from '../component/paragraph';
-import Button from '../component/button';
-import TextInput from '../component/textInput';
-import BackButton from '../component/backButton';
-import {SignupSchema} from '../component/validation';
+import Paragraph from '../component/Paragraph';
+import Button from '../component/Button';
+import TextInput from '../component/TextInput';
+import BackButton from '../component/BackButton';
+import {SignupSchema} from '../component/Validation';
 
 const Register = ({navigation}) => {
   return (
@@ -42,7 +41,8 @@ const Register = ({navigation}) => {
           }) => (
             <View style={{width: '100%'}}>
               <TextInput
-                label="Name"
+                title="Name"
+                placeholder="Enter Name"
                 autoFocus={true}
                 onChangeText={handleChange('name')}
                 onBlur={handleBlur('name')}
@@ -52,8 +52,9 @@ const Register = ({navigation}) => {
                 <Text style={{color: 'red'}}>{errors.name}</Text>
               ) : null}
               <TextInput
-                label="Phone Number"
+                title="Phone Number"
                 keyboardType="numeric"
+                placeholder="Enter Phone Number"
                 maxLength={10}
                 onChangeText={handleChange('phone')}
                 onBlur={handleBlur('phone')}
@@ -63,12 +64,13 @@ const Register = ({navigation}) => {
                 <Text style={{color: 'red'}}>{errors.phone}</Text>
               ) : null}
               <TextInput
-                label="Email"
+                title="Email"
                 returnKeyType="next"
                 autoCapitalize="none"
                 autoCompleteType="email"
                 textContentType="emailAddress"
                 keyboardType="email-address"
+                placeholder="Enter Email Address"
                 onChangeText={handleChange('email')}
                 onBlur={handleBlur('email')}
                 value={values.email}
@@ -77,8 +79,9 @@ const Register = ({navigation}) => {
                 <Text style={{color: 'red'}}>{errors.email}</Text>
               ) : null}
               <TextInput
-                label="Password"
+                title="Password"
                 returnKeyType="done"
+                placeholder="Enter Password"
                 secureTextEntry
                 onChangeText={handleChange('password')}
                 onBlur={handleBlur('password')}
@@ -88,9 +91,10 @@ const Register = ({navigation}) => {
                 <Text style={{color: 'red'}}>{errors.password}</Text>
               ) : null}
               <TextInput
-                label="Confirm Password"
+                title="Confirm Password"
                 returnKeyType="done"
                 secureTextEntry
+                placeholder="Enter Confirm Password"
                 onChangeText={handleChange('confirmPassword')}
                 onBlur={handleBlur('confirmPassword')}
                 value={values.confirmPassword}
@@ -158,7 +162,7 @@ const styles = StyleSheet.create({
   },
   link: {
     fontWeight: 'bold',
-    color: theme.colors.secondary,
+    color: '#414757',
   },
   line: {
     borderWidth: 1,

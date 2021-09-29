@@ -1,13 +1,13 @@
 import React from 'react';
 import {View} from 'react-native';
 import {Text} from 'react-native-paper';
-import Background from '../component/backgroup';
-import Button from '../component/button';
-import TextInput from '../component/textInput';
-import BackButton from '../component/backButton';
-import Paragraph from '../component/paragraph';
+import Background from '../component/Background';
+import Button from '../component/Button';
+import TextInput from '../component/TextInput';
+import BackButton from '../component/BackButton';
+import Paragraph from '../component/Paragraph';
 import {Formik} from 'formik';
-import {SignupSchema} from '../component/validation';
+import {SignupSchema} from '../component/Validation';
 
 const ResetPassword = ({navigation}) => {
   return (
@@ -36,13 +36,14 @@ const ResetPassword = ({navigation}) => {
           }) => (
             <View style={{width: '100%'}}>
               <TextInput
-                label="E-mail address"
+                title="E-mail address"
                 returnKeyType="done"
                 autoCapitalize="none"
                 autoCompleteType="email"
                 textContentType="emailAddress"
                 keyboardType="email-address"
                 autoFocus={true}
+                placeholder="Enter Email Address"
                 onChangeText={handleChange('email')}
                 onBlur={handleBlur('email')}
                 value={values.email}
