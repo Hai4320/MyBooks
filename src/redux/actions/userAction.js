@@ -1,9 +1,9 @@
 import {LOGIN, LOGOUT} from "../types"
 import {register_URL} from "../api"
 
-export const registerUser = async (user, setLoading) => async (dispatch) => {
-      setLoading(true);
+export const registerUser = (user, setLoading) => async (dispatch) => {
       try {
+        setLoading(true);
         const result = await fetch(register_URL, 
             {
                 method: 'POST',
@@ -19,5 +19,6 @@ export const registerUser = async (user, setLoading) => async (dispatch) => {
       }
       catch(err){
         setLoading(false);
+        return err;
       }
   };

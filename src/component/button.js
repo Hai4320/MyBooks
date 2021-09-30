@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {Button as PaperButton} from 'react-native-paper';
-export default function Button({mode, style, styleText, ...props}) {
+export default function Button({mode, style, styleText,loading, ...props} = {}) {
   return (
     <PaperButton
       style={[
@@ -11,6 +11,7 @@ export default function Button({mode, style, styleText, ...props}) {
       ]}
       labelStyle={(styles.text, styleText)}
       mode={mode}
+      loading={loading? loading: false}
       theme={{colors: {primary: '#2196F3'}}}
       {...props}
     />

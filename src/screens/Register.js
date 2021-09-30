@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {View, StyleSheet, TouchableOpacity, Image, Alert} from 'react-native';
 import {Text} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -10,7 +10,28 @@ import TextInput from '../component/TextInput';
 import BackButton from '../component/BackButton';
 import {SignupSchema} from '../component/Validation';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { registerUser} from '../redux/actions/userAction';
+
 const Register = ({navigation}) => {
+  const dispatch = useDispatch();
+  const [isLoading,setIsLoading] = useState(false);
+  const submitData = async (value) => {
+    console.log(value);
+    const data = await dispatch(registerUser(value, setIsLoading));
+    if (data.status===400) Alert.alert('Email has been used');
+    if (data.status===500) Alert.alert('Cant Create Acount Now');
+    if (data.status===200) Alert.alert('Create Successfully','',[
+      {
+        text:'ok',
+      },
+      {
+        text:'Login',
+        style: "cancel",
+      },
+     
+    ]);
+  }
   return (
     <Background style={{justifyContent: 'space-between'}}>
       <View style={styles.styleWidth}>
@@ -29,7 +50,7 @@ const Register = ({navigation}) => {
             confirmPassword: '',
           }}
           validationSchema={SignupSchema}
-          onSubmit={values => console.log(values)}>
+          onSubmit={values => submitData(values)}>
           {({
             values,
             errors,
@@ -41,30 +62,8 @@ const Register = ({navigation}) => {
           }) => (
             <View style={{width: '100%'}}>
               <TextInput
-                title="Name"
-                placeholder="Enter Name"
-                autoFocus={true}
-                onChangeText={handleChange('name')}
-                onBlur={handleBlur('name')}
-                value={values.name}
-              />
-              {errors.name && touched.name ? (
-                <Text style={{color: 'red'}}>{errors.name}</Text>
-              ) : null}
-              <TextInput
-                title="Phone Number"
-                keyboardType="numeric"
-                placeholder="Enter Phone Number"
-                maxLength={10}
-                onChangeText={handleChange('phone')}
-                onBlur={handleBlur('phone')}
-                value={values.phone}
-              />
-              {errors.phone && touched.phone ? (
-                <Text style={{color: 'red'}}>{errors.phone}</Text>
-              ) : null}
-              <TextInput
                 title="Email"
+                autoFocus={true}
                 returnKeyType="next"
                 autoCapitalize="none"
                 autoCompleteType="email"
@@ -79,6 +78,30 @@ const Register = ({navigation}) => {
                 <Text style={{color: 'red'}}>{errors.email}</Text>
               ) : null}
               <TextInput
+                title="Name"
+                placeholder="Enter Name"
+                onChangeText={handleChange('name')}
+                onBlur={handleBlur('name')}
+                value={values.name}
+              />
+              {errors.name && touched.name ? (
+                <Text style={{color: 'red'}}>{errors.name}</Text>
+              ) : null}
+              {/* <TextInput
+                title="Phone Number"
+                keyboardType="numeric"
+                placeholder="Enter Phone Number"
+                maxLength={10}
+                onChangeText={handleChange('phone')}
+                onBlur={handleBlur('phone')}
+                value={values.phone}
+              />
+              {errors.phone && touched.phone ? (
+                <Text style={{color: 'red'}}>{errors.phone}</Text>
+              ) : null} */}
+              
+              
+              <TextInput
                 title="Password"
                 returnKeyType="done"
                 placeholder="Enter Password"
@@ -87,9 +110,10 @@ const Register = ({navigation}) => {
                 onBlur={handleBlur('password')}
                 value={values.password}
               />
-              {errors.password && touched.password ? (
+              {/* {errors.password && touched.password ? (
+                
                 <Text style={{color: 'red'}}>{errors.password}</Text>
-              ) : null}
+              ) : null} */}
               <TextInput
                 title="Confirm Password"
                 returnKeyType="done"
@@ -104,9 +128,10 @@ const Register = ({navigation}) => {
               ) : null}
               <Button
                 mode="contained"
+                loading={isLoading}
                 onPress={handleSubmit}
                 style={{backgroundColor: '#2196F3'}}>
-                Sign Up
+                Summit
               </Button>
               {/* <View style={styles.loginOther}>
                 <Text style={{color: 'white', fontSize: 18}}>

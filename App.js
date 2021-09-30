@@ -10,10 +10,13 @@ import Register from './src/screens/Register'
 import ResetPassword from './src/screens/ResetPassword'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 const Stack = createNativeStackNavigator();
+import { Provider } from 'react-redux';
+import { Store } from './src/redux/store';
 
 const App = () => {
   return (
-    <NavigationContainer>
+    <Provider store={Store}>
+      <NavigationContainer>
        <Stack.Navigator
         screenOptions={{
           headerShown: false
@@ -28,6 +31,8 @@ const App = () => {
       </Stack.Navigator>
 
     </NavigationContainer>
+    </Provider>
+    
   );
 };
 
