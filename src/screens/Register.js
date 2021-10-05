@@ -17,7 +17,6 @@ const Register = ({navigation}) => {
   const dispatch = useDispatch();
   const [isLoading,setIsLoading] = useState(false);
   const submitData = async (value) => {
-    console.log(value);
     const data = await dispatch(registerUser(value, setIsLoading));
     if (data.status===400) Alert.alert('Email has been used');
     if (data.status===500) Alert.alert('Cant Create Acount Now');
@@ -63,7 +62,6 @@ const Register = ({navigation}) => {
             <View style={{width: '100%'}}>
               <TextInput
                 title="Email"
-                autoFocus={true}
                 returnKeyType="next"
                 autoCapitalize="none"
                 autoCompleteType="email"

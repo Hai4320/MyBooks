@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {View, StyleSheet, TouchableOpacity, Alert, Image} from 'react-native';
 import {Text} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -7,9 +7,30 @@ import Paragraph from '../component/Paragraph';
 import Button from '../component/Button';
 import TextInput from '../component/TextInput';
 import BackButton from '../component/BackButton';
+import {Formik} from 'formik';
 import { images, COLORS } from '../constants';
 
+import { useSelector, useDispatch } from 'react-redux';
+import {loginUser} from '../redux/actions/userAction';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const Login = ({navigation}) => {
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+  const onSubmit = async (values) => {
+    const result = await dispatch(loginUser(values, setIsLoading));
+    if(result.status) {
+      Alert.alert(result.data.message);
+      console.log(result.data.data);
+      if (result.status === 200){
+        try {
+          await AsyncStorage.setItem('isLogin','true')
+          await AsyncStorage.setItem('userData',JSON.stringify(result.data.data))
+        } catch (e) {console.error(e)}
+        navigation.navigate('TabBar')
+      }
+    }
+  }
   return (
     <Background style={{justifyContent: 'space-between'}}>
       <View style={styles.styleWidth}>
@@ -19,6 +40,22 @@ const Login = ({navigation}) => {
         <Paragraph>Welcome Back</Paragraph>
       </View>
       <View style={styles.styleForm}>
+        <Formik
+        initialValues={{
+          email: '',
+          password: '',
+        }}
+        onSubmit={values => onSubmit(values)}>
+        {({
+         values,
+         errors,
+         touched,
+         handleChange,
+         handleBlur,
+         handleSubmit,
+         isSubmitting,
+       }) => (
+         <View>
         <TextInput
           title="Email"
           returnKeyType="next"
@@ -27,13 +64,18 @@ const Login = ({navigation}) => {
           textContentType="emailAddress"
           keyboardType="email-address"
           placeholder="Enter Email Address"
-          autoFocus={true}
+          value={values.email}
+          onChangeText={handleChange('email')}
+          onBlur={handleBlur('password')}
         />
         <TextInput
           title="Password"
           returnKeyType="done"
           secureTextEntry
           placeholder="Enter Password"
+          value={values.password}
+          onChangeText={handleChange('password')}
+          onBlur={handleBlur('password')}
         />
         <View style={styles.forgotPassword}>
           <TouchableOpacity
@@ -43,10 +85,13 @@ const Login = ({navigation}) => {
         </View>
         <Button
           mode="contained"
-          onPress={() => Alert.alert('Login successful')}
-          style={{backgroundColor: '#2196F3'}}>
+          onPress={handleSubmit}
+          style={{backgroundColor: '#2196F3'}}
+          loading={isLoading}>
           Log In
         </Button>
+        </View>)}
+        </Formik>
           {/* <View style={styles.loginOther}>
           <Text style={{color: COLORS.secondary, fontSize: 18}}>Or login with</Text>
           <TouchableOpacity onPress={() => Alert.alert('Login with facebook')}>
