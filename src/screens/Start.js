@@ -1,9 +1,9 @@
 import React from 'react';
 import {View} from 'react-native';
-import Paragraph from '../component/Paragraph';
+import Paragraph from '../component/paragraph';
 import Background from '../component/Background';
 import Header from '../component/HeaderLogin';
-import Button from '../component/Button';
+import Button from '../component/button';
 
 const Start = ({navigation}) => {
   return (

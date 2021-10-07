@@ -4,9 +4,9 @@ import {Text} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Background from '../component/Background';
 import {Formik} from 'formik';
-import Paragraph from '../component/Paragraph';
-import Button from '../component/Button';
-import TextInput from '../component/TextInput';
+import Paragraph from '../component/paragraph';
+import Button from '../component/button';
+import TextInput from '../component/textInput';
 import BackButton from '../component/BackButton';
 import {SignupSchema} from '../component/Validation';
 
