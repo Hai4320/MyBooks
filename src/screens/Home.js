@@ -6,18 +6,19 @@ import {COLORS} from '../constants'
 
 const Home = () => {
     const [imageUrl, setImageUrl] = useState([]);
-    const image = ['h1.jpg','h5.jpg','h11.jpg','h13.jpg','h15.jpg']
+    const image = ['images/h1.jpg','images/h5.jpg','images/h11.jpg','images/h13.jpg','images/h15.jpg','books/images/Bước Chậm Lại Giữa Thế Gian Vội Vã.jpg']
     useEffect(async () => {
         const x= [];
         for (i in image) {
             try {
-                const url = await storage().ref('images/' + image[i]).getDownloadURL()
+                const url = await storage().ref(image[i]).getDownloadURL()
                 x.push({id: image[i], url: url})
             }
             catch (err) {
                 console.log('ERROR')
             }
         }
+
         setImageUrl(x);
     }, []);
     return (
