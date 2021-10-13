@@ -2,10 +2,10 @@ import React from 'react';
 import {View} from 'react-native';
 import {Text} from 'react-native-paper';
 import Background from '../component/Background';
-import Button from '../component/button';
-import TextInput from '../component/textInput';
+import Button from '../component/Button';
+import TextInput from '../component/TextInput';
 import BackButton from '../component/BackButton';
-import Paragraph from '../component/paragraph';
+import Paragraph from '../component/Paragraph';
 import {Formik} from 'formik';
 import {SignupSchema} from '../component/Validation';
 
