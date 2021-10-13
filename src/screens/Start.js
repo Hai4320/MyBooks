@@ -1,11 +1,22 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import {View} from 'react-native';
 import Paragraph from '../component/Paragraph';
 import Background from '../component/Background';
 import Header from '../component/HeaderLogin';
 import Button from '../component/Button';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Start = ({navigation}) => {
+  const isLogged  = async ()=>{
+    const x = await AsyncStorage.getItem("isLogin");
+    if (x === null) return false;
+    else return true;
+  }
+  useEffect(()=>{
+    if (isLogged) {
+      navigation.navigate('TabBar')
+    }
+  },[]);
   return (
     <Background style={{justifyContent: 'space-between'}}>
       <View style={{paddingLeft: 0, width: '100%'}}>
