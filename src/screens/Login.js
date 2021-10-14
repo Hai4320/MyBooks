@@ -9,7 +9,6 @@ import TextInput from '../component/TextInput';
 import BackButton from '../component/BackButton';
 import {Formik} from 'formik';
 import { images, COLORS } from '../constants';
-
 import { useSelector, useDispatch } from 'react-redux';
 import {loginUser} from '../redux/actions/userAction';
 import AsyncStorage from '@react-native-async-storage/async-storage';

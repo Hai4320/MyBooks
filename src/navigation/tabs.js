@@ -1,16 +1,27 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { COLORS } from '../constants'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Blog from "../screens/Blog";
 import Home from '../screens/Home'
 import User from "../screens/User";
-
-
+import {isLogged} from '../component/AsyncStorage'
+import {getBooks} from '../redux/actions/bookAction'
+import { useSelector, useDispatch } from 'react-redux';
 
 const Tab = createBottomTabNavigator();
 
-const Tabs = () =>{
+const Tabs = (navigation) =>{
+    const dispatch = useDispatch();
+    const [isLoading,setIsLoading] = useState(false);
+    useEffect(async () => {
+        if (!isLogged) {
+          navigation.navigate('Start')
+        }
+        else {
+            const result = dispatch(getBooks(setIsLoading));
+        }
+      },[]);
     return (
         <Tab.Navigator
         screenOptions={({ route }) => ({

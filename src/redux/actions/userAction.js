@@ -37,7 +37,10 @@ export const loginUser = (user, setLoading) => async (dispatch) => {
       body: JSON.stringify(user)
     });
     const data = await result.json();
-    console.log(data);
+    dispatch({
+      type: LOGIN,
+      payload: data,
+    });
     setLoading(false);
     return {status: result.status, data: data};
   }

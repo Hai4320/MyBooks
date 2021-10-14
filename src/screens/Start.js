@@ -4,14 +4,8 @@ import Paragraph from '../component/Paragraph';
 import Background from '../component/Background';
 import Header from '../component/HeaderLogin';
 import Button from '../component/Button';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { isLogged } from '../component/AsyncStorage';
 const Start = ({navigation}) => {
-  const isLogged  = async ()=>{
-    const x = await AsyncStorage.getItem("isLogin");
-    if (x === null) return false;
-    else return true;
-  }
   useEffect(()=>{
     if (isLogged) {
       navigation.navigate('TabBar')

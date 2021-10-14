@@ -4,35 +4,34 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import storage from '@react-native-firebase/storage';
 import LoadImageUrl from "../component/LoadImage"
 import {COLORS} from '../constants'
+import {useSelector} from 'react-redux'
+import {AllBooks} from '../redux/selectors'
 
 const Home = () => {
-    const [imageUrl, setImageUrl] = useState([]);
-    const image = ['images/h1.jpg','images/h5.jpg','images/h11.jpg','images/h13.jpg','images/h15.jpg','books/images/Bước Chậm Lại Giữa Thế Gian Vội Vã.jpg'
-]
+    const books = useSelector(AllBooks);
+    const [booksList, setBooksList] = useState(books);
     useEffect(async () => {
-        const x=[];
-        for (i in image) {
-            const url = await LoadImageUrl(image[i]);
-            x.push(url);
+        for (var i= 0; i < books.length; i++) {
+            const url= await LoadImageUrl(books[i].Image);
+            books[i].ImageURL = url;
         }
-        setImageUrl(x);
-    }, []);
+        setBooksList(books);
+    }),[books];
     return (
+        
         <ScrollView>
-            { 
-                imageUrl.length === image.length 
-                ? 
+            {   booksList.length===0 ?
                 <FlatList
-                data={imageUrl}
+                data={[...Array(2).keys()]}
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                renderItem={({item}) => <Image style={{height: 200, width: 200, margin: 5}} source={{uri: item}} />}/>
-                : <FlatList
-                data={image}
+                renderItem={({item}) => <View style={{height: 200, width: 200, margin: 5, backgroundColor: COLORS.gainsboro}}/>}/>
+                :<FlatList
+                data={booksList}
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                renderItem={({item}) => <View style={{height: 200, width: 200, margin: 5, backgroundColor: COLORS.gainsboro}} source={{uri: item.url}} />}/>
-            }
+                renderItem={({item}) => <Image style={{height: 200, width: 200, margin: 5, resizeMode: 'contain',}} source={{uri: item.ImageURL}}/> }/>
+            }      
         </ScrollView>
         
         
