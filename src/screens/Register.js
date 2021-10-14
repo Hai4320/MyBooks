@@ -71,6 +71,7 @@ const Register = ({navigation}) => {
                 onChangeText={handleChange('email')}
                 onBlur={handleBlur('email')}
                 value={values.email}
+                caretHidden={false}
               />
               {errors.email && touched.email ? (
                 <Text style={{color: 'red'}}>{errors.email}</Text>

@@ -67,6 +67,7 @@ const Login = ({navigation}) => {
           value={values.email}
           onChangeText={handleChange('email')}
           onBlur={handleBlur('password')}
+          caretHidden={false}
         />
         <TextInput
           title="Password"
@@ -76,6 +77,7 @@ const Login = ({navigation}) => {
           value={values.password}
           onChangeText={handleChange('password')}
           onBlur={handleBlur('password')}
+          caretHidden={true}
         />
         <View style={styles.forgotPassword}>
           <TouchableOpacity
