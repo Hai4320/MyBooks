@@ -16,10 +16,10 @@ const Tabs = (navigation) =>{
     const [isLoading,setIsLoading] = useState(false);
     useEffect(async () => {
         if (!isLogged) {
-          navigation.navigate('Start')
+          navigation.navigate('Start');
         }
         else {
-            const result = dispatch(getBooks(setIsLoading));
+            const result = await dispatch(getBooks(setIsLoading));
         }
       },[]);
     return (

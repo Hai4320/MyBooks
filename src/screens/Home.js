@@ -2,7 +2,6 @@ import React,{useState,useEffect} from 'react'
 import { View, Text, Image, FlatList, ScrollView} from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import storage from '@react-native-firebase/storage';
-import LoadImageUrl from "../component/LoadImage"
 import {COLORS} from '../constants'
 import {useSelector} from 'react-redux'
 import {AllBooks} from '../redux/selectors'
@@ -10,13 +9,9 @@ import {AllBooks} from '../redux/selectors'
 const Home = () => {
     const books = useSelector(AllBooks);
     const [booksList, setBooksList] = useState(books);
-    useEffect(async () => {
-        for (var i= 0; i < books.length; i++) {
-            const url= await LoadImageUrl(books[i].Image);
-            books[i].ImageURL = url;
-        }
+    useEffect(()=>{
         setBooksList(books);
-    }),[books];
+    },[books])
     return (
         
         <ScrollView>
