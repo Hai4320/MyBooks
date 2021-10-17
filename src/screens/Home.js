@@ -1,7 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import { View, Text, Image, FlatList, ScrollView} from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import storage from '@react-native-firebase/storage';
 import {COLORS} from '../constants'
 import {useSelector} from 'react-redux'
 import {AllBooks} from '../redux/selectors'

@@ -4,8 +4,8 @@ import {COLORS} from '../constants'
 
 const Splash = ({navigation}) => {
     setTimeout(() => {
-        navigation.navigate('Start')
-    },1000)
+        navigation.replace('Start');
+    },1000);
     return (
         <View style={styles.container}>
             <Text style={styles.splash}>My Book</Text>

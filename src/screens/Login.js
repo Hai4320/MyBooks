@@ -26,7 +26,7 @@ const Login = ({navigation}) => {
           await AsyncStorage.setItem('isLogin','true')
           await AsyncStorage.setItem('userData',JSON.stringify(result.data.data))
         } catch (e) {console.error(e)}
-        navigation.navigate('TabBar')
+        navigation.replace('TabBar')
       }
     }
   }

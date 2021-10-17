@@ -23,8 +23,8 @@ const App = () => {
         }}
       >
         <Stack.Screen name="splash" component={Splash}/>
-        <Stack.Screen name="Start" component={Start} />
-        <Stack.Screen name="Login" component={Login} /> 
+        <Stack.Screen name="Start" component={Start}/>
+        <Stack.Screen name="Login" component={Login}/> 
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="ResetPassword" component={ResetPassword} />
         <Stack.Screen name="TabBar" component={Tabs}/>
