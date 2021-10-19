@@ -15,7 +15,7 @@ const Tabs = (navigation) =>{
     const dispatch = useDispatch();
     const [isLoading,setIsLoading] = useState(false);
     useEffect(async () => {
-        if (!isLogged) {
+        if (!isLogged()) {
           navigation.navigate('Start');
         }
         else {
