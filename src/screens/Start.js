@@ -7,7 +7,7 @@ import Button from '../component/Button';
 import { isLogged } from '../component/AsyncStorage';
 const Start = ({navigation}) => {
   useEffect(()=>{
-    if (isLogged) {
+    if (isLogged()) {
       navigation.replace('TabBar')
     }
   },[]);
