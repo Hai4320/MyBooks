@@ -4,7 +4,7 @@ export const theTinyDragon = require("../assets/images/the_tiny_dragon.jpg");
 export const underland = require("../assets/images/underland.jpg");
 export const backgroundLogin = require("../assets/images/background5.jpg");
 export const google = require("../assets/images/google.png");
-
+export const defaultAvatar = require("../assets/images/avatar.png");
 export default {
     otherWordsForHome,
     theMetropolist,
@@ -12,4 +12,5 @@ export default {
     underland,
     backgroundLogin,
     google,
+    defaultAvatar
 }

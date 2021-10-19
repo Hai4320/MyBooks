@@ -13,6 +13,7 @@ export const COLORS = {
   tomato: '#ff6347',
   red: '#ff0000',
   gainsboro: '#dcdcdc',
+  dodgerblue:`#1e90ff`,
 };
 
 export const SIZES = {
