@@ -1,13 +1,15 @@
 import React,{useState,useEffect} from 'react'
-import { View, Text, ScrollView, Image, StyleSheet,TouchableOpacity,Button,TouchableHighlight, FlatList} from 'react-native'
+import { View, Text, ScrollView, Image, StyleSheet,TouchableOpacity,Button,TouchableHighlight, Alert} from 'react-native'
 import { userData } from '../component/AsyncStorage'
 import {images, COLORS, SIZES} from '../constants'
 import {LoadImageUrl} from '../component/LoadImage'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import {AllBooks} from '../redux/selectors'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const User = () => {
+const User = ({navigation}) => {
+    const dispatch = useDispatch();
     const [labelactive, setLabelActive]= useState(0);
     const [labelactive2, setLabelActive2]= useState(0);
     const [user,setUser] =useState({name: '', avatar:'',email: '', role: '',});
@@ -15,7 +17,35 @@ const User = () => {
     const books = useSelector(AllBooks);
     const [booksData, setBooksData] = useState(books);
     const [booksFiter, setBooksFilter] = useState([]);
-    console.log(booksFiter)
+    const logOut = async ()=>{
+        Alert.alert("Log out","You will logout!",[
+            // The "Yes" button
+            {
+              text: "Yes",
+              color: COLORS.red,
+              onPress: async () => {
+                try {
+                    await AsyncStorage.removeItem('isLogin');
+                    await AsyncStorage.removeItem('userData');
+                    navigation.replace('Login');
+                    return true;
+                }
+                catch(exception) {
+                    console.error(exception)
+                    return false;
+                }
+              },
+            },
+            // The "No" button
+            // Does nothing but dismiss the dialog when tapped
+            {
+              text: "No",
+            },
+          ])
+        
+        
+        
+    }
     useEffect(()=>{
         const x = booksData
         if (labelactive2===0)
@@ -74,9 +104,9 @@ const User = () => {
                 <TouchableHighlight
                     style={styles.logoutContainer}
                     underlayColor={COLORS.gainsboro}
-                    onPress={()=>{}}
+                    onPress={()=>logOut()}
                 >
-                <Ionicons name="log-out-outline" style={styles.logout}/>
+                    <Ionicons name="log-out-outline" style={styles.logout}/>
                 </TouchableHighlight>
             </View>
             <View style={styles.buttonGroup}>
@@ -140,7 +170,7 @@ const User = () => {
                 style={{flex: 1, width: '100%', height: '100%'}} 
                 nestedScrollEnabled = {true}>
                     {booksFiter.map((item)=>
-                    <TouchableOpacity style={{height: 110, marginTop: 10, flexDirection: 'row'}} key={item.id}>
+                    <TouchableOpacity style={{height: 110, marginTop: 10, flexDirection: 'row'}} key={item._id}>
                         <Image style={{height: 100, width: 100, margin: 5, resizeMode: 'contain',}} source={{uri: item.ImageURL}} />
                         <View style={{height: 110, flex: 1, flexDirection: 'column'} }>
                             <Text style={{fontSize: 15, width: '100%', height: 40, fontWeight: 'bold', marginTop: 5, color: COLORS.black33}} numberOfLines={2}>{item.Title}</Text>
