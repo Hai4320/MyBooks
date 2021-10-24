@@ -8,8 +8,8 @@ import {useSelector, useDispatch} from 'react-redux'
 import {AllBooks} from '../redux/selectors'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
 const User = ({navigation}) => {
-    const dispatch = useDispatch();
     const [labelactive, setLabelActive]= useState(0);
     const [labelactive2, setLabelActive2]= useState(0);
     const [user,setUser] =useState({name: '', avatar:'',email: '', role: '',});
@@ -49,7 +49,7 @@ const User = ({navigation}) => {
     useEffect(()=>{
         const x = booksData
         if (labelactive2===0)
-          x.sort((a,b)=> a.Author>b.Author );
+          x.sort((a,b)=> a.Author>b.Author);
         if (labelactive2===1)
           x.sort((a,b)=> a.Title>b.Title );
         if (labelactive2===2)
@@ -89,7 +89,7 @@ const User = ({navigation}) => {
         style={styles.container} 
         nestedScrollEnabled = {true} 
         >
-              <Text style={styles.title}>User</Text>
+        <Text style={styles.title}>User</Text>
           <View style={styles.box}>
             <View style={styles.containerData}> 
                 <TouchableOpacity
@@ -112,7 +112,7 @@ const User = ({navigation}) => {
             <View style={styles.buttonGroup}>
                 <TouchableHighlight
                     style={[styles.button,{width: 40}]}
-                    onPress={() =>{}}
+                    onPress={() => navigation.push("Notification")}
                     underlayColor={COLORS.main}>
                     <Ionicons style={[styles.buttonText,{fontSize: 20}]} name={'notifications'}/>
                 </TouchableHighlight>
@@ -174,7 +174,7 @@ const User = ({navigation}) => {
                         <Image style={{height: 100, width: 100, margin: 5, resizeMode: 'contain',}} source={{uri: item.ImageURL}} />
                         <View style={{height: 110, flex: 1, flexDirection: 'column'} }>
                             <Text style={{fontSize: 15, width: '100%', height: 40, fontWeight: 'bold', marginTop: 5, color: COLORS.black33}} numberOfLines={2}>{item.Title}</Text>
-                            <Text style={{fontSize: 14, width: '100%', height: 18, marginTop: 10, color: COLORS.black66}} numberOfLines={1}>{item.Author}</Text>
+                            <Text style={{fontSize: 14, width: '100%', height: 18, marginTop: 5,marginBottom: 5, color: COLORS.black66}} numberOfLines={1}>{item.Author}</Text>
                             <View style={{marginTop: 5, height: 20, alignItems: 'center', flexDirection: 'row', width: '100%', }}>
                                 <View style={{flexDirection: 'row', marginRight: 10, alignItems: 'center', width: 60 }}>
                                     <Ionicons name='eye-outline' style={{color: COLORS.button}}/>
@@ -209,7 +209,7 @@ const User = ({navigation}) => {
                             <Image style={{height: 100, width: 100, margin: 5, resizeMode: 'contain',}} source={item.image} />
                             <View style={{height: 110, flex: 1, flexDirection: 'column'} }>
                                 <Text style={{fontSize: 15, width: '100%', height: 40, fontWeight: 'bold', marginTop: 5, color: COLORS.black33}} numberOfLines={2}>{item.title}</Text>
-                                <Text style={{fontSize: 14, width: '100%', height: 18, marginTop: 10, color: COLORS.black66}} numberOfLines={1}>{item.date}</Text>
+                                <Text style={{fontSize: 14, width: '100%', height: 18, marginTop: 5,marginBottom: 5, color: COLORS.black66}} numberOfLines={1}>{item.date}</Text>
                                 <View style={{marginTop: 5, height: 20, alignItems: 'center', flexDirection: 'row', width: '100%', }}>
                                     <View style={{flexDirection: 'row', marginRight: 10, alignItems: 'center', width: 60 }}>
                                         <Ionicons name='eye-outline' style={{color: COLORS.button}}/>
