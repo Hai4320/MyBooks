@@ -67,6 +67,10 @@ const BookAudio = () => {
         })
         setAudioList(audioData);
     }, [bookSelected]);
+    useEffect(()=>{
+        if (playing!=-1)
+        setVisibleModal(false);
+    },[playing])
     useEffect(async ()=>{
         if (loading[1]===-1||loading[0]===false) return;
         const audioData = audioList;
@@ -84,11 +88,13 @@ const BookAudio = () => {
     },[books])
     return (
         <View>
+        { visibleModal===true? null:
         <View style={styles.playBox}>
-            <Text style={{}}>
+            <Text>
                 {playing===-1 ? "None": audioList[playing].name}
             </Text>
         </View>
+        }
         <ScrollView 
           style={styles.container} 
           nestedScrollEnabled = {true}>
