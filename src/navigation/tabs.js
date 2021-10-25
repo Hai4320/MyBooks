@@ -6,7 +6,7 @@ import Blog from '../screens/Blog';
 import Home from '../screens/Home';
 import User from '../screens/User';
 import Books from '../screens/Books';
-import PDF from '../screens/PDF';
+import BookPDF from '../screens/BookPDF';
 import {isLogged} from '../component/AsyncStorage';
 import {getBooks} from '../redux/actions/bookAction';
 import { useSelector, useDispatch } from 'react-redux';
@@ -48,7 +48,7 @@ const Tabs = (navigation) =>{
                 component={Home}
             />
             <Tab.Screen name="Blog" component={Books} />
-            <Tab.Screen name="User" component={PDF} />
+            <Tab.Screen name="User" component={BookPDF} />
         </Tab.Navigator>
 
     );

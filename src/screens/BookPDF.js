@@ -1,10 +1,16 @@
 import React from 'react';
-import {StyleSheet, Dimensions, View, Text} from 'react-native';
+import {StyleSheet, Dimensions, View, Text, Button} from 'react-native';
+import * as OpenAnything from 'react-native-openanything';
 
 const BookPDF = () => {
   return (
     <View style={styles.container}>
-      <Text>BookPDF</Text>
+      <Button
+        title="Book PDF"
+        onPress={() =>
+          OpenAnything.Pdf('http://www.africau.edu/images/default/sample.pdf')
+        }
+      />
     </View>
   );
 };
