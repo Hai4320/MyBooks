@@ -1,12 +1,14 @@
-import React,{useState,useEffect} from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { COLORS } from '../constants'
+import React,{useState,useEffect} from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { COLORS } from '../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Blog from "../screens/Blog";
-import Home from '../screens/Home'
-import User from "../screens/User";
-import {isLogged} from '../component/AsyncStorage'
-import {getBooks} from '../redux/actions/bookAction'
+import Blog from '../screens/Blog';
+import Home from '../screens/Home';
+import User from '../screens/User';
+import Books from '../screens/Books';
+import PDF from '../screens/PDF';
+import {isLogged} from '../component/AsyncStorage';
+import {getBooks} from '../redux/actions/bookAction';
 import { useSelector, useDispatch } from 'react-redux';
 
 const Tab = createBottomTabNavigator();
@@ -45,11 +47,11 @@ const Tabs = (navigation) =>{
                 name="Home" 
                 component={Home}
             />
-            <Tab.Screen name="Blog" component={Blog} />
-            <Tab.Screen name="User" component={User} />
+            <Tab.Screen name="Blog" component={Books} />
+            <Tab.Screen name="User" component={PDF} />
         </Tab.Navigator>
 
     );
-}
+};
 
 export default Tabs;

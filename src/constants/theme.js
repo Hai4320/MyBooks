@@ -13,6 +13,7 @@ export const COLORS = {
   tomato: '#ff6347',
   red: '#ff0000',
   gainsboro: '#dcdcdc',
+  borColor: '#FF6666',
 };
 
 export const SIZES = {
