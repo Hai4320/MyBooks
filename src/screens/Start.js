@@ -6,9 +6,11 @@ import Header from '../component/HeaderLogin';
 import Button from '../component/Button';
 import { isLogged } from '../component/AsyncStorage';
 const Start = ({navigation}) => {
-  useEffect(()=>{
-    if (isLogged()) {
-      navigation.replace('TabBar')
+
+  useEffect(async ()=>{
+    const log = await isLogged();
+    if (log) {
+      navigation.replace('TabBar');
     }
   },[]);
   return (
