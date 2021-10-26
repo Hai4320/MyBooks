@@ -1,4 +1,5 @@
 
+
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
@@ -11,9 +12,9 @@ import Notification from './src/screens/Notification'
 import ResetPassword from './src/screens/ResetPassword'
 import BookAudio from './src/screens/BookAudio'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import {Provider} from 'react-redux';
+import {Store} from './src/redux/store';
 const Stack = createNativeStackNavigator();
-import { Provider } from 'react-redux';
-import { Store } from './src/redux/store';
 
 const App = () => {
   return (
@@ -36,7 +37,6 @@ const App = () => {
 
     </NavigationContainer>
     </Provider>
-    
   );
 };
 

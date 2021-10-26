@@ -17,7 +17,8 @@ export const COLORS = {
   button: '#2196F3',
   black33: "#333333",
   black66: "#666666",
-  love: "#ff009e"
+  love: "#ff009e",
+  borColor: '#FF6666',
 };
 
 export const SIZES = {
