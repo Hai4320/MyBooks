@@ -16,7 +16,7 @@ import {COLORS} from '../constants';
 import {useSelector} from 'react-redux';
 import {AllBooks} from '../redux/selectors';
 
-const Books = () => {
+const Books = ({navigation}) => {
   const books = useSelector(AllBooks);
   const [booksList, setBooksList] = useState(books);
   const [filterList, setFilterList] = useState(books);

@@ -2,7 +2,8 @@ import React from 'react';
 import {StyleSheet, Dimensions, View, Text, Button} from 'react-native';
 import * as OpenAnything from 'react-native-openanything';
 
-const BookPDF = () => {
+const BookPDF = ({navigation, route}) => {
+  const book = route.params; 
   return (
     <View style={styles.container}>
       <Button
