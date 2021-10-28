@@ -6,11 +6,9 @@ import {images, COLORS, SIZES} from '../constants'
 import { View, Text, ScrollView, Image, StyleSheet,TouchableOpacity,Modal} from 'react-native'
 import LoadImageUrl from "../component/LoadImage"
 import Sound from 'react-native-sound'
-const BookAudio = () => {
+const BookAudio = ({navigation,route}) => {
     const [visibleModal,setVisibleModal] = useState(true);
-    const books = useSelector(AllBooks);
-    const [booksData, setBooksData] = useState(books);
-    const bookSelected = booksData[0];
+    const bookSelected = route.params;
     const [audioList,setAudioList] = useState([]);
     const [playing,setPlaying] = useState(-1);
     const [isplay,setIsPlay] = useState(false);
@@ -83,9 +81,6 @@ const BookAudio = () => {
         });
         setAudioList(audioData);
     },loading);
-    useEffect(()=>{
-        setBooksData(books);
-    },[books])
     return (
         <View>
         { visibleModal===true? null:
@@ -98,7 +93,9 @@ const BookAudio = () => {
         <ScrollView 
           style={styles.container} 
           nestedScrollEnabled = {true}>
-          <TouchableOpacity style={{position: 'absolute', top: 10, left: 15, width: 35, height: 35, borderRadius: 100}} onPress={()=>{}}>
+          <TouchableOpacity 
+          style={{position: 'absolute', top: 10, left: 15, width: 40, height: 40}} 
+          onPress={()=>navigation.goBack()}>
             <Ionicons name="chevron-back-outline" size={30} color={COLORS.white} />
           </TouchableOpacity>
           <Text style={styles.title}>Play Audio</Text>

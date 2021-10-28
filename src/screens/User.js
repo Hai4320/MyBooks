@@ -16,7 +16,7 @@ const User = ({navigation}) => {
     const [postData,setPostData]= useState([]);
     const books = useSelector(AllBooks);
     const [booksData, setBooksData] = useState(books);
-    const [booksFiter, setBooksFilter] = useState([]);
+    const [booksFiter, setBooksFilter] = useState(booksData);
     const logOut = async ()=>{
         Alert.alert("Log out","You will logout!",[
             // The "Yes" button
@@ -46,19 +46,11 @@ const User = ({navigation}) => {
         
         
     }
-    useEffect(()=>{
-        const x = booksData
-        if (labelactive2===0)
-          x.sort((a,b)=> a.Author>b.Author);
-        if (labelactive2===1)
-          x.sort((a,b)=> a.Title>b.Title );
-        if (labelactive2===2)
-          x.sort((a,b)=> a.Title<b.Title );  
-        setBooksFilter(x);
-    },[labelactive2])
+
     useEffect(()=>{
         setBooksData(books);
-    },[books]);
+    });
+
     const x=[];
     for (var i=0; i<10; i++){
         const post = {
@@ -84,6 +76,14 @@ const User = ({navigation}) => {
         }
         
     },[]);
+    useEffect(()=>{
+        if (labelactive2===0)
+            booksFiter.sort((a,b)=> a.Author>b.Author);
+        if (labelactive2===1)
+            booksFiter.sort((a,b)=> a.Title>b.Title );
+        if (labelactive2===2)
+            booksFiter.sort((a,b)=> a.Title<b.Title );
+    },[labelactive2])
     return (
         <ScrollView 
         style={styles.container} 
@@ -166,7 +166,7 @@ const User = ({navigation}) => {
                 </View>
                 {booksFiter.length===0? 
                 <Text>Nothing</Text>
-                :<ScrollView 
+                : <ScrollView 
                 style={{flex: 1, width: '100%', height: '100%'}} 
                 nestedScrollEnabled = {true}>
                     {booksFiter.map((item)=>

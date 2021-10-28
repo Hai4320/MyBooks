@@ -5,34 +5,22 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // file của thg hiếu
 // const images = { source={require('')} };
-const BookDetail = () => {
-    const book= {
-        id:'',
-        Title:"Điều Kỳ Diệu Của Tiệm Tạp Hóa NAMIYA",
-        Description:"Một đêm vội vã lẩn trốn sau phi vụ khoắng đồ nhà người, Atsuya, Shota và      Kouhei đã rẽ vào lánh tạm trong một căn nhà hoang bên con dốc vắng người qua lại...",
-        Author:"Higashino Keigo",
-        Company:"Nhã Nam",
-        Star:5,
-        Status:"Đã hoàn thành",
-        Type:"NOVEL",
-        Audio:["books/audios/Điều kỳ diệu của tiệm tạp hóa Namiya-Chương 1       P1.mp3","books/audios/Điều kỳ diệu của tiệm tạp hóa Namiya-Chương 1-              P2.mp3","books/audios/Điều kỳ diệu của tiệm tạp hóa Namiya-Chương 02.mp3"],
-        PDF:"books/pdfs/Điều Kỳ Diệu Của Tiệm Tạp Hóa NAMIYA.pdf",
-        Image:"books/images/Điều Kỳ Diệu Của Tiệm Tạp Hóa NAMIYA.jpg",
-        PublishingCompany:"Nhà Xuất Bản Tổng Hợp Thành Phố Hồ Chí Minh",
-        ImageURL:"../assets/images/other_words_for_home.jpg"
-      }
+const BookDetail = ({navigation, route}) => {
+    const book = route.params;
     return (
         <ScrollView style={styles.container}>
             <ImageBackground source={require('../assets/images/background5.jpg')} style={styles.image}>
                 <View>
-                    <TouchableOpacity style={styles.a}>
+                    <TouchableOpacity 
+                    style={styles.a}
+                    onPress={()=> navigation.goBack()}>
                         <Ionicons name='chevron-back-outline' size={35} color={COLORS.lightseagreen}/>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.container1}>
                     <Image
                         style={styles.imagee}
-                        source={images.otherWordsForHome}
+                        source={{uri: book.ImageURL}}
                             />
                 </View>
                 <View> 
@@ -88,6 +76,8 @@ const BookDetail = () => {
                 <View style={styles.fixButton}>
                     <TouchableOpacity
                         style={styles.button}
+                        onPress={()=>navigation.push("BookPDF",book)}
+                        
                     >
                         <Text style={styles.textButton}>Read PDF</Text>
                     </TouchableOpacity>
@@ -95,6 +85,7 @@ const BookDetail = () => {
                 <View style={styles.fixButton}>
                     <TouchableOpacity
                         style={styles.button}
+                        onPress={()=>navigation.push("BookAudio",book)}
                     >
                         <Text style={styles.textButton}>Listen Audio</Text>
                     </TouchableOpacity>
@@ -170,8 +161,8 @@ const styles = StyleSheet.create({
     },
     imagee:{
         justifyContent:"flex-start",
-        height:400,
-        width:320,
+        height: 300,
+        width: 210,
         paddingTop:50,
         borderRadius:15,
     },

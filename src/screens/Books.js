@@ -162,7 +162,7 @@ const Books = ({navigation}) => {
                   <View style={styles.Book}>
                     <TouchableOpacity
                       style={styles.btnImg}
-                      onPress={() => Alert.alert('Open Detail Book')}>
+                      onPress={() => navigation.push("BookDetail",item)}>
                       <Image style={styles.img} source={{uri: item.ImageURL}} />
                     </TouchableOpacity>
                     <View style={styles.infoBook}>
@@ -189,9 +189,9 @@ const Books = ({navigation}) => {
               }>
               <Picker.Item label="All" value="ALL" />
               <Picker.Item label="Novel" value="NOVEL" />
-              <Picker.Item label="Self Helps" value="SELFHELPS" />
+              <Picker.Item label="Self Helps" value="SELF HELPS" />
               <Picker.Item label="Children's Book" value="CHILDREN" />
-              <Picker.Item label="Works Style" value="WORKSSTYLE" />
+              <Picker.Item label="Works Style" value="WORKS STYLE" />
               <Picker.Item label="Science" value="SCIENCE" />
               <Picker.Item label="Others" value="OTHERS" />
             </Picker>
@@ -220,7 +220,7 @@ const Books = ({navigation}) => {
                   <View style={styles.Book}>
                     <TouchableOpacity
                       style={styles.btnImg}
-                      onPress={() => Alert.alert('Open Detail Book')}>
+                      onPress={() => navigation.push("BookDetail",item)}>
                       <Image style={styles.img} source={{uri: item.ImageURL}} />
                     </TouchableOpacity>
                     <View style={styles.infoBook}>
@@ -257,7 +257,7 @@ const Books = ({navigation}) => {
                       <View style={styles.btnView}>
                         <Button
                           mode="contained"
-                          onPress={() => Alert.alert('View Book')}
+                          onPress={() => navigation.push("BookDetail",item)}
                           style={styles.save}>
                           <Ionicons
                             name="eye-outline"
