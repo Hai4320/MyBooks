@@ -19,15 +19,15 @@ import {AllBooks} from '../redux/selectors';
 const Books = ({navigation}) => {
   const books = useSelector(AllBooks);
   const [booksList, setBooksList] = useState(books);
-  const [filterList, setFilterList] = useState(books);
+  const [filterList, setFilterList] = useState([]);
   useEffect(() => {
     setBooksList(books);
   }, [books]);
   const [selectedValue, setSelectedValue] = useState('ALL');
   const [startValue, setStartValue] = useState('None');
   useEffect(() => {
-    let data = books;
-    let newData = books;
+    let data = books.slice();
+    let newData = books.slice();
     newData = newData.sort((a, b) =>
       a.Title.toLowerCase() < b.Title.toLowerCase() ? 1 : -1,
     );

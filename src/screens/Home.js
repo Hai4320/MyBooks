@@ -8,8 +8,8 @@ import {AllBooks} from '../redux/selectors'
 const Home = ({navigation}) => {
     const books = useSelector(AllBooks);
     const [booksList, setBooksList] = useState(books);
-    var booksList1=[...booksList];
-    var booksList2=[...booksList]
+    var booksList1= booksList.slice();
+    var booksList2= booksList.slide();
     useEffect(()=>{
         setBooksList(books);
     },[books])

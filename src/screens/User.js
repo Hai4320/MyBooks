@@ -16,7 +16,7 @@ const User = ({navigation}) => {
     const [postData,setPostData]= useState([]);
     const books = useSelector(AllBooks);
     const [booksData, setBooksData] = useState(books);
-    const [booksFiter, setBooksFilter] = useState(booksData);
+    const [booksFiter, setBooksFilter] = useState(books.slice());
     const logOut = async ()=>{
         Alert.alert("Log out","You will logout!",[
             // The "Yes" button
