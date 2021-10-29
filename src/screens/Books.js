@@ -12,7 +12,7 @@ import {Text, Searchbar} from 'react-native-paper';
 import {Picker} from '@react-native-picker/picker';
 import Button from '../component/Button';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {COLORS} from '../constants';
+import {COLORS,SIZES} from '../constants';
 import {useSelector} from 'react-redux';
 import {AllBooks} from '../redux/selectors';
 
@@ -74,11 +74,11 @@ const Books = ({navigation}) => {
       });
     }
     if (startValue == 'A') {
-        newData.sort((a, b) => a.Title.localeCompare(b.Title)
+        newData.sort((a, b) => a.Title>=b.Title
       );
     }
     if (startValue == 'Z') {
-      newData.sort((a, b) => !a.Title.localeCompare(b.Title)
+       newData.sort((a, b) => a.Title<b.Title
       );
     }
     setFilterList(newData);
@@ -152,6 +152,7 @@ const Books = ({navigation}) => {
           ) : (
             <View>
               <FlatList
+                style={{height: SIZES.height-150}}
                 data={resultData}
                 renderItem={({item}) => (
                   <View style={styles.Book}>
@@ -205,11 +206,12 @@ const Books = ({navigation}) => {
           <View>
             {booksList.length === 0 ? (
               <FlatList
-                data={[...Array(2).keys()]}
+                data={[...Array(3).keys()]}
                 renderItem={({item}) => <View style={styles.waitIMG} />}
               />
             ) : (
               <FlatList
+                style={{height: SIZES.height-150}}
                 data={filterList}
                 renderItem={({item}) => (
                   <View style={styles.Book}>

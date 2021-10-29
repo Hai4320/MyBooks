@@ -79,11 +79,11 @@ const User = ({navigation}) => {
     useEffect(()=>{
         const temp = booksData.slice()
         if (labelactive2===0)
-            temp.sort((a,b)=> a.Author.localeCompare(b.Author));
+            temp.sort((a,b)=> a.Author>=b.Author);
         if (labelactive2===1)
-            temp.sort((a,b)=> a.Title.localeCompare(b.Title) );
+            temp.sort((a,b)=> a.Title<=b.Title );
         if (labelactive2===2)
-            temp.sort((a,b)=> !a.Title.localeCompare(b.Title)  ); 
+            temp.sort((a,b)=> !a.Title>b.Title  ); 
             setBooksFilter(temp);
     },[labelactive2]);
     return (
