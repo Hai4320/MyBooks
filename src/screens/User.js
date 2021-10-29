@@ -16,7 +16,7 @@ const User = ({navigation}) => {
     const [postData,setPostData]= useState([]);
     const books = useSelector(AllBooks);
     const [booksData, setBooksData] = useState(books);
-    const [booksFiter, setBooksFilter] = useState(books.slice());
+    const [booksFiter, setBooksFilter] = useState([]);
     const logOut = async ()=>{
         Alert.alert("Log out","You will logout!",[
             // The "Yes" button
@@ -77,13 +77,15 @@ const User = ({navigation}) => {
         
     },[]);
     useEffect(()=>{
+        const temp = booksData.slice()
         if (labelactive2===0)
-            booksFiter.sort((a,b)=> a.Author>b.Author);
+            temp.sort((a,b)=> a.Author.localeCompare(b.Author));
         if (labelactive2===1)
-            booksFiter.sort((a,b)=> a.Title>b.Title );
+            temp.sort((a,b)=> a.Title.localeCompare(b.Title) );
         if (labelactive2===2)
-            booksFiter.sort((a,b)=> a.Title<b.Title );
-    },[labelactive2])
+            temp.sort((a,b)=> !a.Title.localeCompare(b.Title)  ); 
+            setBooksFilter(temp);
+    },[labelactive2]);
     return (
         <ScrollView 
         style={styles.container} 

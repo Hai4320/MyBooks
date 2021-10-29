@@ -8,15 +8,15 @@ import {AllBooks} from '../redux/selectors'
 const Home = ({navigation}) => {
     const books = useSelector(AllBooks);
     const [booksList, setBooksList] = useState(books);
-    var booksList1= booksList.slice();
-    var booksList2= booksList.slide();
+    var booksList1 = booksList.slice();
+    var booksList2 = booksList.slice();
     useEffect(()=>{
         setBooksList(books);
     },[books])
     useEffect(()=>{
         booksList1.sort((a,b)=> a.Title>b.Title);
         booksList2.sort((a,b)=> a.Title<b.Title)
-    })
+    },[booksList])
     return (
         
         <ScrollView

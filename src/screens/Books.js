@@ -26,13 +26,10 @@ const Books = ({navigation}) => {
   const [selectedValue, setSelectedValue] = useState('ALL');
   const [startValue, setStartValue] = useState('None');
   useEffect(() => {
-    let data = books.slice();
-    let newData = books.slice();
-    newData = newData.sort((a, b) =>
-      a.Title.toLowerCase() < b.Title.toLowerCase() ? 1 : -1,
-    );
+    let data = booksList.slice();
+    let newData = []; 
     if (selectedValue == 'ALL') {
-      newData = books;
+      newData = data;
     }
     if (selectedValue == 'NOVEL') {
       newData = data.filter(item => {
@@ -77,17 +74,15 @@ const Books = ({navigation}) => {
       });
     }
     if (startValue == 'A') {
-      newData = newData.sort((a, b) =>
-        a.Title.toLowerCase() < b.Title.toLowerCase() ? 1 : -1,
+        newData.sort((a, b) => a.Title.localeCompare(b.Title)
       );
     }
     if (startValue == 'Z') {
-      newData = newData.sort((a, b) =>
-        a.Title.toLowerCase() < b.Title.toLowerCase() ? -1 : 1,
+      newData.sort((a, b) => !a.Title.localeCompare(b.Title)
       );
     }
     setFilterList(newData);
-  }, [books, selectedValue, startValue]);
+  }, [booksList, selectedValue, startValue]);
   const [searchQuery, setSearchQuery] = React.useState('');
   const onChangeSearch = query => setSearchQuery(query);
   const [resultData, setResultData] = React.useState('');
