@@ -3,15 +3,23 @@ import { View, Text, Image, FlatList, ScrollView, StyleSheet, TouchableOpacity }
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import {COLORS} from '../constants'
 import {useSelector} from 'react-redux'
-import {AllBooks} from '../redux/selectors'
+import {AllBooks, AllBooksViewData} from '../redux/selectors'
 
 const Home = ({navigation}) => {
     const books = useSelector(AllBooks);
-    const [booksList, setBooksList] = useState(books);
+    const booksViewData = useSelector(AllBooksViewData);
+    const booksView = books.slice();
+    useEffect(()=>{
+        booksView.map( item =>{
+            item.view = booksViewData.filter(x => x.bookID === item._id)[0].view;
+            item.like = booksViewData.filter(x => x.bookID === item._id)[0].like;
+        })
+    },[books])
+    const [booksList, setBooksList] = useState([]);
     var booksList1 = booksList.slice();
     var booksList2 = booksList.slice();
     useEffect(()=>{
-        setBooksList(books);
+        setBooksList(booksView);
     },[books])
     useEffect(()=>{
         booksList1.sort((a,b)=> a.Title>b.Title);
@@ -99,17 +107,17 @@ const Home = ({navigation}) => {
                     <Image style={ styles.imageCSSBS } source={{uri: item.ImageURL}}/>
                     <View style={{paddingLeft: 10, paddingBottom: 5, justifyContent: 'space-between'}}>
                         <View>
-                            <Text style={{ fontSize: 16, fontWeight: 'bold',    color: COLORS.black}}>Hành trình về Phương Đông</Text>
+                            <Text style={{ fontSize: 16, fontWeight: 'bold',    color: COLORS.black}}>{item.Title}</Text>
                             <Text style={{ fontSize: 14, color: COLORS.gray}}>Nguyễn Phong</Text>
                         </View>
                         <View style={{flexDirection: 'row'}}>
                             <View style={styles.followNLike}>
                                 <Ionicons name='eye' style={[styles.ioiconCSS,{color: COLORS.button}]}/>
-                                <Text style={{color: COLORS.button, fontSize: 12}}>164</Text>
+                                <Text style={{color: COLORS.button, fontSize: 12}}>{item.view}</Text>
                             </View>
                             <View style={styles.followNLike}>
                                 <Ionicons name='heart' style={[styles.ioiconCSS,{color: COLORS.love}]}/>
-                                <Text style={{color: COLORS.love, fontSize: 12}}>164</Text>
+                                <Text style={{color: COLORS.love, fontSize: 12}}>{item.like}</Text>
                             </View>
                         </View>
                         <View style={{flexDirection: 'row'}}>

@@ -19,6 +19,7 @@ export const COLORS = {
   black66: "#666666",
   love: "#ff009e",
   borColor: '#FF6666',
+  backmain: '#ff634780'
 };
 
 export const SIZES = {
