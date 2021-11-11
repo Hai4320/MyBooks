@@ -13,16 +13,37 @@ import {Picker} from '@react-native-picker/picker';
 import Button from '../component/Button';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {COLORS,SIZES} from '../constants';
-import {useSelector} from 'react-redux';
-import {AllBooks} from '../redux/selectors';
+import {useSelector, useDispatch} from 'react-redux';
+import {AllBooks, AllBooksViewData, AllBooksHistory} from '../redux/selectors'
+import { viewBook } from '../redux/actions/bookAction';
 
 const Books = ({navigation}) => {
-  const books = useSelector(AllBooks);
-  const [booksList, setBooksList] = useState(books);
-  const [filterList, setFilterList] = useState([]);
-  useEffect(() => {
-    setBooksList(books);
-  }, [books]);
+  const dispatch = useDispatch();
+    const books = useSelector(AllBooks);
+    const booksViewData = useSelector(AllBooksViewData);
+    const booksHistory = useSelector(AllBooksHistory);
+    const [filterList, setFilterList] = useState([]);
+    const booksView = books.slice();
+    const handleView = async (item)=>{
+        navigation.push("BookDetail",item)
+        if (booksHistory.find(book => book.bookID===item._id)===undefined){
+            console.log('hahaha')
+            const result = await dispatch(viewBook(item._id));
+        }
+    }
+    //Set data view, like
+    useEffect(()=>{
+        booksView.map( item =>{
+            item.view = booksViewData.filter(x => x.bookID === item._id)[0].view;
+            item.like = booksViewData.filter(x => x.bookID === item._id)[0].like;
+        })
+    },[books,booksViewData])
+    
+    //BookList: all book data
+    const [booksList, setBooksList] = useState([]);
+    useEffect(()=>{
+        setBooksList(booksView);
+    },[books,booksViewData]) 
   const [selectedValue, setSelectedValue] = useState('ALL');
   const [startValue, setStartValue] = useState('None');
   useEffect(() => {
@@ -239,7 +260,7 @@ const Books = ({navigation}) => {
                               size={21}
                               color={COLORS.main}
                             />
-                            1703
+                            {item.view}
                           </Text>
                           <Text>
                             <Ionicons
@@ -247,7 +268,7 @@ const Books = ({navigation}) => {
                               size={21}
                               color={COLORS.main}
                             />
-                            2000
+                            {item.like}
                           </Text>
                         </View>
                       </View>
