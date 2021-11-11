@@ -5,7 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import {useSelector, useDispatch} from 'react-redux';
 import {AllBooksHistory} from '../redux/selectors'
-import { likeBook } from '../redux/actions/bookAction';
+import { likeBook,saveBook} from '../redux/actions/bookAction';
 
 
 // const images = { source={require('')} };
@@ -20,6 +20,10 @@ const BookDetail = ({navigation, route}) => {
     const handleLike= async ()=>{
         const result = await dispatch(likeBook(book._id));
        
+    }
+    const handleSave= async ()=>{
+        const result = await dispatch(saveBook(book._id));
+        ToastAndroid.show("save", ToastAndroid.SHORT)
     }
     return (
         <ScrollView style={styles.container}>
@@ -73,7 +77,7 @@ const BookDetail = ({navigation, route}) => {
                 <View style={styles.fixButton}>
                     <TouchableOpacity
                     style={{ width: '80%', height: 40, borderRadius: 50, backgroundColor: COLORS.backmain, justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}
-                    onPress={()=> ToastAndroid.show("save", ToastAndroid.SHORT)}>
+                    onPress={()=> handleSave()}>
                         <Ionicons name={history===undefined || history.saved ===false ?"bookmark-outline": "bookmark"} style={{ fontSize: 20, color: COLORS.white}}/>
                         <Text style={{fontSize:15, marginLeft: 4, color: COLORS.white}}>{history===undefined || history.saved ===false ? "Save": "Saved"}</Text>
                     </TouchableOpacity>

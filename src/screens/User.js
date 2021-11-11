@@ -5,18 +5,78 @@ import {images, COLORS, SIZES} from '../constants'
 import {LoadImageUrl} from '../component/LoadImage'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useSelector, useDispatch} from 'react-redux'
-import {AllBooks} from '../redux/selectors'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {AllBooks, AllBooksViewData, AllBooksHistory} from '../redux/selectors'
+import { viewBook } from '../redux/actions/bookAction';
 
 
 const User = ({navigation}) => {
+    const dispatch = useDispatch();
+    //Tab sort
     const [labelactive, setLabelActive]= useState(0);
     const [labelactive2, setLabelActive2]= useState(0);
-    const [user,setUser] =useState({name: '', avatar:'',email: '', role: '',});
-    const [postData,setPostData]= useState([]);
+    //Book Data
     const books = useSelector(AllBooks);
+    const booksViewData = useSelector(AllBooksViewData);
+    const booksHistory = useSelector(AllBooksHistory);
     const [booksData, setBooksData] = useState(books);
     const [booksFiter, setBooksFilter] = useState([]);
+    const booksView = books.slice();
+    useEffect(()=>{
+        booksView.map( item =>{
+            item.view = booksViewData.filter(x => x.bookID === item._id)[0].view;
+            item.like = booksViewData.filter(x => x.bookID === item._id)[0].like;
+        })
+    },[books,booksViewData])
+    useEffect(()=>{
+        setBooksData(booksView);
+    },[books,booksViewData]) 
+    useEffect(()=>{
+        var temp;
+        if (labelactive2===0)
+            temp = (booksData.slice()).filter(item => booksHistory.find(x => x.bookID === item._id && x.saved===true)!==undefined);
+        else if (labelactive2===1)
+            temp = (booksData.slice()).filter(item => booksHistory.find(x => x.bookID === item._id && x.liked===true)!==undefined);
+        else if (labelactive2===2)
+            temp = (booksData.slice()).filter(item => booksHistory.find(x => x.bookID === item._id)!==undefined);
+        setBooksFilter(temp);
+    },[labelactive2,booksHistory]);
+    const handleView = async (item)=>{
+        navigation.push("BookDetail",item)
+        if (booksHistory.find(book => book.bookID===item._id)===undefined){
+            console.log('hahaha')
+            const result = await dispatch(viewBook(item._id));
+        }
+    }
+    // Post Data
+    const [postData,setPostData]= useState([]);
+    const x=[];
+    for (var i=0; i<10; i++){
+        const post = {
+            key: i,
+            title: 'Top 3 cuốn tiểu thuyết tình yêu hay nhất',
+            user: 'Admin',
+            date: '20/10/2021',
+            image: images.theTinyDragon,
+            liked: 11,
+            viewd: 24,
+            comment: 3
+        }
+        x.push(post)
+    }
+    useEffect(()=>{
+        setPostData(x)
+    },[])
+    //--------------- User Data
+    const [user,setUser] =useState({name: '', avatar:'',email: '', role: '',});
+    useEffect(async ()=>{
+        const x = await userData();
+        if (x!==null){
+            if (x.avatar!=='') x.avatarURL = await LoadImageUrl(x.avatar);
+            setUser(x);
+        }
+    },[]);
+    //Log Out Function
     const logOut = async ()=>{
         Alert.alert("Log out","You will logout!",[
             // The "Yes" button
@@ -41,51 +101,8 @@ const User = ({navigation}) => {
             {
               text: "No",
             },
-          ])
-        
-        
-        
+          ])   
     }
-
-    useEffect(()=>{
-        setBooksData(books);
-    });
-
-    const x=[];
-    for (var i=0; i<10; i++){
-        const post = {
-            key: i,
-            title: 'Top 3 cuốn tiểu thuyết tình yêu hay nhất',
-            user: 'Admin',
-            date: '20/10/2021',
-            image: images.theTinyDragon,
-            liked: 11,
-            viewd: 24,
-            comment: 3
-        }
-        x.push(post)
-    }
-    useEffect(()=>{
-        setPostData(x)
-    },[])
-    useEffect(async ()=>{
-        const x = await userData();
-        if (x!==null){
-            if (x.avatar!=='') x.avatarURL = await LoadImageUrl(x.avatar);
-            setUser(x);
-        }
-        
-    },[]);
-    useEffect(()=>{
-        const temp = booksData.slice()
-        if (labelactive2===0)
-            temp.sort((a,b)=> a.Author>=b.Author);
-        if (labelactive2===1)
-            temp.sort((a,b)=> a.Title<=b.Title );
-        if (labelactive2===2)
-            temp.sort((a,b)=> !a.Title>b.Title  ); 
-            setBooksFilter(temp);
-    },[labelactive2]);
     return (
         <ScrollView 
         style={styles.container} 
@@ -166,13 +183,17 @@ const User = ({navigation}) => {
                         </Text>
                     </TouchableOpacity>
                 </View>
+                {/* --------------- Set Book View -----------*/}
                 {booksFiter.length===0? 
                 <Text>Nothing</Text>
                 : <ScrollView 
                 style={{flex: 1, width: '100%', height: '100%'}} 
                 nestedScrollEnabled = {true}>
                     {booksFiter.map((item)=>
-                    <TouchableOpacity style={{height: 110, marginTop: 10, flexDirection: 'row'}} key={item._id}>
+                    <TouchableOpacity 
+                    style={{height: 110, marginTop: 10, flexDirection: 'row'}} 
+                    key={item._id}
+                    onPress={() => handleView(item)}>
                         <Image style={{height: 100, width: 100, margin: 5, resizeMode: 'contain',}} source={{uri: item.ImageURL}} />
                         <View style={{height: 110, flex: 1, flexDirection: 'column'} }>
                             <Text style={{fontSize: 15, width: '100%', height: 40, fontWeight: 'bold', marginTop: 5, color: COLORS.black33}} numberOfLines={2}>{item.Title}</Text>
@@ -180,16 +201,16 @@ const User = ({navigation}) => {
                             <View style={{marginTop: 5, height: 20, alignItems: 'center', flexDirection: 'row', width: '100%', }}>
                                 <View style={{flexDirection: 'row', marginRight: 10, alignItems: 'center', width: 60 }}>
                                     <Ionicons name='eye-outline' style={{color: COLORS.button}}/>
-                                    <Text style={{fontSize: 13, width: '100%', color: COLORS.button, marginLeft: 2}}>40</Text>
+                                    <Text style={{fontSize: 13, width: '100%', color: COLORS.button, marginLeft: 2}}>{item.view}</Text>
                                 </View>
                                 <View style={{flexDirection: 'row', marginRight: 10, alignItems: 'center', width: 60 }}>
                                     <Ionicons name='heart-outline' style={{color: COLORS.love}}/>
-                                    <Text style={{fontSize: 13, width: '100%', color: COLORS.love, marginLeft: 2}}>22</Text>
+                                    <Text style={{fontSize: 13, width: '100%', color: COLORS.love, marginLeft: 2}}>{item.like}</Text>
                                 </View>
-                                <View style={{flexDirection: 'row', marginRight: 10, alignItems: 'center', width: 60 }}>
+                                {/* <View style={{flexDirection: 'row', marginRight: 10, alignItems: 'center', width: 60 }}>
                                     <Ionicons name='chatbox-outline' style={{color: COLORS.black33}}/>
                                     <Text style={{fontSize: 13, width: '100%', color: COLORS.black33, marginLeft: 2}}>10</Text>
-                                </View>
+                                </View> */}
                             </View>
                         </View>
                     </TouchableOpacity>
@@ -201,6 +222,7 @@ const User = ({navigation}) => {
                     <TouchableOpacity style={styles.addBtn}>
                         <Ionicons name='add-outline' style={{fontSize: 30, color: COLORS.white}}/>
                     </TouchableOpacity>
+                    {/* --------------Set Post View ------------------*/}
                     {postData.length===0? 
                     <Text>Your Post is empty </Text>
                     :<ScrollView 
