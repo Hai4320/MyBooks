@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect,useMemo} from 'react';
 import {
   View,
   StyleSheet,
@@ -23,7 +23,7 @@ const Books = ({navigation}) => {
     const booksViewData = useSelector(AllBooksViewData);
     const booksHistory = useSelector(AllBooksHistory);
     const [filterList, setFilterList] = useState([]);
-    const booksView = books.slice();
+    const booksView = useMemo(() => books.slice(), [books]);
     const handleView = async (item)=>{
         navigation.push("BookDetail",item)
         if (booksHistory.find(book => book.bookID===item._id)===undefined){

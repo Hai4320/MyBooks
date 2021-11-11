@@ -1,12 +1,14 @@
-import React,{useState,useEffect} from 'react';
-import { ImageBackground, StyleSheet, Text, View,Image,ScrollView ,TouchableOpacity,TextInput, ToastAndroid} from "react-native";
+import React,{useState,useEffect,useCallback} from 'react';
+import { ImageBackground, StyleSheet, Text, View,Image,ScrollView ,TouchableOpacity,TextInput, ToastAndroid, RefreshControl} from "react-native";
 import {COLORS,images} from '../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import {useSelector, useDispatch} from 'react-redux';
 import {AllBooksHistory} from '../redux/selectors'
 import { likeBook,saveBook} from '../redux/actions/bookAction';
-
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
 // const images = { source={require('')} };
 const BookDetail = ({navigation, route}) => {
@@ -25,8 +27,23 @@ const BookDetail = ({navigation, route}) => {
         const result = await dispatch(saveBook(book._id));
         ToastAndroid.show("save", ToastAndroid.SHORT)
     }
+    //refreshing
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(1000).then(() => setRefreshing(false));
+  }, []);
+    // Show state 
+    const [show1, setShow1] = useState(false);
+    const [show2, setShow2] = useState(false);
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={styles.container}
+            refreshControl={
+                <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                />
+            }>
             {/* Header Image */}
             <ImageBackground source={require('../assets/images/background5.jpg')} style={styles.image}>
                 <View>
@@ -126,26 +143,39 @@ const BookDetail = ({navigation, route}) => {
                 
                 
                 <View style={styles.viewCompany}>
-                <Text style={styles.textCompany}>Star :</Text>
+                <Text style={styles.textCompany}>Publisher:</Text>
                 <TouchableOpacity
                         style={styles.buttonCompany}
                     >
-                        <Text style={styles.textButtonCompany}>{book.Star}</Text>
+                        <Text style={styles.textButtonCompany} numberOfLines={1}>{book.PublishingCompany}</Text>
                     </TouchableOpacity>
                 </View>
             </ImageBackground>
+            {/* Description */}
             <View style={styles.areaDescription}>    
-                <View>
-                    <Text style={styles.text1}>Description</Text>
-                    <Text style={styles.textDescription}>{book.Description}</Text>
+                <TouchableOpacity style={styles.titleDescription}
+                onPress={() => setShow1(!show1)}>
+                    <Text style={styles.textDescription} numberOfLines={1}>Description</Text>
+                    <Ionicons name="caret-down" style={styles.iconDescription}></Ionicons>
+                </TouchableOpacity>
+                { show1? 
+                <View style={{padding: 10}}>
+                    <Text>{book.Description}</Text>
                 </View>
-                <View style={styles.viewInput}>
-                    <TextInput style={styles.textInput}
+                : null}
+            </View>
+            {/* Chat */}
+            <View style={styles.areaDescription}>    
+                <TouchableOpacity style={styles.titleDescription}>
+                    <Text style={styles.textDescription} numberOfLines={1}>Comments</Text>
+                    <Ionicons name="chatbox-ellipses" style={styles.iconDescription}></Ionicons>
+                </TouchableOpacity>
+                <TextInput style={styles.textInput}
                         multiline={true}
                         numberOfLines={4}
                         placeholder="Write your comment"/>   
-                </View>
             </View>
+                    
         </ScrollView>
                 
         
@@ -154,6 +184,7 @@ const BookDetail = ({navigation, route}) => {
 }
 const styles = StyleSheet.create({
     container: {
+        backgroundColor: COLORS.white,
     },
     container1:{
         paddingTop:5,
@@ -164,7 +195,7 @@ const styles = StyleSheet.create({
         height: 30,
         flexDirection : "row",
         alignItems : "center",
-        marginLeft: '20%',
+        marginLeft: '10%',
 
     },
     textCompany:{
@@ -212,14 +243,35 @@ const styles = StyleSheet.create({
         borderRadius:15,
     },
     areaDescription:{
-        backgroundColor:COLORS.gainsboro,
-        borderRadius:20,
+        marginTop: 10,
+        marginBottom: 10,
+        backgroundColor: COLORS.white,
+        width:"100%",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+    },
+    titleDescription:{
+        height: 40,
+        width: "95%",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: COLORS.lavender,
+        borderRadius: 5, 
+
+
     },
     textDescription:{
-        fontSize:17,
-        paddingTop:10,
-        padding:10,
-        textAlign: "justify",
+        fontSize:18,
+        color: COLORS.white
+        
+    },
+    iconDescription:{
+        fontSize:20,
+        color: COLORS.white, 
+        marginLeft:10,
+        justifyContent: 'center',
     },
     text1:{
         textAlign: "center",

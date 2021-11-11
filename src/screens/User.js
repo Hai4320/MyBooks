@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useMemo, useCallback} from 'react'
 import { View, Text, ScrollView, Image, StyleSheet,TouchableOpacity,Button,TouchableHighlight, Alert} from 'react-native'
 import { userData } from '../component/AsyncStorage'
 import {images, COLORS, SIZES} from '../constants'
@@ -21,7 +21,7 @@ const User = ({navigation}) => {
     const booksHistory = useSelector(AllBooksHistory);
     const [booksData, setBooksData] = useState(books);
     const [booksFiter, setBooksFilter] = useState([]);
-    const booksView = books.slice();
+    const booksView = useMemo(() => books.slice(), [books]);
     useEffect(()=>{
         booksView.map( item =>{
             item.view = booksViewData.filter(x => x.bookID === item._id)[0].view;
@@ -51,19 +51,21 @@ const User = ({navigation}) => {
     // Post Data
     const [postData,setPostData]= useState([]);
     const x=[];
-    for (var i=0; i<10; i++){
-        const post = {
-            key: i,
-            title: 'Top 3 cuốn tiểu thuyết tình yêu hay nhất',
-            user: 'Admin',
-            date: '20/10/2021',
-            image: images.theTinyDragon,
-            liked: 11,
-            viewd: 24,
-            comment: 3
+    useEffect(()=>{
+        for (var i=0; i<10; i++){
+            const post = {
+                key: i,
+                title: 'Top 3 cuốn tiểu thuyết tình yêu hay nhất',
+                user: 'Admin',
+                date: '20/10/2021',
+                image: images.theTinyDragon,
+                liked: 11,
+                viewd: 24,
+                comment: 3
+            }
+            x.push(post)
         }
-        x.push(post)
-    }
+    },[]) 
     useEffect(()=>{
         setPostData(x)
     },[])

@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect, useMemo} from 'react'
 import { View, Text, Image, FlatList, ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import {COLORS} from '../constants'
@@ -11,7 +11,7 @@ const Home = ({navigation}) => {
     const books = useSelector(AllBooks);
     const booksViewData = useSelector(AllBooksViewData);
     const booksHistory = useSelector(AllBooksHistory);
-    const booksView = books.slice();
+    const booksView = useMemo(() => books.slice(), [books]);
     const handleView = async (item)=>{
         navigation.push("BookDetail",item)
         if (booksHistory.find(book => book.bookID===item._id)===undefined){
@@ -34,12 +34,8 @@ const Home = ({navigation}) => {
     },[books,booksViewData]) 
     //create 2 list
   
-    var booksList1 = booksList.slice();
-    var booksList2 = booksList.slice();
-    useEffect(()=>{
-        booksList1.sort((a,b)=> a.Title>b.Title);
-        booksList2.sort((a,b)=> a.Title<b.Title)
-    },[booksList])
+    var booksList1 =  useMemo(() => booksList.slice().sort((a,b)=> a.Title>b.Title),[booksList]);
+    var booksList2 = useMemo(() => booksList.slice().sort((a,b)=> a.Title<b.Title),[booksList]);
     //Loading Book
     return (
         
