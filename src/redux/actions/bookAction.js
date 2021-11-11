@@ -1,4 +1,4 @@
-import { getBooks_URL, getBooksHistorys_URL, likeBook_URL } from "../api";
+import { getBooks_URL, getBooksHistorys_URL, likeBook_URL, viewBook_URL } from "../api";
 import {GET_BOOKS, LIKE_BOOK} from '../types';
 import LoadImageUrl from "../../component/LoadImage"
 import { userData } from '../../component/AsyncStorage'
@@ -54,6 +54,33 @@ export const likeBook = (bookID) => async (dispatch) =>{
     try {
         const user = await userData();
         const result = await fetch(likeBook_URL, 
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },  
+                body: JSON.stringify({
+                    userID: user.id,
+                    bookID: bookID
+                })
+
+            }
+        );
+        console.log(result.status);
+        const data = await result.json();
+        dispatch({
+            type: LIKE_BOOK,
+            payload: data
+        });
+    } catch (error) {
+        console.error(err);
+    }
+}
+export const viewBook = (bookID) => async (dispatch) =>{
+    try {
+        const user = await userData();
+        const result = await fetch(viewBook_URL, 
             {
                 method: 'POST',
                 headers: {

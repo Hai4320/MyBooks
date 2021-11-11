@@ -2,13 +2,23 @@ import React,{useState,useEffect} from 'react'
 import { View, Text, Image, FlatList, ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import {COLORS} from '../constants'
-import {useSelector} from 'react-redux'
-import {AllBooks, AllBooksViewData} from '../redux/selectors'
+import {useSelector,useDispatch} from 'react-redux'
+import {AllBooks, AllBooksViewData, AllBooksHistory} from '../redux/selectors'
+import { viewBook } from '../redux/actions/bookAction';
 
 const Home = ({navigation}) => {
+    const dispatch = useDispatch();
     const books = useSelector(AllBooks);
     const booksViewData = useSelector(AllBooksViewData);
+    const booksHistory = useSelector(AllBooksHistory);
     const booksView = books.slice();
+    const handleView = async (item)=>{
+        navigation.push("BookDetail",item)
+        if (booksHistory.find(book => book.bookID===item._id)===undefined){
+            console.log('hahaha')
+            const result = await dispatch(viewBook(item._id));
+        }
+    }
     //Set data view, like
     useEffect(()=>{
         booksView.map( item =>{
@@ -16,6 +26,7 @@ const Home = ({navigation}) => {
             item.like = booksViewData.filter(x => x.bookID === item._id)[0].like;
         })
     },[books,booksViewData])
+    
     //BookList: all book data
     const [booksList, setBooksList] = useState([]);
     useEffect(()=>{
@@ -29,12 +40,6 @@ const Home = ({navigation}) => {
         booksList1.sort((a,b)=> a.Title>b.Title);
         booksList2.sort((a,b)=> a.Title<b.Title)
     },[booksList])
-    //Reload when backgroundColor
-    useEffect(()=>{
-        const backAction = navigation.addListener('focus', () => {
-        });
-        return backAction;
-    },[navigation])
     //Loading Book
     return (
         
@@ -60,7 +65,7 @@ const Home = ({navigation}) => {
                     renderItem={({item}) => 
                     <TouchableOpacity 
                     style={styles.imageContainer}
-                    onPress={()=>navigation.push("BookDetail",item)}
+                    onPress={()=>handleView(item)}
                     >
                         <Image style={ styles.imageCSS } source={{uri: item.ImageURL}}/>
                         <Text style={{ fontSize: 15, fontWeight: 'bold', textAlign: 'center'}} numberOfLines={2}>{item.Title}</Text>
@@ -90,7 +95,7 @@ const Home = ({navigation}) => {
                     renderItem={({item}) => 
                     <TouchableOpacity 
                     style={styles.imageContainer}
-                    onPress={()=>navigation.push("BookDetail",item)}>
+                    onPress={()=>handleView(item)}>
                         <Image style={ styles.imageCSS } source={{uri: item.ImageURL}}/>
                         <Text style={{ fontSize: 15, fontWeight: 'bold', textAlign: 'center'}} numberOfLines={2}>{item.Title}</Text>
                         <Text style={{ textAlign: 'center', color: COLORS.button}} numberOfLines={2}>{item.Author}</Text>
@@ -114,7 +119,7 @@ const Home = ({navigation}) => {
                     <TouchableOpacity 
                     style={styles.imageContainerBS} 
                     key={item._id}
-                    onPress={()=>navigation.push("BookDetail",item)}>
+                    onPress={()=>handleView(item)}>
                     <Image style={ styles.imageCSSBS } source={{uri: item.ImageURL}}/>
                     <View style={{paddingLeft: 10, paddingBottom: 5, justifyContent: 'space-between'}}>
                         <View>
