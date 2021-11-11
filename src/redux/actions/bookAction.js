@@ -71,7 +71,7 @@ export const likeBook = (bookID) => async (dispatch) =>{
         const data = await result.json();
         dispatch({
             type: LIKE_BOOK,
-            payload: data.AllBookHistorys
+            payload: data
         });
     } catch (error) {
         console.error(err);

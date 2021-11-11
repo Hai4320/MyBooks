@@ -8,14 +8,18 @@ import {AllBooksHistory} from '../redux/selectors'
 import { likeBook } from '../redux/actions/bookAction';
 
 
-// file của thg hiếu
 // const images = { source={require('')} };
 const BookDetail = ({navigation, route}) => {
     const dispatch = useDispatch();
     const [book, setBook] = useState(route.params);
-    const [history,setHistory] =  useState(useSelector(AllBooksHistory).find(item => book._id === item.bookID));
+    const data = useSelector(AllBooksHistory).find(item => book._id === item.bookID);
+    const [history,setHistory] =  useState(data)
+    useEffect(()=>{
+        setHistory(data)
+    },[data])
     const handleLike= async ()=>{
         const result = await dispatch(likeBook(book._id));
+       
     }
     return (
         <ScrollView style={styles.container}>
@@ -42,15 +46,16 @@ const BookDetail = ({navigation, route}) => {
                 </View>
                 {/* View like */}
                 <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 10}}>
+                <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: 100}}>
+                        <Ionicons name='eye-outline' style={{fontSize: 20, color: COLORS.button}}/>
+                        <Text style={{fontSize: 14, marginLeft: 2, color: COLORS.button, paddingRight: 5,}}>{book.view} </Text>
+                    </TouchableOpacity>
                    <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: 100}}
                    onPress={()=> handleLike()}>
                         <Ionicons name={history===undefined || history.liked ===false ? 'heart-outline':'heart'}  style={{fontSize: 20, color: COLORS.love}}/>
                         <Text style={{fontSize: 14, marginLeft: 2, color: COLORS.love}}>{book.like} </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: 100}}>
-                        <Ionicons name='eye-outline' style={{fontSize: 20, color: COLORS.black33}}/>
-                        <Text style={{fontSize: 14, marginLeft: 2, color: COLORS.black33, paddingRight: 5, color: COLORS.black33}}>{book.view} </Text>
-                    </TouchableOpacity>
+                    
                     
                </View>
                 <Rating

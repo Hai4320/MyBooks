@@ -9,22 +9,33 @@ const Home = ({navigation}) => {
     const books = useSelector(AllBooks);
     const booksViewData = useSelector(AllBooksViewData);
     const booksView = books.slice();
+    //Set data view, like
     useEffect(()=>{
         booksView.map( item =>{
             item.view = booksViewData.filter(x => x.bookID === item._id)[0].view;
             item.like = booksViewData.filter(x => x.bookID === item._id)[0].like;
         })
-    },[books])
+    },[books,booksViewData])
+    //BookList: all book data
     const [booksList, setBooksList] = useState([]);
-    var booksList1 = booksList.slice();
-    var booksList2 = booksList.slice();
     useEffect(()=>{
         setBooksList(booksView);
-    },[books])
+    },[books,booksViewData]) 
+    //create 2 list
+  
+    var booksList1 = booksList.slice();
+    var booksList2 = booksList.slice();
     useEffect(()=>{
         booksList1.sort((a,b)=> a.Title>b.Title);
         booksList2.sort((a,b)=> a.Title<b.Title)
     },[booksList])
+    //Reload when backgroundColor
+    useEffect(()=>{
+        const backAction = navigation.addListener('focus', () => {
+        });
+        return backAction;
+    },[navigation])
+    //Loading Book
     return (
         
         <ScrollView

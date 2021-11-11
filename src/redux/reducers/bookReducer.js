@@ -12,7 +12,7 @@ function bookReducer(state = INIT_STATE, action) {
         case GET_BOOKS: 
             return {...state, books: action.payload.data1, history: action.payload.data2.bookForUser, booksViewData: action.payload.data2.AllBookHistorys}
         case LIKE_BOOK: 
-            return {...state, history: action.payload}
+            return {...state, history: action.payload.bookForUser, booksViewData: action.payload.AllBookHistorys}
             default: 
             return state;
     }
