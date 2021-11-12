@@ -13,4 +13,7 @@ export const viewBook_URL= API +"/books/view"
 export const likeBook_URL= API +"/books/like"
 export const saveBook_URL= API +"/books/save"
 
+//Comments
+export const getComments_URL= API + "/comments/get"
+export const createComments_URL= API +"/comments/add"
 
