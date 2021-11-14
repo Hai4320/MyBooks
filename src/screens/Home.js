@@ -4,7 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import {COLORS} from '../constants'
 import {useSelector,useDispatch} from 'react-redux'
 import {AllBooks, AllBooksViewData, AllBooksHistory} from '../redux/selectors'
-import { viewBook } from '../redux/actions/bookAction';
+import { viewBook} from '../redux/actions/bookAction';
 
 const Home = ({navigation}) => {
     const dispatch = useDispatch();
@@ -15,7 +15,6 @@ const Home = ({navigation}) => {
     const handleView = async (item)=>{
         navigation.push("BookDetail",item)
         if (booksHistory.find(book => book.bookID===item._id)===undefined){
-            console.log('hahaha')
             const result = await dispatch(viewBook(item._id));
         }
     }

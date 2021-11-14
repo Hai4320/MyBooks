@@ -1,5 +1,5 @@
 import { getBooks_URL, getBooksHistorys_URL, likeBook_URL, viewBook_URL,saveBook_URL, getComments_URL } from "../api";
-import {GET_BOOKS, LIKE_BOOK} from '../types';
+import {GET_BOOKS, LIKE_BOOK, GET_COMMENTS} from '../types';
 import LoadImageUrl from "../../component/LoadImage"
 import { userData } from '../../component/AsyncStorage'
 
@@ -143,16 +143,16 @@ export const getComments = (bookID) => async (dispatch) =>{
                 },  
                 body: JSON.stringify({
                     userID: user.id,
-                    bookID: bookID,
+                    focusID: bookID,
                     type: 1,
                 })
 
             }
         );
-        console.log(result.status);
+
         const data = await result.json();
         dispatch({
-            type: LIKE_BOOK,
+            type: GET_COMMENTS,
             payload: data
         });
     } catch (error) {

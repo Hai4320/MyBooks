@@ -4,21 +4,32 @@ import {COLORS,images} from '../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import {useSelector, useDispatch} from 'react-redux';
-import {AllBooksHistory} from '../redux/selectors'
-import { likeBook,saveBook} from '../redux/actions/bookAction';
+import {AllBooksHistory, BookComments} from '../redux/selectors'
+import { likeBook,saveBook, getComments} from '../redux/actions/bookAction';
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
 }
 
 // const images = { source={require('')} };
 const BookDetail = ({navigation, route}) => {
+    // Data   
     const dispatch = useDispatch();
     const [book, setBook] = useState(route.params);
-    const data = useSelector(AllBooksHistory).find(item => book._id === item.bookID);
     const [history,setHistory] =  useState(data)
+    const data = useSelector(AllBooksHistory).find(item => book._id === item.bookID);
+    const comments = useSelector(BookComments);
+    // get comments function
+    const loadComments = async()=> {
+        const loadx = await dispatch(getComments(book._id))
+    }
+    // set load data
+    useEffect(async()=>{
+        await loadComments();
+    },[])
     useEffect(()=>{
         setHistory(data)
     },[data])
+    // click function
     const handleLike= async ()=>{
         const result = await dispatch(likeBook(book._id));
        
@@ -166,14 +177,34 @@ const BookDetail = ({navigation, route}) => {
             </View>
             {/* Chat */}
             <View style={styles.areaDescription}>    
-                <TouchableOpacity style={styles.titleDescription}>
+                <TouchableOpacity 
+                    style={styles.titleDescription}
+                    onPress={() => setShow2(!show2)}>
                     <Text style={styles.textDescription} numberOfLines={1}>Comments</Text>
                     <Ionicons name="chatbox-ellipses" style={styles.iconDescription}></Ionicons>
                 </TouchableOpacity>
+                { show2?
+                <View style={{width: '100%'}}>
                 <TextInput style={styles.textInput}
-                        multiline={true}
-                        numberOfLines={4}
-                        placeholder="Write your comment"/>   
+                    multiline={true}
+                    placeholder="Write your comment"/>
+                <View style={{width: '100%', padding:2}}>
+                    {comments.map((cmt) =>
+                    <View key={cmt.id} style={{width: '100%', justifyContent: "flex-start",alignItems: 'center',flexDirection: 'column', borderWidth: 1,margin: 1, borderRadius: 10, borderColor: COLORS.gray}}>
+                        <View style={{flexDirection: 'row',width: '99%'}}>
+                            <Image
+                                style={{width: 50, height:50, borderRadius:50}}
+                                source={cmt.userAvatar===''? images.defaultAvatar:{uri: user.avatarURL}}
+                            />
+                            <View style={{height: 40, flexDirection: 'column', }}>
+                                
+                                <Text style={{fontSize:16, fontWeight: 'bold',  marginLeft: 5}}>@{cmt.userName}</Text>
+                                <Text style={{fontSize:13, color: COLORS.gray, marginLeft: 5}}>2 min</Text>
+                            </View>
+                        </View>
+                        <Text style={{width: '100%', padding: 5, paddingLeft: 10}}>{cmt.details}</Text>    
+                    </View>)}
+                </View></View>:null}
             </View>
                     
         </ScrollView>
@@ -303,8 +334,7 @@ const styles = StyleSheet.create({
     textInput:{
         borderWidth:3,
         borderRadius:20,
-        minWidth:50,
-        borderColor:COLORS.gray,    
+        width:"100%",
     },
 
 
