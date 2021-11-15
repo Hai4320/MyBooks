@@ -6,23 +6,20 @@ import { Rating, AirbnbRating } from 'react-native-ratings';
 import {useSelector, useDispatch} from 'react-redux';
 import {AllBooksHistory, BookComments} from '../redux/selectors'
 import { likeBook,saveBook, getComments, createComments} from '../redux/actions/bookAction';
-import {Formik} from 'formik';
-const wait = (timeout) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-}
 
 // const images = { source={require('')} };
 const BookDetail = ({navigation, route}) => {
     // Data   
     const dispatch = useDispatch();
     const [book, setBook] = useState(route.params);
+    const [loading,setLoading] = useState(false)
     const [history,setHistory] =  useState(data)
     const data = useSelector(AllBooksHistory).find(item => book._id === item.bookID);
     const comments = useSelector(BookComments).sort((a, b) =>a.createAt>b.createAt);
     const [text,setText] = useState("");
     // get comments function
     const loadComments = async()=> {
-        const loadx = await dispatch(getComments(book._id))
+        const loadx = await dispatch(getComments(book._id,setLoading))
     }
     // set load data
     useEffect(async()=>{
@@ -33,12 +30,15 @@ const BookDetail = ({navigation, route}) => {
     },[data])
     // click function
     const handleLike= async ()=>{
+        if (history===undefined || history.liked ===false) ToastAndroid.show("liked", ToastAndroid.SHORT)
+        else ToastAndroid.show("unliked", ToastAndroid.SHORT)
         const result = await dispatch(likeBook(book._id));
        
     }
     const handleSave= async ()=>{
+        if (history===undefined || history.saved ===false) ToastAndroid.show("saved", ToastAndroid.SHORT)
+        else ToastAndroid.show("unsaved", ToastAndroid.SHORT)
         const result = await dispatch(saveBook(book._id));
-        ToastAndroid.show("save", ToastAndroid.SHORT)
     }
     const summitText = async ()=>{
         const result = await dispatch(createComments(book._id,text));
@@ -55,9 +55,10 @@ const BookDetail = ({navigation, route}) => {
     }
     //refreshing
     const [refreshing, setRefreshing] = useState(false);
-    const onRefresh = useCallback(() => {
+    const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    wait(1000).then(() => setRefreshing(false));
+    const loadx = await dispatch(getComments(book._id,setLoading));
+    setRefreshing(false);
   }, []);
     // Show state 
     const [show1, setShow1] = useState(false);
@@ -196,7 +197,7 @@ const BookDetail = ({navigation, route}) => {
                     style={styles.titleDescription}
                     onPress={() => setShow2(!show2)}>
                     <Text style={styles.textDescription} numberOfLines={1}>Comments</Text>
-                    <Ionicons name="chatbox-ellipses" style={styles.iconDescription}></Ionicons>
+                    <Ionicons name={loading? "ellipsis-horizontal": "chatbox-ellipses"} style={styles.iconDescription}></Ionicons>
                 </TouchableOpacity>
                 { show2?
                 <View style={{width: '100%'}}>

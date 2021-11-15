@@ -131,8 +131,9 @@ export const saveBook = (bookID) => async (dispatch) =>{
         console.error(err);
     }
 }
-export const getComments = (bookID) => async (dispatch) =>{
+export const getComments = (bookID,setLoading) => async (dispatch) =>{
     try {
+        setLoading(true);
         const user = await userData();
         const result = await fetch(getComments_URL, 
             {
@@ -155,8 +156,10 @@ export const getComments = (bookID) => async (dispatch) =>{
             type: GET_COMMENTS,
             payload: data
         });
+        setLoading(false);
     } catch (error) {
-        console.error(err);
+        console.error(error);
+        setLoading(false);
     }
 }
 export const createComments = (bookID, text) => async (dispatch) =>{
