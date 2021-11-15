@@ -1,4 +1,4 @@
-import { getBooks_URL, getBooksHistorys_URL, likeBook_URL, viewBook_URL,saveBook_URL, getComments_URL } from "../api";
+import { getBooks_URL, getBooksHistorys_URL, likeBook_URL, viewBook_URL,saveBook_URL, getComments_URL, createComments_URL} from "../api";
 import {GET_BOOKS, LIKE_BOOK, GET_COMMENTS} from '../types';
 import LoadImageUrl from "../../component/LoadImage"
 import { userData } from '../../component/AsyncStorage'
@@ -150,6 +150,34 @@ export const getComments = (bookID) => async (dispatch) =>{
             }
         );
 
+        const data = await result.json();
+        dispatch({
+            type: GET_COMMENTS,
+            payload: data
+        });
+    } catch (error) {
+        console.error(err);
+    }
+}
+export const createComments = (bookID, text) => async (dispatch) =>{
+    try {
+        const user = await userData();
+        const result = await fetch(createComments_URL, 
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },  
+                body: JSON.stringify({
+                    userID: user.id,
+                    focusID: bookID,
+                    type: 1,
+                    details: text
+                })
+
+            }
+        );
         const data = await result.json();
         dispatch({
             type: GET_COMMENTS,

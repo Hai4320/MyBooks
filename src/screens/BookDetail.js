@@ -5,7 +5,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import {useSelector, useDispatch} from 'react-redux';
 import {AllBooksHistory, BookComments} from '../redux/selectors'
-import { likeBook,saveBook, getComments} from '../redux/actions/bookAction';
+import { likeBook,saveBook, getComments, createComments} from '../redux/actions/bookAction';
+import {Formik} from 'formik';
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
 }
@@ -17,7 +18,8 @@ const BookDetail = ({navigation, route}) => {
     const [book, setBook] = useState(route.params);
     const [history,setHistory] =  useState(data)
     const data = useSelector(AllBooksHistory).find(item => book._id === item.bookID);
-    const comments = useSelector(BookComments);
+    const comments = useSelector(BookComments).sort((a, b) =>a.createAt>b.createAt);
+    const [text,setText] = useState("");
     // get comments function
     const loadComments = async()=> {
         const loadx = await dispatch(getComments(book._id))
@@ -37,6 +39,19 @@ const BookDetail = ({navigation, route}) => {
     const handleSave= async ()=>{
         const result = await dispatch(saveBook(book._id));
         ToastAndroid.show("save", ToastAndroid.SHORT)
+    }
+    const summitText = async ()=>{
+        const result = await dispatch(createComments(book._id,text));
+        setText("")
+    }
+    const checkDate = (day)=>{
+        var now = new Date();
+        var cmtday = new Date(day);
+        if (now.getFullYear() !== cmtday.getFullYear()||now.getMonth() !== cmtday.getMonth() || now.getDate() !== cmtday.getDate())
+        { return (cmtday.getDate()+1) +'/'+ (cmtday.getMonth()+1)+'/'+cmtday.getFullYear()}
+        if (now.getHours!== cmtday.getHours)
+        {return (now.getHours() - cmtday.getHours()) + ' h';}
+        return (now.getMinutes() - cmtday.getMinutes()) +' m'
     }
     //refreshing
     const [refreshing, setRefreshing] = useState(false);
@@ -185,12 +200,21 @@ const BookDetail = ({navigation, route}) => {
                 </TouchableOpacity>
                 { show2?
                 <View style={{width: '100%'}}>
-                <TextInput style={styles.textInput}
-                    multiline={true}
-                    placeholder="Write your comment"/>
+                <View style={{width: '100%', flexDirection: 'row', marginTop: 10, marginBottom: 10}}>
+                    <TextInput style={{ borderWidth: 1, borderColor: COLORS.black33, borderRadius: 10, flex: 1, marginLeft: 2, marginRight: 2 }}
+                        multiline={true}
+                        placeholder="Write your comment"
+                        onChangeText={text => setText(text)}/>
+                    <TouchableOpacity
+                    onPress={() =>summitText()}
+                        style={{width: 70, height: 50, alignItems: 'center', justifyContent: 'center', backgroundColor:COLORS.button, borderRadius: 15}}
+                    >
+                        <Text style={{color: COLORS.white}}>Send</Text>
+                    </TouchableOpacity>
+                </View>
                 <View style={{width: '100%', padding:2}}>
                     {comments.map((cmt) =>
-                    <View key={cmt.id} style={{width: '100%', justifyContent: "flex-start",alignItems: 'center',flexDirection: 'column', borderWidth: 1,margin: 1, borderRadius: 10, borderColor: COLORS.gray}}>
+                    <View key={cmt.id} style={{width: '100%', justifyContent: "flex-start",alignItems: 'center',flexDirection: 'column', borderWidth: 1,margin: 1, borderRadius: 10, borderColor: COLORS.gainsboro}}>
                         <View style={{flexDirection: 'row',width: '99%'}}>
                             <Image
                                 style={{width: 50, height:50, borderRadius:50}}
@@ -199,7 +223,9 @@ const BookDetail = ({navigation, route}) => {
                             <View style={{height: 40, flexDirection: 'column', }}>
                                 
                                 <Text style={{fontSize:16, fontWeight: 'bold',  marginLeft: 5}}>@{cmt.userName}</Text>
-                                <Text style={{fontSize:13, color: COLORS.gray, marginLeft: 5}}>2 min</Text>
+                                <Text style={{fontSize:13, color: COLORS.gray, marginLeft: 5}}>
+                                    { checkDate(cmt.createdAt)}
+                                </Text>
                             </View>
                         </View>
                         <Text style={{width: '100%', padding: 5, paddingLeft: 10}}>{cmt.details}</Text>    
@@ -330,11 +356,6 @@ const styles = StyleSheet.create({
     },
     viewInput:{
         paddingTop:100,
-    },
-    textInput:{
-        borderWidth:3,
-        borderRadius:20,
-        width:"100%",
     },
 
 
