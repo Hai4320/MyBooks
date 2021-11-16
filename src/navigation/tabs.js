@@ -9,6 +9,7 @@ import User from '../screens/User';
 import Books from '../screens/Books';
 import {isLogged} from '../component/AsyncStorage';
 import {getBooks} from '../redux/actions/bookAction';
+import { getPosts } from '../redux/actions/postAction';
 import { useSelector, useDispatch } from 'react-redux';
 
 const Tab = createBottomTabNavigator();
@@ -23,6 +24,7 @@ const Tabs = (navigation) =>{
         }
         else {
             const result = await dispatch(getBooks(setIsLoading));
+            const result2 = await dispatch(getPosts(setIsLoading));
         }
       },[]);
     return (

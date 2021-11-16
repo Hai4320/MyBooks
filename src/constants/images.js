@@ -5,7 +5,7 @@ export const underland = require("../assets/images/underland.jpg");
 export const backgroundLogin = require("../assets/images/background5.jpg");
 export const google = require("../assets/images/google.png");
 export const defaultAvatar = require("../assets/images/avatar.png");
-export const defaultPost = require("../assets/images/post_default.png");
+export const defaultPost = require("../assets/images/post_default.jpg");
 export default {
     otherWordsForHome,
     theMetropolist,
