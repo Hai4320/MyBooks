@@ -16,7 +16,10 @@ export const saveBook_URL= API +"/books/save"
 
 //POST
 export const getAllPosts_URL = API + "/posts/"
-
+export const viewPost_URL = API + "/posts/view"
+export const likePost_URL = API + "/posts/like"
+export const getPostHistory_URL = API +"/posts/getPostHistory"
+export const getUserPost_URL = API +"/posts/userget"
 
 //Comments
 export const getComments_URL= API + "/comments/get"

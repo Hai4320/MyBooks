@@ -8,6 +8,9 @@ export const AllBooksViewData = (state) => state.bookReducer.booksViewData;
 
 //Post 
 export const AllPosts = (state) => state.postReducer.posts;
+export const AllPostHistory = (state) => state.postReducer.history;
+export const AllPostsViewData = (state) => state.postReducer.postViewData;
+export const MyPosts = (state) => state.postReducer.myPosts
 
 //comments
 export const BookComments = (state) => state.bookReducer.comments;

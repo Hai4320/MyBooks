@@ -6,6 +6,7 @@ import {Picker} from '@react-native-picker/picker';
 import {AllPosts} from '../redux/selectors'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {COLORS,SIZES} from '../constants';
+import {checkDate} from '../component/CheckDate'
 
 const Blog = ({navigation,route}) => {
     //khai bao
@@ -19,16 +20,6 @@ const Blog = ({navigation,route}) => {
     useEffect(() => {
        setPostList(posts);
     }, [posts])
-    // function show date
-    const checkDate = (day)=>{
-        var now = new Date();
-        var cmtday = new Date(day);
-        if (now.getFullYear() !== cmtday.getFullYear()||now.getMonth() !== cmtday.getMonth() || now.getDate() !== cmtday.getDate())
-        { return (cmtday.getDate()+1) +'/'+ (cmtday.getMonth()+1)+'/'+cmtday.getFullYear()}
-        if (now.getHours!== cmtday.getHours)
-        {return (now.getHours() - cmtday.getHours()) + ' h';}
-        return (now.getMinutes() - cmtday.getMinutes()) +' m'
-    }
     // View Post 
     const handleView = (item) =>{
         navigation.push("PostDetail",item);

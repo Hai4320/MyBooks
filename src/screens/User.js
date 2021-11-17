@@ -8,6 +8,9 @@ import {useSelector, useDispatch} from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {AllBooks, AllBooksViewData, AllBooksHistory} from '../redux/selectors'
 import { viewBook } from '../redux/actions/bookAction';
+import { getMyPost } from '../redux/actions/postAction';
+import { MyPosts} from '../redux/selectors'
+import {checkDate} from '../component/CheckDate'
 
 
 const User = ({navigation}) => {
@@ -48,25 +51,14 @@ const User = ({navigation}) => {
         }
     }
     // Post Data
+    const posts = useSelector(MyPosts);
     const [postData,setPostData]= useState([]);
     const x=[];
     useEffect(()=>{
-        for (var i=0; i<10; i++){
-            const post = {
-                key: i,
-                title: 'Top 3 cuốn tiểu thuyết tình yêu hay nhất',
-                user: 'Admin',
-                date: '20/10/2021',
-                image: images.theTinyDragon,
-                liked: 11,
-                viewd: 24,
-                comment: 3
-            }
-            x.push(post)
-        }
-    },[]) 
-    useEffect(()=>{
-        setPostData(x)
+        setPostData(posts)
+    },[posts])
+    useEffect(async()=>{
+        const result = await dispatch(getMyPost());
     },[])
     //--------------- User Data
     const [user,setUser] =useState({name: '', avatar:'',email: '', role: '',});
@@ -231,24 +223,12 @@ const User = ({navigation}) => {
                     nestedScrollEnabled = {true}>
                         {postData.map((item)=>
                         <TouchableOpacity style={{height: 110, marginTop: 10, flexDirection: 'row'}} key={item.key}>
-                            <Image style={{height: 100, width: 100, margin: 5, resizeMode: 'contain',}} source={item.image} />
+                            <Image style={{height: 100, width: 100, margin: 5, resizeMode: 'contain',}} source={item.image==="" ? images.defaultPost: {uri: item.imageURL} } />
                             <View style={{height: 110, flex: 1, flexDirection: 'column'} }>
                                 <Text style={{fontSize: 15, width: '100%', height: 40, fontWeight: 'bold', marginTop: 5, color: COLORS.black33}} numberOfLines={2}>{item.title}</Text>
-                                <Text style={{fontSize: 14, width: '100%', height: 18, marginTop: 5,marginBottom: 5, color: COLORS.black66}} numberOfLines={1}>{item.date}</Text>
-                                <View style={{marginTop: 5, height: 20, alignItems: 'center', flexDirection: 'row', width: '100%', }}>
-                                    <View style={{flexDirection: 'row', marginRight: 10, alignItems: 'center', width: 60 }}>
-                                        <Ionicons name='eye-outline' style={{color: COLORS.button}}/>
-                                        <Text style={{fontSize: 13, width: '100%', color: COLORS.button, marginLeft: 2}}>{item.viewd}</Text>
-                                    </View>
-                                    <View style={{flexDirection: 'row', marginRight: 10, alignItems: 'center', width: 60 }}>
-                                        <Ionicons name='heart-outline' style={{color: COLORS.love}}/>
-                                        <Text style={{fontSize: 13, width: '100%', color: COLORS.love, marginLeft: 2}}>{item.liked}</Text>
-                                    </View>
-                                    <View style={{flexDirection: 'row', marginRight: 10, alignItems: 'center', width: 60 }}>
-                                        <Ionicons name='chatbox-outline' style={{color: COLORS.black33}}/>
-                                        <Text style={{fontSize: 13, width: '100%', color: COLORS.black33, marginLeft: 2}}>{item.comment}</Text>
-                                    </View>
-                                </View>
+                                <Text style={{fontSize: 14, width: '100%', height: 18, marginTop: 5,marginBottom: 5, color: COLORS.black66}} numberOfLines={1}>{checkDate(item.createdAt)}</Text>
+                                {item.accept === true? <Text style={{fontSize: 14, width: '100%',color:  COLORS.red}}>Accepted</Text>:<Text style={{fontSize: 14, width: '100%',color:  COLORS.button}}>Waitting</Text>}
+                                
                             </View>
                         </TouchableOpacity>
                         )} 

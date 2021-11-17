@@ -33,8 +33,8 @@ const Home = ({navigation}) => {
     },[books,booksViewData]) 
     //create 2 list
   
-    var booksList1 =  useMemo(() => booksList.slice().sort((a,b)=> a.Title>b.Title),[booksList]);
-    var booksList2 = useMemo(() => booksList.slice().sort((a,b)=> a.Title<b.Title),[booksList]);
+    var booksList1 =  booksList.slice().sort((a,b)=> a.createdAt>b.createdAt);
+    var booksList2 =  booksList.slice().sort((a,b)=> a.view>=b.view);
     //Loading Book
     return (
         

@@ -11,7 +11,11 @@ const INIT_STATE = {
 function postReducer(state = INIT_STATE, action) {
     switch (action.type) {
         case GET_POSTS: 
-            return {...state, posts: action.payload.posts};
+            return {...state, posts: action.payload.posts, history: action.payload.history.UserPostHistory, postViewData: action.payload.history.AllPostHistorys};
+        case VIEW_POSTS: 
+            return {...state, history: action.payload.UserPostHistory, postViewData: action.payload.AllPostHistorys}
+        case GET_MY_POSTS:
+            return {...state, myPosts: action.payload}
         default: return state; 
     }
 }

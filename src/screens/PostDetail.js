@@ -3,18 +3,29 @@ import { StyleSheet, Text, View, ScrollView, RefreshControl, TouchableOpacity, I
 import {useSelector, useDispatch} from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {COLORS,images, SIZES} from '../constants';
+import {AllPostsViewData, AllPostHistory} from '../redux/selectors'
+import {viewPost, likePost} from '../redux/actions/postAction'
+import {checkDate} from '../component/CheckDate'
 
 const PostDetail = ({navigation, route}) => {
+    const dispatch = useDispatch();
     const post = route.params;
-    const checkDate = (day)=>{
-        var now = new Date();
-        var cmtday = new Date(day);
-        if (now.getFullYear() !== cmtday.getFullYear()||now.getMonth() !== cmtday.getMonth() || now.getDate() !== cmtday.getDate())
-        { return (cmtday.getDate()+1) +'/'+ (cmtday.getMonth()+1)+'/'+cmtday.getFullYear()}
-        if (now.getHours!== cmtday.getHours)
-        {return (now.getHours() - cmtday.getHours()) + ' h';}
-        return (now.getMinutes() - cmtday.getMinutes()) +' m'
+    const viewData = useSelector(AllPostsViewData).find(p => p.postID==post._id);
+    const userHistory = useSelector(AllPostHistory).find(p => p.postID==post._id);
+    const [view, setView] = useState({viewData: viewData, userHistory: userHistory}); 
+    // function
+    const handleLike = async() =>{
+        const result = await dispatch(likePost(post._id));
     }
+    // load time
+    useEffect(async () =>{
+        if (userHistory===undefined) {
+            const result = await dispatch(viewPost(post._id))
+        }
+    },[])
+    useEffect(()=>{
+        setView({viewData: viewData, userHistory: userHistory})
+    },[viewData,userHistory])
     return (
         <ScrollView
         style={{backgroundColor: COLORS.main}}
@@ -42,7 +53,7 @@ const PostDetail = ({navigation, route}) => {
                     </View>
                     <View style={{flexDirection: 'row', height: 25}}>
                         <Text style={{color: COLORS.gray, fontSize: 14}}>View: </Text>
-                        <Text style={{color: COLORS.red, fontStyle: 'italic',}}>10</Text>
+                        <Text style={{color: COLORS.red,}}>{view.viewData.viewed}</Text>
                     </View>
                 </View>
                 <View style={{marginTop: 10, padding: 5, alignItems: 'center'}}>
@@ -58,9 +69,10 @@ const PostDetail = ({navigation, route}) => {
                 <View style={{marginTop: 10}}>
                     <View style={{flexDirection: 'row', width: '100%', height: 40, borderWidth: 1, borderColor: COLORS.gainsboro}}>
                         <TouchableOpacity 
+                        onPress={() =>handleLike()}
                         style={{flexDirection: 'row', flex: 1, justifyContent: 'center', alignItems: 'center' , borderRightWidth: 1, borderColor: COLORS.gainsboro}}>
-                            <Ionicons name="heart-outline" style={{color: COLORS.love, fontSize: 20}}/>
-                            <Text style={{color: COLORS.love, fontSize: 15}}> 14</Text>
+                            <Ionicons name={view.userHistory===undefined||view.userHistory.liked ===false ? "heart-outline": "heart"}style={{color: COLORS.love, fontSize: 20}}/>
+                            <Text style={{color: COLORS.love, fontSize: 15}}> {view.viewData.liked}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         style={{flexDirection: 'row', flex: 1, justifyContent: 'center', alignItems: 'center'}}>
