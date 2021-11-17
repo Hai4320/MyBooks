@@ -94,7 +94,7 @@ const BookAudio = ({navigation,route}) => {
           style={styles.container} 
           nestedScrollEnabled = {true}>
           <TouchableOpacity 
-          style={{position: 'absolute', top: 10, left: 15, width: 40, height: 40}} 
+          style={{position: 'absolute', top: 10, left: 15, width: 40, height: 40, zIndex: 2}} 
           onPress={()=>navigation.goBack()}>
             <Ionicons name="chevron-back-outline" size={30} color={COLORS.white} />
           </TouchableOpacity>

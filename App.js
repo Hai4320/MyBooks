@@ -16,6 +16,7 @@ import {Provider} from 'react-redux';
 import {Store} from './src/redux/store';
 import BookPDF from './src/screens/BookPDF'
 import BookDetail from './src/screens/BookDetail'
+import PostDetail from './src/screens/PostDetail'
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -37,6 +38,7 @@ const App = () => {
         <Stack.Screen name="BookAudio" component={BookAudio}/>
         <Stack.Screen name="BookPDF" component={BookPDF}/>
         <Stack.Screen name="BookDetail" component={BookDetail}/>
+        <Stack.Screen name="PostDetail" component={PostDetail}/>
       </Stack.Navigator>
 
     </NavigationContainer>

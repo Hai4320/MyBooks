@@ -5,7 +5,7 @@ const LoadImageUrl = async (image) => {
         return url;
     }
     catch (err) {
-        console.log('ERROR')
+        console.log('ERROR LOAD IMAGE')
         return '';
     }
 }

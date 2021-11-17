@@ -44,7 +44,6 @@ const User = ({navigation}) => {
     const handleView = async (item)=>{
         navigation.push("BookDetail",item)
         if (booksHistory.find(book => book.bookID===item._id)===undefined){
-            console.log('hahaha')
             const result = await dispatch(viewBook(item._id));
         }
     }

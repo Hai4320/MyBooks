@@ -17,7 +17,13 @@ export const getPosts= (setLoading) => async (dispatch) => {
             }
         );
         const data = await result.json();
-        
+        for (var i= 0; i < data.length; i++)
+        if(data[i].image!=="")
+        {
+            const url= await LoadImageUrl(data[i].image);
+            data[i].imageURL = url;
+        }
+
         dispatch({
             type: GET_POSTS,
             payload: {
