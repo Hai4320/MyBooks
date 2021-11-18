@@ -5,7 +5,7 @@ import {COLORS,SIZES} from '../constants'
 const Notification = ({navigation}) => {
     return (
             <View styles={styles.container}>
-            <TouchableOpacity style={{position: 'absolute', top: 10, left: 15, width: 50, height: 50, borderRadius: 100}} 
+            <TouchableOpacity style={{position: 'absolute', top: 10, left: 15, width: 50, height: 50, borderRadius: 100, zIndex: 2}} 
              onPress={()=>{navigation.goBack()}}>
                 <Ionicons name="chevron-back-outline" size={30} color={COLORS.black} />
             </TouchableOpacity>

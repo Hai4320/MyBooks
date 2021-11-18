@@ -17,6 +17,7 @@ import {Store} from './src/redux/store';
 import BookPDF from './src/screens/BookPDF'
 import BookDetail from './src/screens/BookDetail'
 import PostDetail from './src/screens/PostDetail'
+import UserEdit from './src/screens/UserEdit'
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -39,6 +40,7 @@ const App = () => {
         <Stack.Screen name="BookPDF" component={BookPDF}/>
         <Stack.Screen name="BookDetail" component={BookDetail}/>
         <Stack.Screen name="PostDetail" component={PostDetail}/>
+        <Stack.Screen name="UserEdit" component={UserEdit}/>
       </Stack.Navigator>
 
     </NavigationContainer>

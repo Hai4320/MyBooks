@@ -106,7 +106,7 @@ const User = ({navigation}) => {
             <View style={styles.containerData}> 
                 <TouchableOpacity
                     style={styles.avatarContainer}
-                    onPress={()=>{}}>
+                    onPress={() =>{navigation.push("UserEdit")}}>
                     <Image style={styles.avatar} source={user.avatar===''? images.defaultAvatar:{uri: user.avatarURL}}/>    
                 </TouchableOpacity>
                 <View style={styles.dataView}>
@@ -130,7 +130,7 @@ const User = ({navigation}) => {
                 </TouchableHighlight>
                 <TouchableHighlight
                     style={[styles.button,{flex: 1}]}
-                    onPress={() =>{}}
+                    onPress={() =>{navigation.push("UserEdit")}}
                     underlayColor={COLORS.main}>
                     <Text style={styles.buttonText} >Edit  User</Text>
                 </TouchableHighlight>
@@ -222,7 +222,7 @@ const User = ({navigation}) => {
                     style={{flex: 1, width: '100%', height: '100%'}} 
                     nestedScrollEnabled = {true}>
                         {postData.map((item)=>
-                        <TouchableOpacity style={{height: 110, marginTop: 10, flexDirection: 'row'}} key={item.key}>
+                        <TouchableOpacity style={{height: 110, marginTop: 10, flexDirection: 'row'}} key={item._id}>
                             <Image style={{height: 100, width: 100, margin: 5, resizeMode: 'contain',}} source={item.image==="" ? images.defaultPost: {uri: item.imageURL} } />
                             <View style={{height: 110, flex: 1, flexDirection: 'column'} }>
                                 <Text style={{fontSize: 15, width: '100%', height: 40, fontWeight: 'bold', marginTop: 5, color: COLORS.black33}} numberOfLines={2}>{item.title}</Text>

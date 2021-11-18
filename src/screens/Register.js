@@ -18,7 +18,7 @@ const Register = ({navigation}) => {
   const [isLoading,setIsLoading] = useState(false);
   const submitData = async (value) => {
     const data = await dispatch(registerUser(value, setIsLoading));
-    if (data.status===400) Alert.alert('Email has been used');
+    if (data.status===400) Alert.alert('Email or Name has been used');
     if (data.status===500) Alert.alert('Cant Create Acount Now');
     if (data.status===200) Alert.alert('Create Successfully','',[
       {
@@ -77,8 +77,8 @@ const Register = ({navigation}) => {
                 <Text style={{color: 'red'}}>{errors.email}</Text>
               ) : null}
               <TextInput
-                title="Name"
-                placeholder="Enter Name"
+                title="User Name"
+                placeholder="Enter User Name"
                 onChangeText={handleChange('name')}
                 onBlur={handleBlur('name')}
                 value={values.name}
