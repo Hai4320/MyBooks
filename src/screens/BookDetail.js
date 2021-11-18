@@ -6,6 +6,7 @@ import { Rating, AirbnbRating } from 'react-native-ratings';
 import {useSelector, useDispatch} from 'react-redux';
 import {AllBooksHistory, BookComments} from '../redux/selectors'
 import { likeBook,saveBook, getComments, createComments} from '../redux/actions/bookAction';
+import {checkDate} from '../component/CheckDate'
 
 // const images = { source={require('')} };
 const BookDetail = ({navigation, route}) => {
@@ -15,7 +16,7 @@ const BookDetail = ({navigation, route}) => {
     const [loading,setLoading] = useState(false)
     const [history,setHistory] =  useState(data)
     const data = useSelector(AllBooksHistory).find(item => book._id === item.bookID);
-    const comments = useSelector(BookComments).sort((a, b) =>a.createAt>b.createAt);
+    const comments = useSelector(BookComments).sort((a, b) =>a.createAt<b.createAt);
     const [text,setText] = useState("");
     // get comments function
     const loadComments = async()=> {
@@ -41,23 +42,15 @@ const BookDetail = ({navigation, route}) => {
         const result = await dispatch(saveBook(book._id));
     }
     const summitText = async ()=>{
+        if (text === "") return;
         const result = await dispatch(createComments(book._id,text));
         setText("")
-    }
-    const checkDate = (day)=>{
-        var now = new Date();
-        var cmtday = new Date(day);
-        if (now.getFullYear() !== cmtday.getFullYear()||now.getMonth() !== cmtday.getMonth() || now.getDate() !== cmtday.getDate())
-        { return (cmtday.getDate()+1) +'/'+ (cmtday.getMonth()+1)+'/'+cmtday.getFullYear()}
-        if (now.getHours!== cmtday.getHours)
-        {return (now.getHours() - cmtday.getHours()) + ' h';}
-        return (now.getMinutes() - cmtday.getMinutes()) +' m'
     }
     //refreshing
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    const loadx = await dispatch(getComments(book._id,setLoading));
+    await loadComments();
     setRefreshing(false);
   }, []);
     // Show state 
@@ -208,6 +201,7 @@ const BookDetail = ({navigation, route}) => {
                         onChangeText={text => setText(text)}/>
                     <TouchableOpacity
                     onPress={() =>summitText()}
+                    
                         style={{width: 70, height: 50, alignItems: 'center', justifyContent: 'center', backgroundColor:COLORS.button, borderRadius: 15}}
                     >
                         <Text style={{color: COLORS.white}}>Send</Text>

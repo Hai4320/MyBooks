@@ -14,3 +14,4 @@ export const MyPosts = (state) => state.postReducer.myPosts
 
 //comments
 export const BookComments = (state) => state.bookReducer.comments;
+export const PostComments = (state) => state.postReducer.comments;

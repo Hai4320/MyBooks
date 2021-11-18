@@ -1,4 +1,4 @@
-import { GET_POSTS, GET_MY_POSTS,VIEW_POSTS, GET_COMMENTS } from "../types"
+import { GET_POSTS, GET_MY_POSTS,VIEW_POSTS, GET_COMMENTS_POST } from "../types"
 
 const INIT_STATE = {
     posts: [],
@@ -16,6 +16,8 @@ function postReducer(state = INIT_STATE, action) {
             return {...state, history: action.payload.UserPostHistory, postViewData: action.payload.AllPostHistorys}
         case GET_MY_POSTS:
             return {...state, myPosts: action.payload}
+        case GET_COMMENTS_POST:
+            return {...state, comments: action.payload.commentList}
         default: return state; 
     }
 }

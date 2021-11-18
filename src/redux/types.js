@@ -9,7 +9,8 @@ export const GET_BOOKS = "GET_BOOKS";
 export const LIKE_BOOK = "LIKE_BOOK";
  
 //COMMENT
-export const GET_COMMENTS = "GET_COMMENTS";
+export const GET_COMMENTS_BOOK = "GET_COMMENTS_BOOK";
+export const GET_COMMENTS_POST = "GET_COMMENTS_POST";
 
 //POST
 export const GET_POSTS = "GET_POSTS";

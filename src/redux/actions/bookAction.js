@@ -1,5 +1,5 @@
 import { getBooks_URL, getBooksHistorys_URL, likeBook_URL, viewBook_URL,saveBook_URL, getComments_URL, createComments_URL} from "../api";
-import {GET_BOOKS, LIKE_BOOK, GET_COMMENTS} from '../types';
+import {GET_BOOKS, LIKE_BOOK, GET_COMMENTS_BOOK} from '../types';
 import LoadImageUrl from "../../component/LoadImage"
 import { userData } from '../../component/AsyncStorage'
 
@@ -153,7 +153,7 @@ export const getComments = (bookID,setLoading) => async (dispatch) =>{
 
         const data = await result.json();
         dispatch({
-            type: GET_COMMENTS,
+            type: GET_COMMENTS_BOOK,
             payload: data
         });
         setLoading(false);
@@ -183,7 +183,7 @@ export const createComments = (bookID, text) => async (dispatch) =>{
         );
         const data = await result.json();
         dispatch({
-            type: GET_COMMENTS,
+            type: GET_COMMENTS_BOOK,
             payload: data
         });
     } catch (error) {

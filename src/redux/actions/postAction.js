@@ -1,5 +1,5 @@
-import {getAllPosts_URL, getPostHistory_URL, viewPost_URL, likePost_URL, getUserPost_URL} from '../api'
-import { GET_POSTS,VIEW_POSTS, GET_MY_POSTS } from '../types'
+import {getAllPosts_URL, getPostHistory_URL, viewPost_URL, likePost_URL, getUserPost_URL, getComments_URL, createComments_URL} from '../api'
+import { GET_POSTS,VIEW_POSTS, GET_MY_POSTS, GET_COMMENTS_POST} from '../types'
 import LoadImageUrl from "../../component/LoadImage"
 import { userData } from '../../component/AsyncStorage'
 
@@ -137,4 +137,63 @@ export const getMyPost= () => async (dispatch) => {
         
     }
 
+}
+export const getComments = (postID,setLoading) => async (dispatch) =>{
+    try {
+        setLoading(true);
+        const user = await userData();
+        const result = await fetch(getComments_URL, 
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },  
+                body: JSON.stringify({
+                    userID: user.id,
+                    focusID: postID,
+                    type: 2,
+                })
+
+            }
+        );
+
+        const data = await result.json();
+        dispatch({
+            type: GET_COMMENTS_POST,
+            payload: data
+        });
+        setLoading(false);
+    } catch (error) {
+        console.error(error);
+        setLoading(false);
+    }
+}
+export const createComments = (postID, text) => async (dispatch) =>{
+    try {
+        const user = await userData();
+        const result = await fetch(createComments_URL, 
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },  
+                body: JSON.stringify({
+                    userID: user.id,
+                    focusID: postID,
+                    type: 2,
+                    details: text
+                })
+
+            }
+        );
+        const data = await result.json();
+        dispatch({
+            type: GET_COMMENTS_POST,
+            payload: data
+        });
+    } catch (error) {
+        console.error(err);
+    }
 }
