@@ -7,6 +7,7 @@ import { Checkbox, TextInput, Button } from 'react-native-paper';
 import ImagePicker from 'react-native-image-crop-picker';
 import storage from '@react-native-firebase/storage';
 import {userData} from '../component/AsyncStorage'
+import { updatePost, addPost } from '../redux/actions/postAction';
 
 const PostAdd = ({navigation, route}) => {
     const dispatch = useDispatch();
@@ -51,17 +52,43 @@ const PostAdd = ({navigation, route}) => {
 
     }
     // handle Update
-    const handleUpdate = async()=>{
-        const result = await dispatch(updateUser(data,setLoading));
+    const handleUpLoad = async()=>{
+        const x= {}
+        x._id = data._id;
+        x.details = data.details;
+        x.title = data.title;
+        x.upload = true;
+        x.image= data.use_image? data.image: "";
+        console.log(x)
+        var result;
+        if (data._id ==="") {
+            result = await dispatch(addPost(x,setLoading));
+        } else 
+        {
+            result = await dispatch(updatePost(x,setLoading));
+        }
         if (result.status)
            {
                 Alert.alert(result.data.message);
            } 
     }
     const handleSave = async()=>{
-        const result = await dispatch(updateUser(data,setLoading));
+        const x= {}
+        x._id = data._id;
+        x.details = data.details;
+        x.title = data.title;
+        x.upload = false;
+        x.image= data.use_image? data.image: "";
+        var result;
+        if (data._id ==="") {
+            result = await dispatch(addPost(x,setSaving));
+        } else 
+        {
+            result = await dispatch(updatePost(x,setSaving));
+        }
+ 
         if (result.status)
-           {
+           {    
                 Alert.alert(result.data.message);
            } 
     }
@@ -106,7 +133,7 @@ const PostAdd = ({navigation, route}) => {
         <View style={{width: '100%', justifyContent: 'center', alignItems: 'center', borderBottomWidth: 1, marginBottom: 20, paddingBottom: 20}}>
             <Image 
             style={{width: 200, height: 200, margin: 10}}
-            source={data.imageURL===""? images.defaultPost: {uri: data.imageURL}}
+            source={data.imageURL===""||data.imageURL===undefined ? images.defaultPost: {uri: data.imageURL}}
             />
             <View style={{flexDirection: "row", justifyContent: "space-evenly", alignItems:"center",width: '100%'}}>
                 <Button
@@ -131,14 +158,15 @@ const PostAdd = ({navigation, route}) => {
         <View style={{width: '100%', flexDirection: "row", justifyContent: "space-evenly", marginTop: 20}}>
             <Button mode="outlined" 
                 style={{width: 150}}
-                onPress={() => navigation.goBack()}>
-                Cancel
+                loading={saving}
+                onPress={() => handleSave()}>
+                Save
                 </Button>
             <Button 
             mode="contained" 
             loading={loading} 
-            onPress={() =>{}}
-            style={{width: 150}}>Update</Button>
+            onPress={() =>handleUpLoad()}
+            style={{width: 150}}>UpLoad</Button>
         </View>          
     </ScrollView>
     )

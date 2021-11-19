@@ -50,6 +50,17 @@ const User = ({navigation}) => {
             const result = await dispatch(viewBook(item._id));
         }
     }
+    //open Edit Post
+    const handleOpenPost = async (item)=>{
+        if (item.accept ===true||item.Upload === true)
+            {
+                Alert.alert("Can't edit this post");
+            }
+        else {
+            navigation.push("PostAdd", item)
+        }
+
+    }
     // Post Data
     const posts = useSelector(MyPosts);
     const [postData,setPostData]= useState([]);
@@ -229,12 +240,15 @@ const User = ({navigation}) => {
                     style={{flex: 1, width: '100%', height: '100%'}} 
                     nestedScrollEnabled = {true}>
                         {postData.map((item)=>
-                        <TouchableOpacity style={{height: 110, marginTop: 10, flexDirection: 'row'}} key={item._id}>
+                        <TouchableOpacity 
+                        onPress={()=> handleOpenPost(item)}
+                        style={{height: 110, marginTop: 10, flexDirection: 'row'}} 
+                        key={item._id}>
                             <Image style={{height: 100, width: 100, margin: 5, resizeMode: 'contain',}} source={item.image==="" ? images.defaultPost: {uri: item.imageURL} } />
                             <View style={{height: 110, flex: 1, flexDirection: 'column'} }>
                                 <Text style={{fontSize: 15, width: '100%', height: 40, fontWeight: 'bold', marginTop: 5, color: COLORS.black33}} numberOfLines={2}>{item.title}</Text>
                                 <Text style={{fontSize: 14, width: '100%', height: 18, marginTop: 5,marginBottom: 5, color: COLORS.black66}} numberOfLines={1}>{checkDate(item.createdAt)}</Text>
-                                {item.accept === true? <Text style={{fontSize: 14, width: '100%',color:  COLORS.red}}>Accepted</Text>:item.upload ? <Text style={{fontSize: 14, width: '100%',color:  COLORS.yellow}}>Uploaded</Text>: <Text style={{fontSize: 14, width: '100%',color:  COLORS.button}}>Writing</Text>}
+                                {item.accept === true? <Text style={{fontSize: 14, width: '100%',color:  COLORS.red}}>Accepted</Text>:item.upload ? <Text style={{fontSize: 14, width: '100%',color:  COLORS.tomato}}>Uploaded</Text>: <Text style={{fontSize: 14, width: '100%',color:  COLORS.button}}>Writing</Text>}
                                 
                             </View>
                         </TouchableOpacity>

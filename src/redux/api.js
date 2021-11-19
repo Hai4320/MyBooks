@@ -21,6 +21,8 @@ export const viewPost_URL = API + "/posts/view"
 export const likePost_URL = API + "/posts/like"
 export const getPostHistory_URL = API +"/posts/getPostHistory"
 export const getUserPost_URL = API +"/posts/userget"
+export const addPost_URL = API +"/posts/add"
+export const updatePost_URL = API +"/posts/update"
 
 //Comments
 export const getComments_URL= API + "/comments/get"
