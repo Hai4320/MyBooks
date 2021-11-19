@@ -1,5 +1,6 @@
 import {LOGIN, LOGOUT} from "../types"
-import {register_URL,login_URL} from "../api"
+import {register_URL,login_URL, updateUser_URL} from "../api"
+import { userData } from '../../component/AsyncStorage'
 
 
 export const registerUser = (user, setLoading) => async (dispatch) => {
@@ -36,13 +37,50 @@ export const loginUser = (user, setLoading) => async (dispatch) => {
       },
       body: JSON.stringify(user)
     });
+
     const data = await result.json();
+    if (result.status===200) {}
     dispatch({
       type: LOGIN,
       payload: data,
     });
     setLoading(false);
     return {status: result.status, data: data};
+  }
+  catch(err){
+    setLoading(false);
+    return err;
+  }
+}
+export const updateUser = (data, setLoading) => async (dispatch) => {
+  try{
+    setLoading(true);
+    const user = await userData();
+    const result = await fetch(updateUser_URL,{
+      method: 'POST',
+      headers: 
+      {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: user.id,
+        name: data.name,
+        avatar: data.avatar,
+        password: data.password,
+        new_password: data.new_password,
+        change_password: data.change_password,
+        change_avatar: data.change_avatar,
+      })
+    });
+    const datax = await result.json();
+    if (result.status===200)
+    dispatch({
+      type: LOGIN,
+      payload: datax.data,
+    });
+    setLoading(false);
+    return {status: result.status, data: datax};
   }
   catch(err){
     setLoading(false);

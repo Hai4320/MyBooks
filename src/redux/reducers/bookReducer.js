@@ -14,7 +14,7 @@ function bookReducer(state = INIT_STATE, action) {
         case LIKE_BOOK: 
             return {...state, history: action.payload.bookForUser, booksViewData: action.payload.AllBookHistorys}
         case GET_COMMENTS_BOOK: 
-            return {...state, comments: action.payload.commentList}
+            return {...state, comments: action.payload}
             default: 
             return state;
     }

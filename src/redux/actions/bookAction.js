@@ -151,11 +151,19 @@ export const getComments = (bookID,setLoading) => async (dispatch) =>{
             }
         );
 
-        const data = await result.json();
-        dispatch({
-            type: GET_COMMENTS_BOOK,
-            payload: data
-        });
+        const {commentList} = await result.json();
+        if (result.status===200){
+            for (var i= 0; i < commentList.length; i++)
+            if(commentList[i].userAvatar!=="")
+            {
+                const url= await LoadImageUrl(commentList[i].userAvatar);
+                commentList[i].avatarURL = url;
+            }
+            dispatch({
+                type: GET_COMMENTS_BOOK,
+                payload: commentList
+            });
+        }
         setLoading(false);
     } catch (error) {
         console.error(error);
@@ -181,11 +189,19 @@ export const createComments = (bookID, text) => async (dispatch) =>{
 
             }
         );
-        const data = await result.json();
-        dispatch({
-            type: GET_COMMENTS_BOOK,
-            payload: data
-        });
+        const {commentList} = await result.json();
+        if (result.status===200){
+            for (var i= 0; i < commentList.length; i++)
+            if(commentList[i].userAvatar!=="")
+            {
+                const url= await LoadImageUrl(commentList[i].userAvatar);
+                commentList[i].avatarURL = url;
+            }
+            dispatch({
+                type: GET_COMMENTS_BOOK,
+                payload: commentList
+            });
+        }
     } catch (error) {
         console.error(err);
     }

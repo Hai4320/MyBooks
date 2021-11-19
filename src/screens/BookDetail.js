@@ -213,7 +213,7 @@ const BookDetail = ({navigation, route}) => {
                         <View style={{flexDirection: 'row',width: '99%'}}>
                             <Image
                                 style={{width: 50, height:50, borderRadius:50}}
-                                source={cmt.userAvatar===''? images.defaultAvatar:{uri: user.avatarURL}}
+                                source={cmt.userAvatar===''? images.defaultAvatar: {uri: cmt.avatarURL}}
                             />
                             <View style={{height: 40, flexDirection: 'column', }}>
                                 

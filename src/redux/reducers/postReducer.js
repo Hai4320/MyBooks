@@ -17,7 +17,7 @@ function postReducer(state = INIT_STATE, action) {
         case GET_MY_POSTS:
             return {...state, myPosts: action.payload}
         case GET_COMMENTS_POST:
-            return {...state, comments: action.payload.commentList}
+            return {...state, comments: action.payload}
         default: return state; 
     }
 }

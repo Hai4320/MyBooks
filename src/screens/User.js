@@ -1,6 +1,6 @@
 import React,{useState,useEffect,useMemo, useCallback} from 'react'
 import { View, Text, ScrollView, Image, StyleSheet,TouchableOpacity,Button,TouchableHighlight, Alert} from 'react-native'
-import { userData } from '../component/AsyncStorage'
+import { userDataImage } from '../component/AsyncStorage'
 import {images, COLORS, SIZES} from '../constants'
 import {LoadImageUrl} from '../component/LoadImage'
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -63,12 +63,17 @@ const User = ({navigation}) => {
     //--------------- User Data
     const [user,setUser] =useState({name: '', avatar:'',email: '', role: '',});
     useEffect(async ()=>{
-        const x = await userData();
-        if (x!==null){
-            if (x.avatar!=='') x.avatarURL = await LoadImageUrl(x.avatar);
-            setUser(x);
-        }
-    },[]);
+        const x = await userDataImage();
+        setUser(x)
+    });
+    // useEffect(() => {
+    //     const unsubscribe = navigation.addListener('focus', () => {
+    //       loadData();
+    //       //Put your Data loading function here instead of my loadData()
+    //     });
+    
+    //     return unsubscribe;
+    //   }, [navigation]);
     //Log Out Function
     const logOut = async ()=>{
         Alert.alert("Log out","You will logout!",[
