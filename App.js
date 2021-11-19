@@ -18,6 +18,7 @@ import BookPDF from './src/screens/BookPDF'
 import BookDetail from './src/screens/BookDetail'
 import PostDetail from './src/screens/PostDetail'
 import UserEdit from './src/screens/UserEdit'
+import PostAdd from './src/screens/PostAdd'
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -41,6 +42,8 @@ const App = () => {
         <Stack.Screen name="BookDetail" component={BookDetail}/>
         <Stack.Screen name="PostDetail" component={PostDetail}/>
         <Stack.Screen name="UserEdit" component={UserEdit}/>
+        <Stack.Screen name="PostAdd" component={PostAdd}/>
+
       </Stack.Navigator>
 
     </NavigationContainer>

@@ -217,7 +217,9 @@ const User = ({navigation}) => {
                </ScrollView>}
             </View>
                 : <View style={styles.container3}>
-                    <TouchableOpacity style={styles.addBtn}>
+                    <TouchableOpacity 
+                    style={styles.addBtn}
+                    onPress={()=> navigation.push("PostAdd")}>
                         <Ionicons name='add-outline' style={{fontSize: 30, color: COLORS.white}}/>
                     </TouchableOpacity>
                     {/* --------------Set Post View ------------------*/}
@@ -232,7 +234,7 @@ const User = ({navigation}) => {
                             <View style={{height: 110, flex: 1, flexDirection: 'column'} }>
                                 <Text style={{fontSize: 15, width: '100%', height: 40, fontWeight: 'bold', marginTop: 5, color: COLORS.black33}} numberOfLines={2}>{item.title}</Text>
                                 <Text style={{fontSize: 14, width: '100%', height: 18, marginTop: 5,marginBottom: 5, color: COLORS.black66}} numberOfLines={1}>{checkDate(item.createdAt)}</Text>
-                                {item.accept === true? <Text style={{fontSize: 14, width: '100%',color:  COLORS.red}}>Accepted</Text>:<Text style={{fontSize: 14, width: '100%',color:  COLORS.button}}>Waitting</Text>}
+                                {item.accept === true? <Text style={{fontSize: 14, width: '100%',color:  COLORS.red}}>Accepted</Text>:item.upload ? <Text style={{fontSize: 14, width: '100%',color:  COLORS.yellow}}>Uploaded</Text>: <Text style={{fontSize: 14, width: '100%',color:  COLORS.button}}>Writing</Text>}
                                 
                             </View>
                         </TouchableOpacity>
