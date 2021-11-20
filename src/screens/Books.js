@@ -184,7 +184,7 @@ const Books = ({navigation}) => {
                     </TouchableOpacity>
                     <View style={styles.infoBook}>
                       <View style={styles.childInfo}>
-                        <Text style={styles.title}>{item.Title}</Text>
+                        <Text style={styles.title} numberOfLines={2}>{item.Title}</Text>
                         <Text style={styles.author}>{item.Author}</Text>
                       </View>
                     </View>
@@ -243,7 +243,7 @@ const Books = ({navigation}) => {
                     </TouchableOpacity>
                     <View style={styles.infoBook}>
                       <View style={styles.childInfo}>
-                        <Text style={styles.title}>{item.Title}</Text>
+                        <Text style={styles.title} numberOfLines={2}>{item.Title}</Text>
                         <Text style={styles.author}>{item.Author}</Text>
                         <Text style={styles.type}>{item.Type}</Text>
                         {(item.PDF != '') & (item.Audio != '') ? (
@@ -254,22 +254,22 @@ const Books = ({navigation}) => {
                           <Text>Audio</Text>
                         )}
                         <View style={styles.viewLike}>
-                          <Text>
+                          <View style={{alignItems: "center", justifyContent: 'center', flexDirection: 'row'}}>
                             <Ionicons
                               name="eye-outline"
                               size={21}
-                              color={COLORS.main}
+                              color={COLORS.button}
                             />
-                            {item.view}
-                          </Text>
-                          <Text>
+                            <Text style={{color: COLORS.button}}>{item.view}</Text>
+                          </View>
+                          <View style={{alignItems: "center", justifyContent: 'center', flexDirection: 'row'}}>
                             <Ionicons
                               name="heart-circle-outline"
                               size={21}
-                              color={COLORS.main}
+                              color={COLORS.love}
                             />
-                            {item.like}
-                          </Text>
+                            <Text  style={{color: COLORS.love}}>{item.like}</Text>
+                          </View>
                         </View>
                       </View>
                       <View style={styles.btnView}>
@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: COLORS.gainsboro,
-    borderRadius: 20,
+    borderRadius: 10,
     borderColor: COLORS.borColor,
     borderWidth: 1,
     margin: 10,
@@ -322,12 +322,13 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: 'bold',
     fontSize: 18,
+    height: 50,
   },
   author: {
-    fontSize: 18,
+    fontSize: 16,
   },
   type: {
-    fontSize: 15,
+    fontSize: 16,
   },
   btnView: {
     justifyContent: 'space-around',
@@ -376,6 +377,7 @@ const styles = StyleSheet.create({
   viewLike: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    alignItems: 'center',
     marginLeft: -15,
   },
 });

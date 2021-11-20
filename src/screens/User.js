@@ -68,6 +68,12 @@ const User = ({navigation}) => {
     useEffect(()=>{
         setPostData(posts)
     },[posts])
+    useEffect(()=>{
+        navigation.addListener('focus', async() => {
+            const x = await userDataImage();
+            if (x!==null && (x.avatar!==user.avatar||x.email!==user.email)) setUser(x);
+        });
+    },[])
     useEffect(async()=>{
         const result = await dispatch(getMyPost());
     },[])
@@ -75,8 +81,8 @@ const User = ({navigation}) => {
     const [user,setUser] =useState({name: '', avatar:'',email: '', role: '',});
     useEffect(async ()=>{
         const x = await userDataImage();
-        setUser(x)
-    });
+        if (x!==null && (x.avatar!==user.avatar||x.email!==user.email)) setUser(x);
+    },[]);
     // useEffect(() => {
     //     const unsubscribe = navigation.addListener('focus', () => {
     //       loadData();
@@ -94,14 +100,14 @@ const User = ({navigation}) => {
               color: COLORS.red,
               onPress: async () => {
                 try {
-                    await AsyncStorage.removeItem('isLogin');
                     await AsyncStorage.removeItem('userData');
+                    await AsyncStorage.removeItem('isLogin');
                     navigation.replace('Login');
-                    return true;
+                    
+                    
                 }
                 catch(exception) {
                     console.error(exception)
-                    return false;
                 }
               },
             },
