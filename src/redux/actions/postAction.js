@@ -1,7 +1,7 @@
 import {
     getAllPosts_URL, getPostHistory_URL, viewPost_URL, 
     likePost_URL, getUserPost_URL, getComments_URL, 
-    createComments_URL, addPost_URL, updatePost_URL} from '../api'
+    createComments_URL, addPost_URL, updatePost_URL, deletePost_URL} from '../api'
 import { GET_POSTS,VIEW_POSTS, GET_MY_POSTS, GET_COMMENTS_POST} from '../types'
 import LoadImageUrl from "../../component/LoadImage"
 import { userData } from '../../component/AsyncStorage'
@@ -64,6 +64,43 @@ export const updatePost = (post, setLoading) => async (dispatch)=>{
                         details: post.details,
                         image: post.image,
                         upload: post.upload,
+                    })
+            }
+        );
+        const data = await result.json();
+        if (result.status===200){
+            for (var i= 0; i < data.userPosts.length; i++)
+            if(data.userPosts[i].image!=="")
+            {
+                const url= await LoadImageUrl(data.userPosts[i].image);
+                data.userPosts[i].imageURL = url;
+            }
+            dispatch({
+                type: GET_MY_POSTS,
+                payload: data.userPosts
+            });
+        }
+        setLoading(false)
+        return {status: result.status, data: data};
+    } catch (error) {
+        console.log(error)
+    }
+}
+export const deletePost = (post, setLoading) => async (dispatch)=>{
+    try {
+        setLoading(true);
+        const user = await userData();
+        const result = await fetch(deletePost_URL, 
+            {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                   
+                },
+                 body: JSON.stringify({
+                        id: post._id,
+                        userID: user.id,
                     })
             }
         );

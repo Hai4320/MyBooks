@@ -1,5 +1,5 @@
 import React,{useState,useEffect,useMemo, useCallback} from 'react'
-import { View, Text, ScrollView, Image, StyleSheet,TouchableOpacity,Button,TouchableHighlight, Alert} from 'react-native'
+import { View, Text, ScrollView, Image, StyleSheet,TouchableOpacity,TouchableHighlight, Alert} from 'react-native'
 import { userDataImage } from '../component/AsyncStorage'
 import {images, COLORS, SIZES} from '../constants'
 import {LoadImageUrl} from '../component/LoadImage'
@@ -8,7 +8,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {AllBooks, AllBooksViewData, AllBooksHistory} from '../redux/selectors'
 import { viewBook } from '../redux/actions/bookAction';
-import { getMyPost } from '../redux/actions/postAction';
+import { getMyPost, deletePost} from '../redux/actions/postAction';
 import { MyPosts} from '../redux/selectors'
 import {checkDate} from '../component/CheckDate'
 
@@ -24,6 +24,7 @@ const User = ({navigation}) => {
     const booksHistory = useSelector(AllBooksHistory);
     const [booksData, setBooksData] = useState(books);
     const [booksFiter, setBooksFilter] = useState([]);
+    
     const booksView = useMemo(() => books.slice(), [books]);
     useEffect(()=>{
         booksView.map( item =>{
@@ -60,6 +61,26 @@ const User = ({navigation}) => {
             navigation.push("PostAdd", item)
         }
 
+    }
+    // Post
+    const [loading,setLoading] = useState(false);
+    const handleDeletePost = async (item)=>{
+        Alert.alert("Delete","You will delete this post!",[
+            // The "Yes" button
+            {
+              text: "Yes",
+              color: COLORS.red,
+              onPress: async () => {
+                    const result = await dispatch(deletePost(item,setLoading))
+                    console.log(result);
+              },
+            },
+            // The "No" button
+            // Does nothing but dismiss the dialog when tapped
+            {
+              text: "No",
+            },
+          ]) 
     }
     // Post Data
     const posts = useSelector(MyPosts);
@@ -123,6 +144,8 @@ const User = ({navigation}) => {
         style={styles.container} 
         nestedScrollEnabled = {true} 
         >
+        
+
         <Text style={styles.title}>User</Text>
           <View style={styles.box}>
             <View style={styles.containerData}> 
@@ -250,6 +273,12 @@ const User = ({navigation}) => {
                         onPress={()=> handleOpenPost(item)}
                         style={{height: 110, marginTop: 10, flexDirection: 'row'}} 
                         key={item._id}>
+                            <TouchableOpacity
+                            onPress={() => handleDeletePost(item)}
+                            style={{zIndex: 2, position: 'absolute', width: 20, height: 20, backgroundColor: COLORS.white, right: 10, bottom: 15}}
+                            >
+                                <Ionicons name={'trash-outline'} style={{fontSize: 18, color: COLORS.red}}/>
+                            </TouchableOpacity>
                             <Image style={{height: 100, width: 100, margin: 5, resizeMode: 'contain',}} source={item.image===""||item.imageURL===""? images.defaultPost: {uri: item.imageURL} } />
                             <View style={{height: 110, flex: 1, flexDirection: 'column'} }>
                                 <Text style={{fontSize: 15, width: '100%', height: 40, fontWeight: 'bold', marginTop: 5, color: COLORS.black33}} numberOfLines={2}>{item.title}</Text>

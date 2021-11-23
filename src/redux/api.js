@@ -23,6 +23,7 @@ export const getPostHistory_URL = API +"/posts/getPostHistory"
 export const getUserPost_URL = API +"/posts/userget"
 export const addPost_URL = API +"/posts/add"
 export const updatePost_URL = API +"/posts/update"
+export const deletePost_URL = API +"/posts/delete"
 
 //Comments
 export const getComments_URL= API + "/comments/get"
