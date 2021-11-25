@@ -72,7 +72,9 @@ const User = ({navigation}) => {
               color: COLORS.red,
               onPress: async () => {
                     const result = await dispatch(deletePost(item,setLoading))
-                    console.log(result);
+                    if (result.status){
+                        Alert.alert(result.data.message);
+                    }
               },
             },
             // The "No" button

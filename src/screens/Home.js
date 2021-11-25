@@ -1,10 +1,11 @@
 import React,{useState,useEffect, useMemo} from 'react'
 import { View, Text, Image, FlatList, ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import {COLORS} from '../constants'
+import {COLORS, images} from '../constants'
 import {useSelector,useDispatch} from 'react-redux'
-import {AllBooks, AllBooksViewData, AllBooksHistory} from '../redux/selectors'
+import {AllBooks, AllBooksViewData, AllBooksHistory, AllPosts} from '../redux/selectors'
 import { viewBook} from '../redux/actions/bookAction';
+import {checkDate} from '../component/CheckDate'
 
 const Home = ({navigation}) => {
     const dispatch = useDispatch();
@@ -12,11 +13,15 @@ const Home = ({navigation}) => {
     const booksViewData = useSelector(AllBooksViewData);
     const booksHistory = useSelector(AllBooksHistory);
     const booksView = useMemo(() => books.slice(), [books]);
+    const posts = useSelector(AllPosts);
     const handleView = async (item)=>{
         navigation.push("BookDetail",item)
         if (booksHistory.find(book => book.bookID===item._id)===undefined){
             const result = await dispatch(viewBook(item._id));
         }
+    }
+    const handleViewPost = async(item)=>{
+        navigation.push("PostDetail",item)
     }
     //Set data view, like
     useEffect(()=>{
@@ -35,13 +40,18 @@ const Home = ({navigation}) => {
   
     var booksList1 =  booksList.slice().sort((a,b)=> a.createdAt>b.createdAt);
     var booksList2 =  booksList.slice().sort((a,b)=> a.view>=b.view);
-    //Loading Book
+
+    //Loading Post
+    const [postList, setPostList] = useState([]);
+    useEffect(()=>{
+        setPostList(posts);
+    },[posts])
     return (
         
         <ScrollView
         style={{backgroundColor: COLORS.white}}>
             <View style={{ backgroundColor: COLORS.main, width: 180, height: 46, justifyContent: 'center', position: 'relative', overflow: 'hidden', marginTop: 10, paddingLeft: 5 }}>
-                <Text style={styles.title}>New Book</Text>
+                <Text style={styles.title}>Hot Book</Text>
                 <View style={styles.tag1CSS}/>
                 <View style={styles.tag2CSS}/>
             </View>
@@ -69,38 +79,48 @@ const Home = ({navigation}) => {
                 }      
             </View>
 
-            {/* My book */}
+            {/* ----------------Post List---------- */}
             <View style={{ backgroundColor: COLORS.main, width: 180, height: 46, justifyContent: 'center', position: 'relative', overflow: 'hidden', marginTop: 10, paddingLeft: 5 }}>
-                <Text style={styles.title}>Hot Book</Text>
+                <Text style={styles.title}>New Post</Text>
                 <View style={styles.tag1CSS}/>
                 <View style={styles.tag2CSS}/>
             </View>
             <View
             style={{flexGrow: 0, marginBottom: 10 }}>
-                {   booksList.length===0 ?
+                {   postList.length===0 ?
                     <FlatList
                     data={[...Array(3).keys()]}
                     horizontal
                     showsHorizontalScrollIndicator={false}
-                    renderItem={({item}) => <View style={{height: 200, width: 160, margin: 10, backgroundColor: COLORS.gainsboro, borderRadius: 8}}/>}/>
+                    renderItem={({item}) => <View style={{height: 200, width: 300, margin: 10, backgroundColor: COLORS.gainsboro, borderRadius: 8}}/>}/>
                     :<FlatList
-                    data={booksList2}
+                    data={postList}
                     horizontal
+                    style={{marginTop: 10}}
                     showsHorizontalScrollIndicator={false}
                     renderItem={({item}) => 
                     <TouchableOpacity 
-                    style={styles.imageContainer}
-                    onPress={()=>handleView(item)}>
-                        <Image style={ styles.imageCSS } source={{uri: item.ImageURL}}/>
-                        <Text style={{ fontSize: 15, fontWeight: 'bold', textAlign: 'center'}} numberOfLines={2}>{item.Title}</Text>
-                        <Text style={{ textAlign: 'center', color: COLORS.button}} numberOfLines={2}>{item.Author}</Text>
+                    onPress={()=> handleViewPost(item)}
+                    style={{width:300, height:150, marginRight: 10, marginLeft: 10, flexDirection: "row" , borderWidth: 1, padding: 3, borderColor: COLORS.main, borderRadius: 5}}
+                    >
+                         <Image style={{height: 140, width: 100, resizeMode: 'contain',}} source={item.image===""||item.imageURL===""? images.defaultPost: {uri: item.imageURL} } />
+                        <View style={{flex: 1, flexDirection: 'column', marginLeft: 10}}>
+                            
+                            <Text style={{ fontSize: 16, fontWeight: 'bold', textAlign: 'left'}} numberOfLines={5}>{item.title}</Text>
+                            <View style={{ flexDirection: 'row'}}>
+                                <Text style={{marginRight: 10, color: COLORS.button}}>@{item.userName}</Text>
+                                <Text style={{color: COLORS.gray}}>{checkDate(item.createdAt)}</Text>
+                            </View>
+                        </View>
+                       
+
                     </TouchableOpacity> }/>
                 }      
             </View>
 
             {/* Best Seller */}
             <View style={{ backgroundColor: COLORS.main, width: 180, height: 46, justifyContent: 'center', position: 'relative', overflow: 'hidden', marginTop: 10, paddingLeft: 5 }}>
-                <Text style={styles.title}>New Post</Text>
+                <Text style={styles.title}>All Book</Text>
                 <View style={styles.tag1CSS}/>
                 <View style={styles.tag2CSS}/>
             </View>
