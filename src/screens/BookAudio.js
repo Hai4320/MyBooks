@@ -5,51 +5,22 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {images, COLORS, SIZES} from '../constants'
 import { View, Text, ScrollView, Image, StyleSheet,TouchableOpacity,Modal} from 'react-native'
 import LoadImageUrl from "../component/LoadImage"
-import Sound from 'react-native-sound'
+import {AudioPlayer} from './AudioPlayer';
 const BookAudio = ({navigation,route}) => {
     const [visibleModal,setVisibleModal] = useState(true);
     const bookSelected = route.params;
     const [audioList,setAudioList] = useState([]);
     const [playing,setPlaying] = useState(-1);
-    const [isplay,setIsPlay] = useState(false);
-    const [loading,setLoading] = useState([false,-1]);
-    const CheckPlay=(index)=>{
+    const handlePlay = async (index)=>{
+        setPlaying(index);
         if (audioList[index].URL==='')
         {
-            setLoading([true, index]);
-            return;
+           const newurl = await LoadImageUrl(audioList[index].folder) 
+           const arr = audioList.slice();
+           arr[index].URL= newurl;
+           setAudioList(arr);
         }
-        setLoading([false, index]);
-        setPlaying(index);
-        Pause(index);
-        console.log(audioList[index].sound.isPlaying());
-        Resume(index);
-        console.log(audioList[index].sound.isPlaying());
-    }
-    const Play=(index)=>{
-        setIsPlay(true);
-        
-        
-        if (audioList[index].sound.isPlaying()===false)
-        {
-            audioList[index].sound.play();
-        }
-        console.log(audioList[index].sound.isPlaying());
-        
-    }
-    const Pause = (index)=>{
-        setIsPlay(false);
-        audioList[index].sound.pause();
-    }
-    const Resume = (index)=>{
-        setIsPlay(true);
-        audioList[index].sound.play();
-    }
-    const Stop = ()=>{
-        const x=playing;
-        setPlaying(-1);
-        setIsPlay(false);
-        audioList[x].sound.stop();
+        setVisibleModal(false);
     }
     useEffect(async ()=>{
         const audioData=[];
@@ -60,34 +31,26 @@ const BookAudio = ({navigation,route}) => {
                 name: name,
                 folder: audio,
                 URL:'',
-                sound: null,
             });
         })
         setAudioList(audioData);
     }, [bookSelected]);
+    // show Play boxes
     useEffect(()=>{
         if (playing!=-1)
         setVisibleModal(false);
     },[playing])
-    useEffect(async ()=>{
-        if (loading[1]===-1||loading[0]===false) return;
-        const audioData = audioList;
-        var i=loading[1];
-        audioData[i].URL = await LoadImageUrl(audioData[i].folder);
-        audioData[i].sound =new Sound(audioData[i].URL,null,(e)=>{
-        if (e) {
-            console.log('error loading track:', e)
-        }
-        });
-        setAudioList(audioData);
-    },loading);
     return (
         <View>
+        {/* Play box */}
         { visibleModal===true? null:
         <View style={styles.playBox}>
-            <Text>
+            <Text style={{fontSize: 16, padding: 5, fontWeight: 'bold', color: COLORS.white, marginBottom: 10}} numberOfLines={3}>
                 {playing===-1 ? "None": audioList[playing].name}
             </Text>
+            <AudioPlayer
+                url={audioList[playing].URL===""?'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_1MG.mp3':audioList[playing].URL}
+            />
         </View>
         }
         <ScrollView 
@@ -120,17 +83,17 @@ const BookAudio = ({navigation,route}) => {
                         <TouchableOpacity 
                         key={index} 
                         style={{ marginTop: 10, height: 40, width: '100%',flexDirection: 'row', alignItems: 'center', }}
-                        onPress={()=> playing===index ? (isplay ? Pause(index) : Resume(index)): CheckPlay(index)}>
+                        onPress={()=>handlePlay(index)}
+                        >
                             <View 
                             style={{width: 30, height: 30, backgroundColor: COLORS.button,  alignItems: 'center', justifyContent: 'center', borderRadius: 10}}>
-                                <Ionicons name={(isplay===true&&playing===index) ?"pause":"play"} style={{color: COLORS.white, fontSize: 20}}/>
+                                <Ionicons name={"play"} style={{color: COLORS.white, fontSize: 20}}/>
                             </View>
                             <Text style={{color: COLORS.button,  marginLeft: 20,flex: 1}} numberOfLines={2}>{audio.name}</Text>
-                            
                         </TouchableOpacity>)}
                 </View>
           </View>
-          <Text></Text>
+         
         </ScrollView>
         </View>
     )
@@ -148,9 +111,9 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         zIndex: 10,
-        backgroundColor: COLORS.white,
+        backgroundColor: COLORS.dodgerblue,
         width: '100%',
-        height: 80,
+        height: 180,
         alignItems: "center",
         justifyContent: 'center',
         borderColor: COLORS.black,

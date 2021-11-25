@@ -14,6 +14,8 @@ target 'MyBooks' do
 
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
+  pod 'react-native-video', :path => '../node_modules/react-native-video'
+
   target 'MyBooksTests' do
     inherit! :complete
     # Pods for testing
