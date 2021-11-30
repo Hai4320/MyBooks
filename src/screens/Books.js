@@ -180,7 +180,7 @@ const Books = ({navigation}) => {
                     <TouchableOpacity
                       style={styles.btnImg}
                       onPress={() => navigation.push("BookDetail",item)}>
-                      <Image style={styles.img} source={item.ImageURL===""? images.theTinyDragon:{uri: item.ImageURL}} />
+                      <Image style={styles.img} source={item.ImageURL===""? images.underland:{uri: item.ImageURL}} />
                     </TouchableOpacity>
                     <View style={styles.infoBook}>
                       <View style={styles.childInfo}>
@@ -239,7 +239,7 @@ const Books = ({navigation}) => {
                     <TouchableOpacity
                       style={styles.btnImg}
                       onPress={() => navigation.push("BookDetail",item)}>
-                      <Image style={styles.img} source={item.ImageURL===""? images.theTinyDragon:{uri: item.ImageURL}} />
+                      <Image style={styles.img} source={item.ImageURL===""? images.underland:{uri: item.ImageURL}} />
                     </TouchableOpacity>
                     <View style={styles.infoBook}>
                       <View style={styles.childInfo}>

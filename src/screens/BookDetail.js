@@ -76,7 +76,7 @@ const BookDetail = ({navigation, route}) => {
                 <View style={styles.container1}>
                     <Image
                         style={styles.imagee}
-                        source={book.ImageURL===""? images.theTinyDragon:{uri: book.ImageURL}}
+                        source={book.ImageURL===""? images.underland:{uri: book.ImageURL}}
                             />
                 </View>
                 <View style={{justifyContent: 'center', alignItems: 'center', width: '100%'}}> 

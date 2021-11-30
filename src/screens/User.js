@@ -234,7 +234,7 @@ const User = ({navigation}) => {
                     style={{height: 110, marginTop: 10, flexDirection: 'row'}} 
                     key={item._id}
                     onPress={() => handleView(item)}>
-                        <Image style={{height: 100, width: 100, margin: 5, resizeMode: 'contain',}} source={item.ImageURL===""? images.theTinyDragon:{uri: item.ImageURL}} />
+                        <Image style={{height: 100, width: 100, margin: 5, resizeMode: 'contain',}} source={item.ImageURL===""? images.underland:{uri: item.ImageURL}} />
                         <View style={{height: 110, flex: 1, flexDirection: 'column'} }>
                             <Text style={{fontSize: 15, width: '100%', height: 40, fontWeight: 'bold', marginTop: 5, color: COLORS.black33}} numberOfLines={2}>{item.Title}</Text>
                             <Text style={{fontSize: 14, width: '100%', height: 18, marginTop: 5,marginBottom: 5, color: COLORS.black66}} numberOfLines={1}>{item.Author}</Text>
