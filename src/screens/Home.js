@@ -1,11 +1,13 @@
-import React,{useState,useEffect, useMemo} from 'react'
-import { View, Text, Image, FlatList, ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
+import React,{useState,useEffect, useMemo, useCallback} from 'react'
+import { View, Text, Image, FlatList, ScrollView, StyleSheet, TouchableOpacity,RefreshControl} from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import {COLORS, images} from '../constants'
 import {useSelector,useDispatch} from 'react-redux'
 import {AllBooks, AllBooksViewData, AllBooksHistory, AllPosts} from '../redux/selectors'
 import { viewBook} from '../redux/actions/bookAction';
 import {checkDate} from '../component/CheckDate'
+import {getBooks} from '../redux/actions/bookAction';
+import { getPosts } from '../redux/actions/postAction';
 
 const Home = ({navigation}) => {
     const dispatch = useDispatch();
@@ -46,9 +48,24 @@ const Home = ({navigation}) => {
     useEffect(()=>{
         setPostList(posts);
     },[posts])
+    //refreshing
+    const [loadRefreshing, setLoadRefreshing] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+        const result = await dispatch(getBooks(setLoadRefreshing));
+        const result2 = await dispatch(getPosts(setLoadRefreshing));
+        setRefreshing(false);
+    }, []);
     return (
         
         <ScrollView
+        refreshControl={
+            <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            />
+        }
         style={{backgroundColor: COLORS.white}}>
             <View style={{ backgroundColor: COLORS.main, width: 180, height: 46, justifyContent: 'center', position: 'relative', overflow: 'hidden', marginTop: 10, paddingLeft: 5 }}>
                 <Text style={styles.title}>Hot Book</Text>
@@ -72,7 +89,7 @@ const Home = ({navigation}) => {
                     style={styles.imageContainer}
                     onPress={()=>handleView(item)}
                     >
-                        <Image style={ styles.imageCSS }    />
+                        <Image style={ styles.imageCSS } source={item.ImageURL===""? images.underland:{uri: item.ImageURL}}/>
                         <Text style={{ fontSize: 15, fontWeight: 'bold', textAlign: 'center'}} numberOfLines={2}>{item.Title}</Text>
                         <Text style={{ textAlign: 'center', color: COLORS.button}} numberOfLines={2}>{item.Author}</Text>
                     </TouchableOpacity> }/>

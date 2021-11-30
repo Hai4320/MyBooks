@@ -1,12 +1,14 @@
-import React,{ useState,useEffect} from 'react'
+import React,{ useState,useEffect, useCallback} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { View, Text, FlatList,TouchableOpacity,Image } from 'react-native'
+import { View, Text, FlatList,TouchableOpacity,Image, RefreshControl} from 'react-native'
 import {Searchbar} from 'react-native-paper';
 import {Picker} from '@react-native-picker/picker';
 import {AllPosts} from '../redux/selectors'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {COLORS,SIZES} from '../constants';
 import {checkDate} from '../component/CheckDate'
+import { getPosts } from '../redux/actions/postAction';
+
 
 const Blog = ({navigation,route}) => {
     //khai bao
@@ -30,6 +32,14 @@ const Blog = ({navigation,route}) => {
     const handleView = (item) =>{
         navigation.push("PostDetail",item);
     }
+     //refreshing
+     const [loadRefreshing, setLoadRefreshing] = useState(false);
+     const [refreshing, setRefreshing] = useState(false);
+     const onRefresh = useCallback(async () => {
+     setRefreshing(true);
+         const result2 = await dispatch(getPosts(setLoadRefreshing));
+         setRefreshing(false);
+     }, []);
     return (
         <View>
             <Searchbar
@@ -50,6 +60,12 @@ const Blog = ({navigation,route}) => {
             } */}
             </View>
             <FlatList
+             refreshControl={
+                <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                />
+            }
             data={postList}
             style={searchQuery ===""?{marginBottom: 50}: {marginBottom:100}}
             renderItem={({item}) =>

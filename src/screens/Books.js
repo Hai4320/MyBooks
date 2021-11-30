@@ -1,4 +1,4 @@
-import React, {useState, useEffect,useMemo} from 'react';
+import React, {useState, useEffect,useMemo, useCallback} from 'react';
 import {
   View,
   StyleSheet,
@@ -7,6 +7,7 @@ import {
   FlatList,
   Image,
   Alert,
+  RefreshControl
 } from 'react-native';
 import {Text, Searchbar} from 'react-native-paper';
 import {Picker} from '@react-native-picker/picker';
@@ -16,6 +17,7 @@ import {COLORS,SIZES, images} from '../constants';
 import {useSelector, useDispatch} from 'react-redux';
 import {AllBooks, AllBooksViewData, AllBooksHistory} from '../redux/selectors'
 import { viewBook } from '../redux/actions/bookAction';
+import {getBooks} from '../redux/actions/bookAction';
 
 const Books = ({navigation}) => {
   const dispatch = useDispatch();
@@ -144,6 +146,14 @@ const Books = ({navigation}) => {
     );
     setResultData(newData);
   }, [booksList, searchQuery, typeSearch]);
+   //refreshing
+   const [loadRefreshing, setLoadRefreshing] = useState(false);
+   const [refreshing, setRefreshing] = useState(false);
+   const onRefresh = useCallback(async () => {
+   setRefreshing(true);
+       const result = await dispatch(getBooks(setLoadRefreshing));
+       setRefreshing(false);
+   }, []);
   return (
     <SafeAreaView>
       <Searchbar
@@ -232,6 +242,12 @@ const Books = ({navigation}) => {
               />
             ) : (
               <FlatList
+              refreshControl={
+                <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                />
+              }
                 style={{height: SIZES.height-150}}
                 data={filterList}
                 renderItem={({item}) => (
