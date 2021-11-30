@@ -78,7 +78,7 @@ const BookAudio = ({navigation,route}) => {
                         </View>
                     </View>
                 </View>
-                <View style={{width: '100%', paddingRight: 10, paddingLeft: 10,marginTop: 250,}}>
+                <View style={{width: '100%', paddingRight: 10, paddingLeft: 10,marginTop: 250, marginBottom: 200}}>
                     {audioList.map((audio, index)=>
                         <TouchableOpacity 
                         key={index} 
