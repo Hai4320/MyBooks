@@ -12,7 +12,7 @@ import {Text, Searchbar} from 'react-native-paper';
 import {Picker} from '@react-native-picker/picker';
 import Button from '../component/Button';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {COLORS,SIZES} from '../constants';
+import {COLORS,SIZES, images} from '../constants';
 import {useSelector, useDispatch} from 'react-redux';
 import {AllBooks, AllBooksViewData, AllBooksHistory} from '../redux/selectors'
 import { viewBook } from '../redux/actions/bookAction';
@@ -180,7 +180,7 @@ const Books = ({navigation}) => {
                     <TouchableOpacity
                       style={styles.btnImg}
                       onPress={() => navigation.push("BookDetail",item)}>
-                      <Image style={styles.img} source={{uri: item.ImageURL}} />
+                      <Image style={styles.img} source={item.ImageURL===""? images.theTinyDragon:{uri: item.ImageURL}} />
                     </TouchableOpacity>
                     <View style={styles.infoBook}>
                       <View style={styles.childInfo}>
@@ -239,7 +239,7 @@ const Books = ({navigation}) => {
                     <TouchableOpacity
                       style={styles.btnImg}
                       onPress={() => navigation.push("BookDetail",item)}>
-                      <Image style={styles.img} source={{uri: item.ImageURL}} />
+                      <Image style={styles.img} source={item.ImageURL===""? images.theTinyDragon:{uri: item.ImageURL}} />
                     </TouchableOpacity>
                     <View style={styles.infoBook}>
                       <View style={styles.childInfo}>

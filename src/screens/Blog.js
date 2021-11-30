@@ -19,7 +19,13 @@ const Blog = ({navigation,route}) => {
     // Load data 
     useEffect(() => {
        setPostList(posts);
-    }, [posts])
+    }, [posts]);
+    useEffect(()=>{
+        if (searchQuery==="") return;
+        const x= posts.slice();
+        const y = x.filter(i =>(i.title.toUpperCase().indexOf(searchQuery.toUpperCase()) > -1)||(i.userName.toUpperCase().indexOf(searchQuery.toUpperCase()) > -1))
+        setPostList(y);
+    },[searchQuery])
     // View Post 
     const handleView = (item) =>{
         navigation.push("PostDetail",item);
@@ -31,7 +37,7 @@ const Blog = ({navigation,route}) => {
                 onChangeText={(value)=> setSearchQuery(value)}
                 value={searchQuery}/>
             <View style={{width: '100%', alignItems: 'center', justifyContent: 'center'}}>
-            {searchQuery.length != 0 ? (
+            {/* {searchQuery.length != 0 ? (
             <Picker
               selectedValue={typeSearch}
               style={{height: 50, width: 160}}
@@ -41,7 +47,7 @@ const Blog = ({navigation,route}) => {
               <Picker.Item label="Title" value="Title" />
               <Picker.Item label="Author" value="Author" />
             </Picker>): null
-            }
+            } */}
             </View>
             <FlatList
             data={postList}

@@ -76,7 +76,7 @@ const BookDetail = ({navigation, route}) => {
                 <View style={styles.container1}>
                     <Image
                         style={styles.imagee}
-                        source={{uri: book.ImageURL}}
+                        source={book.ImageURL===""? images.theTinyDragon:{uri: book.ImageURL}}
                             />
                 </View>
                 <View style={{justifyContent: 'center', alignItems: 'center', width: '100%'}}> 
@@ -100,11 +100,13 @@ const BookDetail = ({navigation, route}) => {
                     
                </View>
                 <Rating
+                    readonly={true}
                     ratingCount={5}
                     startingValue={book.Star}
                     imageSize={25}
                     onFinishRating={()=> ToastAndroid.show("voted", ToastAndroid.SHORT)}
                     style={{marginTop: 10}}
+
                 />
 
                 {/* Break line */}

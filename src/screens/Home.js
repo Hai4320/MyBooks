@@ -72,7 +72,7 @@ const Home = ({navigation}) => {
                     style={styles.imageContainer}
                     onPress={()=>handleView(item)}
                     >
-                        <Image style={ styles.imageCSS } source={{uri: item.ImageURL}}/>
+                        <Image style={ styles.imageCSS } source={item.ImageURL===""? images.theTinyDragon:{uri: item.ImageURL}}/>
                         <Text style={{ fontSize: 15, fontWeight: 'bold', textAlign: 'center'}} numberOfLines={2}>{item.Title}</Text>
                         <Text style={{ textAlign: 'center', color: COLORS.button}} numberOfLines={2}>{item.Author}</Text>
                     </TouchableOpacity> }/>
@@ -135,7 +135,7 @@ const Home = ({navigation}) => {
                     style={styles.imageContainerBS} 
                     key={item._id}
                     onPress={()=>handleView(item)}>
-                    <Image style={ styles.imageCSSBS } source={{uri: item.ImageURL}}/>
+                    <Image style={ styles.imageCSSBS } source={item.ImageURL===""? images.theTinyDragon:{uri: item.ImageURL}}/>
                     <View style={{paddingLeft: 10, paddingBottom: 5, justifyContent: 'space-between'}}>
                         <View>
                             <Text style={{ fontSize: 16, fontWeight: 'bold',    color: COLORS.black}}>{item.Title}</Text>
