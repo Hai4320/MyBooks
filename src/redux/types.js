@@ -3,6 +3,7 @@
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const REGISTER = "REGISTER";
+export const GET_NOTIFY = "GET_NOTIFY";
 
 // BOOK
 export const GET_BOOKS = "GET_BOOKS";

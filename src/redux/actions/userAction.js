@@ -1,5 +1,5 @@
-import {LOGIN, LOGOUT} from "../types"
-import {register_URL,login_URL, updateUser_URL} from "../api"
+import {LOGIN, GET_NOTIFY} from "../types"
+import {register_URL,login_URL, updateUser_URL, getNotify_URL} from "../api"
 import { userData } from '../../component/AsyncStorage'
 
 
@@ -85,5 +85,35 @@ export const updateUser = (data, setLoading) => async (dispatch) => {
   catch(err){
     setLoading(false);
     return err;
+  }
+}
+
+//
+export const getNotification = () => async (dispatch) =>{
+  try {
+      const user = await userData();
+      const result = await fetch(getNotify_URL, 
+          {
+              method: 'POST',
+              headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json'
+              },  
+              body: JSON.stringify({
+                  userID: user.id,
+              })
+
+          }
+      );
+      const data = await result.json();
+      if (result.status===200){
+        dispatch({
+          type: GET_NOTIFY,
+          payload: data
+      });
+      }
+     
+  } catch (error) {
+      console.error(err);
   }
 }

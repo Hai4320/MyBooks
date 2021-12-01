@@ -7,6 +7,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {AllBooksHistory, BookComments} from '../redux/selectors'
 import { likeBook,saveBook, getComments, createComments} from '../redux/actions/bookAction';
 import {checkDate} from '../component/CheckDate'
+import { Button } from 'react-native-paper';
 
 // const images = { source={require('')} };
 const BookDetail = ({navigation, route}) => {
@@ -18,6 +19,7 @@ const BookDetail = ({navigation, route}) => {
     const data = useSelector(AllBooksHistory).find(item => book._id === item.bookID);
     const comments = useSelector(BookComments).sort((a, b) =>a.createAt<b.createAt);
     const [text,setText] = useState("");
+    const [sendCmt, setSendCmt] = useState(false)
     // get comments function
     const loadComments = async()=> {
         const loadx = await dispatch(getComments(book._id,setLoading))
@@ -42,9 +44,14 @@ const BookDetail = ({navigation, route}) => {
         const result = await dispatch(saveBook(book._id));
     }
     const summitText = async ()=>{
-        if (text === "") return;
+        setSendCmt(true)
+        if (text === "") {
+            setSendCmt(false)
+            return;
+        }
         const result = await dispatch(createComments(book._id,text));
-        setText("")
+        setSendCmt(false)
+        setText("");
     }
     //refreshing
     const [refreshing, setRefreshing] = useState(false);
@@ -201,13 +208,13 @@ const BookDetail = ({navigation, route}) => {
                         multiline={true}
                         placeholder="Write your comment"
                         onChangeText={text => setText(text)}/>
-                    <TouchableOpacity
-                    onPress={() =>summitText()}
-                    
-                        style={{width: 70, height: 50, alignItems: 'center', justifyContent: 'center', backgroundColor:COLORS.button, borderRadius: 15}}
-                    >
-                        <Text style={{color: COLORS.white}}>Send</Text>
-                    </TouchableOpacity>
+                      <Button
+                            onPress={() =>summitText()}
+                            mode="contained" 
+                            loading={sendCmt}
+                            style={{width: 80, height: 50, borderRadius: 15, alignItems: 'center', justifyContent: 'center', backgroundColor: COLORS.button}}>
+                            Send
+                        </Button>
                 </View>
                 <View style={{width: '100%', padding:2}}>
                     {comments.map((cmt) =>

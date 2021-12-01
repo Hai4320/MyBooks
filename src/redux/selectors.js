@@ -1,5 +1,6 @@
 //User
-export const UserLoggedIn = (state) => state.userReducer; 
+export const UserLoggedIn = (state) => state.userReducer.user; 
+export const GetNotification = (state) => state.userReducer.notifications
 
 //Book
 export const AllBooks = (state) => state.bookReducer.books;

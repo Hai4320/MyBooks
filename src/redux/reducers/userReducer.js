@@ -1,11 +1,9 @@
-import {LOGIN, LOGOUT} from "../types"
+import {LOGIN, LOGOUT,GET_NOTIFY} from "../types"
 
 
 const INIT_STATE = {
-    name: null,
-    email: null,
-    avatar: null,
-    role: null
+    user: {name: null,email: null,avatar: null,role: null},
+    notifications: []
 };
 
 function userReducer(state = INIT_STATE, action) 
@@ -13,12 +11,16 @@ function userReducer(state = INIT_STATE, action)
     switch (action.type) {
         case LOGIN:
             return {
-                ...state, 
-                name: action.payload.name, 
-                avatar: action.payload.avatar, 
-                role: action.payload.role, 
-                email: action.payload.email
+                ...state,
+                user:{ 
+                    name: action.payload.name, 
+                    avatar: action.payload.avatar, 
+                    role: action.payload.role, 
+                    email: action.payload.email
+                }
             };
+        case GET_NOTIFY:
+            return {...state,notifications: action.payload}
         case LOGOUT:
             return {...state}
         default: 

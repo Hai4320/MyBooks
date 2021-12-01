@@ -6,13 +6,16 @@ import {COLORS,images, SIZES} from '../constants';
 import {AllPostsViewData, AllPostHistory, PostComments} from '../redux/selectors'
 import {viewPost, likePost, getComments, createComments} from '../redux/actions/postAction'
 import {checkDate} from '../component/CheckDate'
+import { Button } from 'react-native-paper';
 
 const PostDetail = ({navigation, route}) => {
     const dispatch = useDispatch();
     const post = route.params;
     const viewData = useSelector(AllPostsViewData).find(p => p.postID==post._id);
     const userHistory = useSelector(AllPostHistory).find(p => p.postID==post._id);
-    const comments = useSelector(PostComments).sort((a,b) => a.createdAt>b.createdAt);
+    const comments = useSelector(PostComments).sort((a,b)=>a.createdAt<b.createdAt)
+    const [cmtList, setCmtList] = useState(comments);
+    const [sendCmt, setSendCmt] = useState(false)
     const [view, setView] = useState({viewData: viewData, userHistory: userHistory}); 
     const [loading,setLoading] = useState(false);
     const [text,setText] = useState("");
@@ -22,10 +25,20 @@ const PostDetail = ({navigation, route}) => {
     }
     //createComments
     const summitText = async ()=>{
-        if (text === "") return;
+        setSendCmt(true)
+        if (text === "") {
+            setSendCmt(false)
+            return;
+        }
         const result = await dispatch(createComments(post._id,text));
-        setText("")
+        setSendCmt(false)
+        setText("");
+        
     }
+    //load comments
+    useEffect(()=>{
+        setCmtList(comments);
+    },[comments])
     //loadComments
     const loadComments = async()=> {
         const loadx = await dispatch(getComments(post._id,setLoading))
@@ -114,15 +127,16 @@ const PostDetail = ({navigation, route}) => {
                             multiline={true}
                             placeholder="Write your comment"
                             onChangeText={text => setText(text)}/>
-                        <TouchableOpacity
+                        <Button
                             onPress={() =>summitText()}
-                            focused={false}
-                            style={{width: 70, height: 50, alignItems: 'center', justifyContent: 'center', backgroundColor:COLORS.button, borderRadius: 15}}>
-                            <Text style={{color: COLORS.white}}>Send</Text>
-                        </TouchableOpacity>
+                            mode="contained" 
+                            loading={sendCmt}
+                            style={{width: 80, height: 50, borderRadius: 15, alignItems: 'center', justifyContent: 'center', backgroundColor: COLORS.button}}>
+                            Send
+                        </Button>
                     </View>
                     <View style={{width: '100%', padding:2}}>
-                        {comments.map((cmt) =>
+                        {cmtList.map((cmt) =>
                         <View key={cmt.id} style={{width: '100%', justifyContent: "flex-start",alignItems: 'center',flexDirection: 'column', borderWidth: 1,margin: 1, borderRadius: 10, borderColor: COLORS.gainsboro}}>
                             <View style={{flexDirection: 'row',width: '99%'}}>
                                 <Image
