@@ -29,7 +29,6 @@ const Books = ({navigation}) => {
     const handleView = async (item)=>{
         navigation.push("BookDetail",item)
         if (booksHistory.find(book => book.bookID===item._id)===undefined){
-            console.log('hahaha')
             const result = await dispatch(viewBook(item._id));
         }
     }
@@ -189,7 +188,7 @@ const Books = ({navigation}) => {
                   <View style={styles.Book}>
                     <TouchableOpacity
                       style={styles.btnImg}
-                      onPress={() => navigation.push("BookDetail",item)}>
+                      onPress={() => handleView(item)}>
                       <Image style={styles.img} source={item.ImageURL===""? images.underland:{uri: item.ImageURL}} />
                     </TouchableOpacity>
                     <View style={styles.infoBook}>
@@ -291,7 +290,7 @@ const Books = ({navigation}) => {
                       <View style={styles.btnView}>
                         <Button
                           mode="contained"
-                          onPress={() => navigation.push("BookDetail",item)}
+                          onPress={() => handleView(item)}
                           style={styles.save}>
                           <Ionicons
                             name="eye-outline"
