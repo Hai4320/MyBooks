@@ -298,7 +298,7 @@ const Books = ({navigation}) => {
                             color="white"
                           />
                         </Button>
-                        <Button
+                        {/* <Button
                           mode="contained"
                           onPress={() => Alert.alert('Save Book')}
                           style={styles.save}>
@@ -307,7 +307,7 @@ const Books = ({navigation}) => {
                             size={21}
                             color="white"
                           />
-                        </Button>
+                        </Button> */}
                       </View>
                     </View>
                   </View>

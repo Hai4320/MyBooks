@@ -21,7 +21,7 @@ export const COLORS = {
   borColor: '#FF6666',
   backmain: '#ff634780',
   yellow :'#ffff00',
-  lavender :'#e6e6fa'
+  lavender :'#7b68ee'
 };
 
 export const SIZES = {
