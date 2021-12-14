@@ -149,7 +149,7 @@ const Books = ({navigation}) => {
    const [loadRefreshing, setLoadRefreshing] = useState(false);
    const [refreshing, setRefreshing] = useState(false);
    const onRefresh = useCallback(async () => {
-   setRefreshing(true);
+       setRefreshing(true);
        const result = await dispatch(getBooks(setLoadRefreshing));
        setRefreshing(false);
    }, []);
@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
   },
   save: {
     backgroundColor: '#2196F3',
-    width: '40%',
+    width: '80%',
   },
   img: {
     height: 200,

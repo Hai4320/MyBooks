@@ -1,5 +1,5 @@
 import React,{useState,useEffect,useMemo, useCallback} from 'react'
-import { View, Text, ScrollView, Image, StyleSheet,TouchableOpacity,TouchableHighlight, Alert} from 'react-native'
+import { View, Text, ScrollView, Image, StyleSheet,TouchableOpacity,TouchableHighlight, Alert, RefreshControl} from 'react-native'
 import { userDataImage } from '../component/AsyncStorage'
 import {images, COLORS, SIZES} from '../constants'
 import {LoadImageUrl} from '../component/LoadImage'
@@ -141,10 +141,23 @@ const User = ({navigation}) => {
             },
           ])   
     }
+    // refresh My Post
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = useCallback(async () => {
+        setRefreshing(true);
+        const result = await dispatch(getMyPost());
+        setRefreshing(false);
+    }, []);
     return (
         <ScrollView 
         style={styles.container} 
         nestedScrollEnabled = {true} 
+        refreshControl={
+            <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            />
+        }
         >
         
 
