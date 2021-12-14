@@ -18,7 +18,7 @@ const Register = ({navigation}) => {
   const [isLoading,setIsLoading] = useState(false);
   const submitData = async (value) => {
     const data = await dispatch(registerUser(value, setIsLoading));
-    if (data.status===400) Alert.alert('Email or Name has been used');
+    if (data.status===400) Alert.alert(data.data.message);
     if (data.status===500) Alert.alert('Cant Create Acount Now');
     if (data.status===200) Alert.alert('Create Successfully','',[
       {
@@ -27,6 +27,7 @@ const Register = ({navigation}) => {
       {
         text:'Login',
         style: "cancel",
+        onPress: ()=>navigation.push("Login")
       },
      
     ]);

@@ -16,8 +16,9 @@ export const registerUser = (user, setLoading) => async (dispatch) => {
                 body: JSON.stringify(user)
             }
         );
+        const data = await result.json();
         setLoading(false);
-        return result;
+        return {status: result.status, data: data};
       }
       catch(err){
         setLoading(false);
