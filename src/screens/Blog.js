@@ -25,7 +25,7 @@ const Blog = ({navigation,route}) => {
     useEffect(()=>{
         if (searchQuery==="") return;
         const x= posts.slice();
-        const y = x.filter(i =>(i.title.toUpperCase().indexOf(searchQuery.toUpperCase()) > -1)||(i.userName.toUpperCase().indexOf(searchQuery.toUpperCase()) > -1))
+        const y = x.filter(i =>(i.title.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1)||(i.userName.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1))
         setPostList(y);
     },[searchQuery])
     // View Post 
@@ -67,7 +67,7 @@ const Blog = ({navigation,route}) => {
                 />
             }
             data={postList}
-            style={searchQuery ===""?{marginBottom: 50}: {marginBottom:100}}
+            style={{marginBottom: 50}}
             renderItem={({item}) =>
                 <View style={{width: '100%', backgroundColor: COLORS.white, marginTop: 5,marginBottom: 15, padding: 2, borderRadius: 10, paddingTop: 5}}>
                     <TouchableOpacity

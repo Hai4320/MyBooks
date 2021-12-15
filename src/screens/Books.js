@@ -60,9 +60,9 @@ const Books = ({navigation}) => {
         }
       });
     }
-    if (selectedValue == 'SELFHELPS') {
+    if (selectedValue == 'SELF HELP') {
       newData = data.filter(item => {
-        if (item.Type == 'SELF HELPS') {
+        if (item.Type == 'SELF HELP') {
           return item;
         }
       });
@@ -74,9 +74,9 @@ const Books = ({navigation}) => {
         }
       });
     }
-    if (selectedValue == 'WORKSSTYLE') {
+    if (selectedValue == 'WORK STYLE') {
       newData = data.filter(item => {
-        if (item.Type == 'WORKS STYLE') {
+        if (item.Type == 'WORK STYLE') {
           return item;
         }
       });
@@ -215,9 +215,9 @@ const Books = ({navigation}) => {
               }>
               <Picker.Item label="All" value="ALL" />
               <Picker.Item label="Novel" value="NOVEL" />
-              <Picker.Item label="Self Helps" value="SELF HELPS" />
+              <Picker.Item label="Self Helps" value="SELF HELP" />
               <Picker.Item label="Children's Book" value="CHILDREN" />
-              <Picker.Item label="Works Style" value="WORKS STYLE" />
+              <Picker.Item label="Works Style" value="WORK STYLE" />
               <Picker.Item label="Science" value="SCIENCE" />
               <Picker.Item label="Others" value="OTHERS" />
             </Picker>

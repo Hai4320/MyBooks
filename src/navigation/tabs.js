@@ -10,11 +10,13 @@ import Books from '../screens/Books';
 import {isLogged} from '../component/AsyncStorage';
 import {getBooks} from '../redux/actions/bookAction';
 import { getPosts } from '../redux/actions/postAction';
+import {checkLogin} from '../redux/actions/userAction'
 import { useSelector, useDispatch } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Tab = createBottomTabNavigator();
 
-const Tabs = (navigation) =>{
+const Tabs = ({navigation}) =>{
     const dispatch = useDispatch();
     const [isLoading,setIsLoading] = useState(false);
     useEffect(async () => {
@@ -23,8 +25,21 @@ const Tabs = (navigation) =>{
           navigation.navigate('Start');
         }
         else {
-            const result = await dispatch(getBooks(setIsLoading));
-            const result2 = await dispatch(getPosts(setIsLoading));
+            const result = await dispatch(checkLogin());
+            if (result!==200) {
+                try {
+                    await AsyncStorage.removeItem('isLogin');
+                    navigation.replace('Start');   
+                }
+                catch(exception) {
+                    console.error(exception)
+                }
+            }
+            else{
+                const result1 = await dispatch(getBooks(setIsLoading));
+                const result2 = await dispatch(getPosts(setIsLoading));
+            }
+            
         }
       },[]);
     return (

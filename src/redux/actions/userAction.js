@@ -1,5 +1,5 @@
 import {LOGIN, GET_NOTIFY} from "../types"
-import {register_URL,login_URL, updateUser_URL, getNotify_URL} from "../api"
+import {register_URL,login_URL, updateUser_URL, getNotify_URL, checkLogin_URL} from "../api"
 import { userData } from '../../component/AsyncStorage'
 
 
@@ -116,5 +116,28 @@ export const getNotification = () => async (dispatch) =>{
      
   } catch (error) {
       console.error(err);
+  }
+}
+export const checkLogin = () => async (dispatch) =>{
+  try {
+      const user = await userData();
+      const result = await fetch(checkLogin_URL, 
+          {
+              method: 'POST',
+              headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json'
+              },  
+              body: JSON.stringify({
+                  userID: user.id,
+              })
+
+          }
+      );
+      
+     return result.status;
+  } catch (error) {
+      console.error(err);
+      return 500;
   }
 }

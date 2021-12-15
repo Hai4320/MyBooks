@@ -6,6 +6,7 @@ export const register_URL= API + "/users/register"
 export const login_URL= API + "/users/login"
 export const updateUser_URL= API + "/users/update"
 export const getNotify_URL= API + "/users/getnotify"
+export const checkLogin_URL= API + "/users/loginagain"
 
 
 // BOOK

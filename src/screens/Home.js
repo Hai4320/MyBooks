@@ -40,13 +40,14 @@ const Home = ({navigation}) => {
     },[books,booksViewData]) 
     //create 2 list
   
-    var booksList1 =  booksList.slice().sort((a,b)=> a.createdAt>b.createdAt);
-    var booksList2 =  booksList.slice().sort((a,b)=> a.view>=b.view);
+    var booksList1 =  (booksList.slice().sort((a,b)=> a.view<b.view)).slice(0,10);
+    var booksList2 =  booksList.slice().sort((a,b)=> a.createdAt<b.createdAt);
 
     //Loading Post
     const [postList, setPostList] = useState([]);
     useEffect(()=>{
-        setPostList(posts);
+        const post_x = posts.slice().sort((a,b)=> a.createdAt<b.createdAt);
+        setPostList(post_x);
     },[posts])
     //refreshing
     const [loadRefreshing, setLoadRefreshing] = useState(false);
@@ -143,11 +144,11 @@ const Home = ({navigation}) => {
             </View>
             <View
             style={{flexGrow: 0, marginBottom: 10, width: '100%' }}>
-                {   booksList.length===0 ?
+                {   booksList2.length===0 ?
                     ([...Array(3).keys()].map((index)=>
                     <View style={{height: 200, width: 160, margin: 10, backgroundColor: COLORS.gainsboro, borderRadius: 8}} key={index}/>))
                     :
-                    ( booksList.map((item)=>
+                    ( booksList2.map((item)=>
                     <TouchableOpacity 
                     style={styles.imageContainerBS} 
                     key={item._id}
